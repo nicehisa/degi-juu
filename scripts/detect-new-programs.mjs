@@ -214,7 +214,20 @@ async function searchWithGoogle(query) {
 
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Google Custom Search failed: ${response.status}`);
+    const body = await response.text();
+    throw new Error(
+      [
+        `Google Custom Search failed: ${response.status}`,
+        "Google側で検索APIの利用が拒否されています。",
+        "確認してください:",
+        "- Google Cloudで Custom Search JSON API が有効化されているか",
+        "- GOOGLE_SEARCH_API_KEY が正しいAPIキーか",
+        "- GOOGLE_SEARCH_ENGINE_ID がProgrammable Search Engineの検索エンジンIDか",
+        "- APIキーの制限でGitHub Actionsからの利用がブロックされていないか",
+        "- 無料枠またはクォータを超過していないか",
+        `Response body: ${body.slice(0, 1000)}`,
+      ].join("\n")
+    );
   }
 
   const data = await response.json();
