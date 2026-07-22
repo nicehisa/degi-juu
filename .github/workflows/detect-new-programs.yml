@@ -1,0 +1,54 @@
+name: Detect new digital resident programs
+
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect candidates
+        run: npm run detect:programs
+        env:
+          SEARCH_PROVIDER: google
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
+
+      - name: Create pull request when candidates changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: bot/detect-new-programs
+          delete-branch: true
+          title: "chore: 新しいデジタル住民制度候補を追加"
+          commit-message: "chore: add detected digital resident program candidates"
+          body: |
+            1日1回の自動検知で、新しいデジタル住民制度の候補が見つかりました。
+
+            確認ポイント:
+            - 自治体公式ページ、または制度運営主体の公式情報か
+            - 法律上の住民票、住民登録、転入手続きと誤認されないか
+            - ふるさと納税、税控除、NFT投資性を示す表現が混ざっていないか
+            - 価格、販売状況、特典、公式URLが最新か
+
+            確認後、必要な候補だけ `src/data/municipalities.ts` に移してください。
+          labels: |
+            automated
+            review-needed

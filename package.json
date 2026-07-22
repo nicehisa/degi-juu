@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "detect:programs": "node scripts/detect-new-programs.mjs",
+    "draft:program": "node scripts/create-municipality-draft.mjs"
   },
   "dependencies": {
     "next": "15.3.3",

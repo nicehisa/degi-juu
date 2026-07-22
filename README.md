@@ -56,6 +56,37 @@ npm run dev
 }
 ```
 
+## 新規制度の自動検知
+
+1日1回、GitHub Actionsで新しいデジタル住民制度の候補を検知できます。
+
+- 実行ワークフロー: `.github/workflows/detect-new-programs.yml`
+- 検知スクリプト: `scripts/detect-new-programs.mjs`
+- 掲載用ドラフト生成: `scripts/create-municipality-draft.mjs`
+- 候補データ: `src/data/detectedMunicipalities.json`
+- 管理者確認ページ: `/admin/detected`
+
+検知結果は公開データへ自動反映せず、未確認候補として保存します。公開前に、自治体公式ページ・制度名・販売状況・価格・特典・法務リスクを確認し、問題ない候補だけ `src/data/municipalities.ts` に移してください。
+
+GitHub Actionsで使う場合は、Repository Secretsに以下を設定してください。
+
+| Secret名 | 内容 |
+| --- | --- |
+| `GOOGLE_SEARCH_API_KEY` | Google Custom Search JSON APIのAPIキー |
+| `GOOGLE_SEARCH_ENGINE_ID` | Google Programmable Search Engineの検索エンジンID |
+
+ローカルで手動実行する場合:
+
+```bash
+npm run detect:programs
+```
+
+候補から掲載用の `Municipality` オブジェクト下書きを作る場合:
+
+```bash
+npm run draft:program -- --id <candidate-id>
+```
+
 ## Vercelへの公開方法
 
 ```bash
