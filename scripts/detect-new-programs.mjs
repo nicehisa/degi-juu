@@ -17,6 +17,37 @@ const searchQueries = [
   '"関係人口" "デジタル住民"',
 ];
 
+const geminiSearchPrompt = `
+あなたは日本の自治体制度を調査するリサーチャーです。
+Google検索を使って、全国の自治体が新しく発表・開始した可能性がある以下の制度を探してください。
+
+対象:
+- デジタル住民票
+- デジタル住民票NFT
+- デジタル住民NFT
+- デジタル住民証
+- デジタル町民
+- デジタル村民
+- 地域ファン向け会員証
+
+条件:
+- 自治体公式サイト、自治体公式PDF、自治体が明記された公式発表を優先
+- すでに広く知られている過去事例より、新しい発表・開始・販売・募集ページを優先
+- 法律上の住民票、住民登録、転入手続き、ふるさと納税、税控除とは区別
+- NFTの値上がりや投資性を示す候補は低信頼度にする
+
+出力はJSON配列だけにしてください。説明文、Markdown、コードブロックは禁止です。
+各要素は次の形式にしてください。
+[
+  {
+    "title": "ページタイトルまたは制度名",
+    "url": "公式ページまたは根拠ページURL",
+    "snippet": "制度内容が分かる80文字程度の要約"
+  }
+]
+候補がなければ [] を返してください。
+`;
+
 const requiredKeywords = [
   "デジタル住民票",
   "デジタル住民票NFT",
@@ -151,6 +182,22 @@ function collectRiskFlags(text) {
   return riskyKeywords.filter((keyword) => text.includes(keyword));
 }
 
+function extractJsonArray(text) {
+  const trimmed = text.trim();
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) return JSON.parse(trimmed);
+
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fenced) return JSON.parse(fenced[1].trim());
+
+  const start = trimmed.indexOf("[");
+  const end = trimmed.lastIndexOf("]");
+  if (start >= 0 && end > start) {
+    return JSON.parse(trimmed.slice(start, end + 1));
+  }
+
+  return [];
+}
+
 function toCandidate(result, approvedText, detectedItems) {
   const url = normalizeUrl(result.url);
   const title = normalizeText(result.title ?? "");
@@ -238,6 +285,72 @@ async function searchWithGoogle(query) {
   }));
 }
 
+async function searchWithGeminiGoogleSearch() {
+  const key = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_SEARCH_API_KEY;
+  if (!key) return [];
+
+  const model = process.env.GEMINI_SEARCH_MODEL ?? "gemini-2.5-flash";
+  const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": key,
+    },
+    body: JSON.stringify({
+      model,
+      input: geminiSearchPrompt,
+      tools: [{ type: "google_search" }],
+    }),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(
+      [
+        `Gemini Google Search grounding failed: ${response.status}`,
+        "Gemini APIのGoogle検索グラウンディングで失敗しました。",
+        "確認してください:",
+        "- GEMINI_API_KEY または GOOGLE_SEARCH_API_KEY にGemini APIキーが入っているか",
+        "- Gemini APIでGoogle検索グラウンディングが利用できるプロジェクトか",
+        "- 課金、地域、モデル指定、APIキー制限に問題がないか",
+        `Response body: ${body.slice(0, 1000)}`,
+      ].join("\n")
+    );
+  }
+
+  const data = await response.json();
+  const outputTexts = [];
+
+  if (typeof data.output_text === "string") {
+    outputTexts.push(data.output_text);
+  }
+
+  for (const step of data.steps ?? []) {
+    if (step.type !== "model_output") continue;
+    for (const block of step.content ?? []) {
+      if (block.type === "text" && block.text) {
+        outputTexts.push(block.text);
+      }
+    }
+  }
+
+  const parsedItems = outputTexts.flatMap((text) => {
+    try {
+      return extractJsonArray(text);
+    } catch {
+      return [];
+    }
+  });
+
+  return parsedItems
+    .filter((item) => item && item.url)
+    .map((item) => ({
+      title: item.title,
+      url: item.url,
+      snippet: item.snippet,
+    }));
+}
+
 async function searchWithBing(query) {
   const key = process.env.BING_SEARCH_API_KEY;
   if (!key) return [];
@@ -266,8 +379,12 @@ async function searchWeb() {
   const fixtureResults = await searchWithFixture();
   if (fixtureResults) return fixtureResults;
 
-  const provider = process.env.SEARCH_PROVIDER ?? "google";
+  const provider = process.env.SEARCH_PROVIDER ?? "gemini";
   const results = [];
+
+  if (provider === "gemini") {
+    return searchWithGeminiGoogleSearch();
+  }
 
   for (const query of searchQueries) {
     const queryResults =

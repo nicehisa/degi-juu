@@ -28,7 +28,8 @@ jobs:
       - name: Detect candidates
         run: npm run detect:programs
         env:
-          SEARCH_PROVIDER: google
+          SEARCH_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
 

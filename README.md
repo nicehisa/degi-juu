@@ -59,6 +59,7 @@ npm run dev
 ## 新規制度の自動検知
 
 1日1回、GitHub Actionsで新しいデジタル住民制度の候補を検知できます。
+現在は Google の `Gemini API + Google検索グラウンディング` を優先して使います。`Custom Search JSON API` は新規利用が制限されているため、既存利用権限がある場合のみ `SEARCH_PROVIDER=google` で使います。
 
 - 実行ワークフロー: `.github/workflows/detect-new-programs.yml`
 - 検知スクリプト: `scripts/detect-new-programs.mjs`
@@ -72,8 +73,9 @@ GitHub Actionsで使う場合は、Repository Secretsに以下を設定してく
 
 | Secret名 | 内容 |
 | --- | --- |
-| `GOOGLE_SEARCH_API_KEY` | Google Custom Search JSON APIのAPIキー |
-| `GOOGLE_SEARCH_ENGINE_ID` | Google Programmable Search Engineの検索エンジンID |
+| `GEMINI_API_KEY` | Gemini APIキー。Google検索グラウンディングで使用 |
+| `GOOGLE_SEARCH_API_KEY` | 予備。Gemini APIキーをここに入れている場合も利用可能 |
+| `GOOGLE_SEARCH_ENGINE_ID` | 予備。Custom Search JSON APIを使う場合のみ使用 |
 
 ローカルで手動実行する場合:
 
