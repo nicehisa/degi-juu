@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-ブラウザで `http://localhost:3000` を開いてください。
+ブラウザで `http://localhost:3002` を開いてください。
 
 ## データ更新方法
 
