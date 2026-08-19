@@ -63,7 +63,7 @@ export default function BenefitsPage() {
                 <div className="mt-auto">
                   {matched.length > 0 ? (
                     <Link
-                      href={`/municipalities?benefit=${cat.id}`}
+                      href={`/benefits/${cat.slug}`}
                       className="block w-full text-center text-sm font-semibold bg-blue-600 text-white rounded-lg px-4 py-2.5 hover:bg-blue-700 transition-colors"
                     >
                       この特典で探す

@@ -4,26 +4,24 @@ import Link from "next/link";
 import { useState } from "react";
 
 const navItems = [
-  { href: "/", label: "トップ" },
   { href: "/municipalities", label: "自治体一覧" },
+  { href: "/regions", label: "地域から探す" },
+  { href: "/benefits", label: "特典から探す" },
+  { href: "/types", label: "制度タイプ" },
+  { href: "/advertise", label: "広告・PR" },
   {
-    label: "探す",
-    children: [
-      { href: "/regions", label: "🗾 地域から探す" },
-      { href: "/benefits", label: "🎁 特典から探す" },
-      { href: "/types", label: "🪙 制度タイプから探す" },
-      { href: "/compare", label: "📊 比較する" },
-    ],
-  },
-  {
-    label: "ガイド",
+    label: "ガイド・注意事項",
     children: [
       { href: "/about", label: "デジタル住民制度とは" },
       { href: "/difference", label: "ふるさと納税との違い" },
+      { href: "/compare", label: "制度を比較する" },
+      { href: "/faq", label: "よくある質問" },
+      { href: "/updates", label: "更新履歴" },
+      { href: "/company", label: "運営会社" },
+      { href: "/editorial-policy", label: "掲載基準・編集方針" },
+      { href: "/legal", label: "注意事項・免責事項" },
     ],
   },
-  { href: "/legal", label: "注意事項" },
-  { href: "/contact", label: "お問い合わせ" },
 ];
 
 export default function Header() {
@@ -32,15 +30,26 @@ export default function Header() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+      <div className="bg-amber-50 border-b border-amber-200">
+        <div className="max-w-6xl mx-auto px-4 py-2 text-[11px] sm:text-xs text-amber-900 leading-relaxed">
+          本サイトは自治体公式サイトではありません。法律上の住民票・住民登録・ふるさと納税とは異なります。
+        </div>
+      </div>
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <span className="text-2xl font-bold text-blue-700">デジじゅう</span>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500 text-white font-bold">
+              デ
+            </span>
+            <span>
+              <span className="block text-xl font-bold text-navy leading-none">デジじゅう</span>
+              <span className="hidden sm:block text-[11px] text-gray-500 mt-1">地域と特典から探すデジタル住民制度</span>
+            </span>
             <span className="hidden sm:inline text-xs text-gray-500 border border-gray-300 rounded px-1.5 py-0.5">β版</span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1">
             {navItems.map((item) =>
               "children" in item ? (
                 <div key={item.label} className="relative">
@@ -82,11 +91,17 @@ export default function Header() {
                 </Link>
               )
             )}
+            <Link
+              href="/listing-request"
+              className="ml-2 inline-flex items-center justify-center rounded-lg bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+            >
+              掲載依頼
+            </Link>
           </nav>
 
           {/* Mobile Hamburger */}
           <button
-            className="lg:hidden p-2 rounded-md text-gray-600 hover:text-blue-700 hover:bg-blue-50"
+            className="xl:hidden p-2 rounded-md text-gray-600 hover:text-blue-700 hover:bg-blue-50"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="メニューを開く"
           >
@@ -102,7 +117,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <nav className="lg:hidden pb-4 border-t border-gray-100 mt-1 pt-2">
+          <nav className="xl:hidden pb-4 border-t border-gray-100 mt-1 pt-2">
             {navItems.map((item) =>
               "children" in item ? (
                 <div key={item.label}>
@@ -131,6 +146,13 @@ export default function Header() {
                 </Link>
               )
             )}
+            <Link
+              href="/listing-request"
+              className="mt-2 block rounded-md bg-orange-500 px-4 py-3 text-sm font-semibold text-white"
+              onClick={() => setMenuOpen(false)}
+            >
+              掲載依頼
+            </Link>
           </nav>
         )}
       </div>

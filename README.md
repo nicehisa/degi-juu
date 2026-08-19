@@ -89,6 +89,35 @@ npm run detect:programs
 npm run draft:program -- --id <candidate-id>
 ```
 
+## フォーム送信・広告PR管理
+
+問い合わせ、自治体からの掲載依頼、広告・PR相談は `/api/inquiries` からResendへ送信します。
+
+- 管理画面: `/admin`
+- 掲載依頼フォーム: `/listing-request`
+- 広告・PR掲載相談: `/advertise`
+- お問い合わせ・修正依頼: `/contact`
+- 掲載基準・編集方針: `/editorial-policy`
+- 広告・PR表記ポリシー: `/advertising-policy`
+- 更新履歴: `/updates`
+- よくある質問: `/faq`
+- 地域別SEOページ: `/regions/[slug]`
+- 都道府県別SEOページ: `/prefectures/[prefecture]`
+- 特典別SEOページ: `/benefits/[slug]`
+
+Vercelで使う場合は、Environment Variablesに以下を設定してください。
+
+| 環境変数 | 内容 |
+| --- | --- |
+| `RESEND_API_KEY` | ResendのAPIキー |
+| `CONTACT_TO_EMAIL` | 受信先メールアドレス |
+| `CONTACT_FROM_EMAIL` | 送信元メールアドレス。未設定時は `デジじゅう <onboarding@resend.dev>` |
+| `CONTACT_AUTO_REPLY` | `false` にすると送信者への自動返信を停止 |
+| `ADMIN_USER` | 管理画面Basic認証のユーザー名。未設定時は `admin` |
+| `ADMIN_PASSWORD` | 管理画面Basic認証のパスワード。未設定時は認証なし |
+
+`RESEND_API_KEY` または `CONTACT_TO_EMAIL` が未設定の場合、フォームは受付完了表示になりますが、メール送信はスキップされます。ローカル確認用の挙動です。
+
 ## Vercelへの公開方法
 
 ```bash
@@ -113,10 +142,10 @@ vercel
 
 - [ ] Google Sheetsからのデータ取得
 - [ ] Supabaseによるデータベース化
-- [ ] 管理画面の構築
-- [ ] 自治体からの掲載依頼フォームの送信機能実装
-- [ ] お問い合わせフォームの送信機能実装（Resend等）
-- [ ] 広告・PR掲載機能
+- [x] 管理画面の構築
+- [x] 自治体からの掲載依頼フォームの送信機能実装
+- [x] お問い合わせフォームの送信機能実装（Resend等）
+- [x] 広告・PR掲載機能
 - [ ] SEO記事・コラムセクション
 - [ ] おすすめ診断機能
 - [ ] 地図検索（都道府県マップ）

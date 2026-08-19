@@ -51,6 +51,10 @@ export default function Footer() {
               {[
                 { href: "/about", label: "デジタル住民制度とは" },
                 { href: "/difference", label: "ふるさと納税との違い" },
+                { href: "/faq", label: "よくある質問" },
+                { href: "/updates", label: "更新履歴" },
+                { href: "/editorial-policy", label: "掲載基準・編集方針" },
+                { href: "/advertising-policy", label: "広告・PR表記ポリシー" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-sm text-blue-300 hover:text-white transition-colors">
@@ -65,8 +69,11 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-blue-200 mb-3">サイト情報</h3>
             <ul className="space-y-2">
               {[
+                { href: "/company", label: "運営会社" },
                 { href: "/legal", label: "注意事項・免責事項" },
                 { href: "/privacy", label: "プライバシーポリシー" },
+                { href: "/listing-request", label: "自治体向け掲載依頼" },
+                { href: "/advertise", label: "広告・PR掲載" },
                 { href: "/contact", label: "お問い合わせ・掲載修正依頼" },
               ].map((item) => (
                 <li key={item.href}>
@@ -80,7 +87,9 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-blue-800 mt-8 pt-6 text-center">
-          <p className="text-xs text-blue-400">© デジじゅう</p>
+          <p className="text-xs text-blue-400">
+            © デジじゅう / フォーティテュード ジャパン株式会社
+          </p>
         </div>
       </div>
     </footer>

@@ -59,7 +59,7 @@ export default function RegionsPage() {
                 <div className="mt-auto">
                   {count > 0 ? (
                     <Link
-                      href={`/municipalities?region=${encodeURIComponent(region.name)}`}
+                      href={`/regions/${region.slug}`}
                       className="block w-full text-center text-sm font-semibold bg-blue-600 text-white rounded-lg px-4 py-2.5 hover:bg-blue-700 transition-colors"
                     >
                       この地域を見る

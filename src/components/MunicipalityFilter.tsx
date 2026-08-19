@@ -22,6 +22,7 @@ type Props = {
 };
 
 const TYPES: MunicipalityType[] = [
+  "デジタル住民票",
   "デジタル住民票NFT",
   "デジタル住民NFT",
   "デジタル住民証",
@@ -38,6 +39,15 @@ const SORT_OPTIONS = [
   { value: "priceAsc", label: "価格が安い順" },
   { value: "priceDesc", label: "価格が高い順" },
   { value: "name", label: "自治体名順" },
+];
+
+const PRICE_RANGES = [
+  { value: "free", label: "無料・0円" },
+  { value: "under1000", label: "1,000円未満" },
+  { value: "1000-4999", label: "1,000円〜4,999円" },
+  { value: "5000-9999", label: "5,000円〜9,999円" },
+  { value: "10000-", label: "10,000円以上" },
+  { value: "unknown", label: "要確認" },
 ];
 
 export const DEFAULT_FILTERS: FilterState = {
@@ -57,7 +67,7 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
   const activeCount = [
     filters.keyword, filters.region, filters.prefecture,
-    filters.type, filters.status, filters.benefit,
+    filters.type, filters.status, filters.benefit, filters.priceRange,
   ].filter(Boolean).length;
 
   return (
@@ -154,6 +164,21 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
           <option value="">すべての状況</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Price Range */}
+      <div>
+        <label className="block text-xs text-gray-500 mb-1">価格帯</label>
+        <select
+          value={filters.priceRange}
+          onChange={(e) => update("priceRange", e.target.value)}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">すべての価格帯</option>
+          {PRICE_RANGES.map((range) => (
+            <option key={range.value} value={range.value}>{range.label}</option>
           ))}
         </select>
       </div>

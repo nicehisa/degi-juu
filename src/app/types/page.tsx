@@ -7,7 +7,7 @@ import CommonNotice from "@/components/CommonNotice";
 export const metadata: Metadata = {
   title: "制度タイプから探す｜デジじゅう",
   description:
-    "デジタル住民票NFT、デジタル住民NFT、デジタル住民証、デジタル会員証、アプリ型など制度のタイプから探せます。",
+    "デジタル住民票、デジタル住民票NFT、デジタル住民NFT、デジタル住民証、デジタル会員証、アプリ型など制度のタイプから探せます。",
 };
 
 type TypeInfo = {
@@ -18,6 +18,14 @@ type TypeInfo = {
 };
 
 const TYPE_INFO: TypeInfo[] = [
+  {
+    type: "デジタル住民票",
+    description:
+      "NFTではなく、アプリやWebサービス等で地域との関係性を示す「デジタル住民票」として案内される制度。",
+    forUser: "NFTウォレットを使わずに、地域とのつながりを持てる制度を探している方",
+    caution:
+      "名称に住民票とあっても、法律上の住民票・住民登録・転入手続きとは異なります。",
+  },
   {
     type: "デジタル住民票NFT",
     description:

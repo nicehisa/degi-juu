@@ -1,4 +1,5 @@
 export type MunicipalityType =
+  | "デジタル住民票"
   | "デジタル住民票NFT"
   | "デジタル住民NFT"
   | "デジタル住民証"
@@ -27,6 +28,7 @@ export type Municipality = {
   applicationMethod: string;
   officialUrl: string;
   relatedUrl?: string;
+  imageUrl?: string;
   lastChecked: string;
   notes: string;
   isOfficialInfo: boolean;
@@ -54,7 +56,9 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.town.nishikawa.yamagata.jp/",
+    officialUrl: "https://www.town.nishikawa.yamagata.jp/soshiki/kasegu/4554.html",
+    relatedUrl: "https://www.town.nishikawa.yamagata.jp/soshiki/kasegu/1424.html",
+    imageUrl: "https://www.town.nishikawa.yamagata.jp/uploaded/image/1933.png",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -82,6 +86,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www2.city.mine.lg.jp/",
+    imageUrl: "https://www2.city.mine.lg.jp/material/images/group/1/mvbnr1.png",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -108,7 +113,8 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.city.sosa.lg.jp/",
+    officialUrl: "https://www.city.sosa.lg.jp/page/page005240.html",
+    imageUrl: "https://www.city.sosa.lg.jp/data/img/1708588867_109.png?1708588870929",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -135,7 +141,8 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.akitakata.jp/",
+    officialUrl: "https://www.akitakata.jp/akitakata-media/filer_public/bd/39/bd399e08-5616-4764-828c-ea5b219aa8cb/shiryou-11_aki-takadashi-dejitaru-juuminhyou-no-hakkou.pdf",
+    imageUrl: "https://www.akitakata.jp/akitakata-media/filer_public_thumbnails/filer_public/36/2f/362ff9b5-c670-45ec-8865-d59f79a145fb/kagura.jpg__1300x867_q85_subsampling-2.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -162,7 +169,8 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.city.habikino.lg.jp/",
+    officialUrl: "https://www.city.habikino.lg.jp/soshiki/toshimiryoku/miryoku/news/15890.html",
+    imageUrl: "https://www.city.habikino.lg.jp/material/images/group/90/topsekaiisann.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -190,6 +198,8 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.ibaraki-yachiyo.lg.jp/",
+    relatedUrl: "https://nft.hexanft.com/users/ey2S9AElqcUyiR/issued",
+    imageUrl: "https://www.town.ibaraki-yachiyo.lg.jp/data/top_photo/1780539395_161.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -216,7 +226,8 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.kumakogen.jp/",
+    officialUrl: "https://www.kumakogen.jp/soshiki/17/24272.html",
+    imageUrl: "https://www.kumakogen.jp/uploaded/image/8569.png",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -232,9 +243,9 @@ export const municipalities: Municipality[] = [
     prefecture: "福島県",
     municipality: "磐梯町",
     programName: "ふるさと住民登録制度・デジタル住民票",
-    type: "アプリ型",
+    type: "デジタル住民票",
     summary:
-      "マイナンバーカード等を活用した、ふるさと住民登録制度に関連するデジタル住民票。磐梯町への関係人口創出を目的としています。",
+      "磐梯町への関係人口創出を目的とした、地域とのつながりを示すデジタル制度です。",
     price: "要確認",
     status: "要確認",
     target: "磐梯町外在住者・関係人口",
@@ -244,6 +255,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.bandai.fukushima.jp/",
+    imageUrl: "https://www.town.bandai.fukushima.jp/uploaded/banner/29_img1.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -271,6 +283,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.city.saga-kashima.lg.jp/",
+    imageUrl: "https://www.city.saga-kashima.lg.jp/all_img/org/photo_slide_img01.webp",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -298,6 +311,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.nachikatsuura.wakayama.jp/",
+    imageUrl: "https://www.town.nachikatsuura.wakayama.jp/div/admin/image/topnews/main/01.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -324,7 +338,8 @@ export const municipalities: Municipality[] = [
     benefitConditions:
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
-    officialUrl: "https://www.city.uda.nara.jp/",
+    officialUrl: "https://www.city.uda.lg.jp/",
+    imageUrl: "https://www.city.uda.lg.jp/uploaded/banner/35_img1.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -352,6 +367,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.city.joyo.kyoto.jp/",
+    imageUrl: "https://www.city.joyo.kyoto.jp/cmsfiles/img_list/112.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -379,6 +395,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.kamigori.hyogo.jp/",
+    imageUrl: "https://www.town.kamigori.hyogo.jp/material/images/group/1/kamigorikawamaturi_44_bana-1.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -406,6 +423,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.mashiko.lg.jp/",
+    imageUrl: "https://www.town.mashiko.lg.jp/data/top_photo/1768536182_126.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -433,6 +451,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.city.otsuki.yamanashi.jp/",
+    imageUrl: "https://www.city.otsuki.yamanashi.jp/images/bg_mv.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -460,6 +479,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.fujikawa.yamanashi.jp/",
+    imageUrl: "https://www.town.fujikawa.yamanashi.jp/_files/00000048/bnr_kanko.png",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -487,6 +507,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.city.toyama.lg.jp/",
+    imageUrl: "https://www.city.toyama.lg.jp/_res/projects/default_project/_page_/001/000/001/main/main01-2.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -514,6 +535,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.city.ishioka.lg.jp/",
+    imageUrl: "https://www.city.ishioka.lg.jp/data/top_photo/1760924562_233.jpg",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",
@@ -541,6 +563,7 @@ export const municipalities: Municipality[] = [
       "特典の内容・利用条件は公式ページをご確認ください。変更される場合があります。",
     applicationMethod: "公式ページよりご確認ください。",
     officialUrl: "https://www.town.ogawa.saitama.jp/",
+    imageUrl: "https://www.town.ogawa.saitama.jp/theme/base/img_top/img_kurashi.png",
     lastChecked: "2026-06-01",
     notes:
       "本ページの情報は公式ページ等で公表されている内容をもとに整理しています。価格・販売状況・特典は変更される場合があります。",

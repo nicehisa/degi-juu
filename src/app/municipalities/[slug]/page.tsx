@@ -6,6 +6,8 @@ import { StatusBadge, TypeBadge } from "@/components/Badge";
 import CTAButton from "@/components/CTAButton";
 import LegalNoticeBox from "@/components/LegalNoticeBox";
 import MunicipalityCard from "@/components/MunicipalityCard";
+import PromotionSlot from "@/components/PromotionSlot";
+import { getActivePromotions } from "@/data/promotions";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -31,6 +33,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
   const related = municipalities
     .filter((x) => x.slug !== m.slug && (x.type === m.type || x.prefecture === m.prefecture))
     .slice(0, 3);
+  const promotions = getActivePromotions("municipality-detail");
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -150,6 +153,14 @@ export default async function MunicipalityDetailPage({ params }: Props) {
       <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 mb-8 text-xs text-gray-600 leading-relaxed">
         <strong>注意事項：</strong> {m.notes}
       </div>
+
+      {promotions.length > 0 && (
+        <div className="mb-8 space-y-3">
+          {promotions.map((promotion) => (
+            <PromotionSlot key={promotion.id} promotion={promotion} />
+          ))}
+        </div>
+      )}
 
       {/* Related */}
       {related.length > 0 && (

@@ -21,6 +21,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
 
 export function TypeBadge({ type }: TypeBadgeProps) {
   const styles: Record<MunicipalityType, string> = {
+    デジタル住民票: "bg-sky-100 text-sky-800 border-sky-200",
     デジタル住民票NFT: "bg-purple-100 text-purple-800 border-purple-200",
     デジタル住民NFT: "bg-indigo-100 text-indigo-800 border-indigo-200",
     デジタル住民証: "bg-blue-100 text-blue-800 border-blue-200",

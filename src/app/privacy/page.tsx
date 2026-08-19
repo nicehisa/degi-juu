@@ -12,7 +12,7 @@ export default function PrivacyPage() {
         <h1 className="text-2xl md:text-3xl font-bold text-navy mb-2">
           プライバシーポリシー
         </h1>
-        <p className="text-gray-500 text-xs">最終更新日：2026年6月1日</p>
+        <p className="text-gray-500 text-xs">最終更新日：2026年7月28日</p>
       </div>
 
       <div className="space-y-8 text-sm text-gray-700 leading-relaxed">
@@ -26,7 +26,25 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">2. 取得する情報</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">2. 運営者</h2>
+          <dl className="rounded-xl border border-gray-200 bg-white p-4 text-sm">
+            <div className="grid gap-1 py-2 sm:grid-cols-[120px_1fr]">
+              <dt className="font-semibold text-gray-600">運営会社</dt>
+              <dd>フォーティテュード ジャパン株式会社</dd>
+            </div>
+            <div className="grid gap-1 py-2 sm:grid-cols-[120px_1fr]">
+              <dt className="font-semibold text-gray-600">所在地</dt>
+              <dd>〒150-0044 東京都渋谷区円山町5-5 Navi渋谷ビル3F</dd>
+            </div>
+            <div className="grid gap-1 py-2 sm:grid-cols-[120px_1fr]">
+              <dt className="font-semibold text-gray-600">連絡先</dt>
+              <dd>info@fortitudejapan.com</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section>
+          <h2 className="font-bold text-gray-800 text-base mb-3">3. 取得する情報</h2>
           <p>当サイトでは、以下の情報を取得する場合があります。</p>
           <ul className="list-disc list-inside mt-2 space-y-1">
             <li>お問い合わせフォームに入力されたお名前、メールアドレス、お問い合わせ内容</li>
@@ -35,7 +53,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">3. 利用目的</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">4. 利用目的</h2>
           <p>取得した情報は、以下の目的に使用します。</p>
           <ul className="list-disc list-inside mt-2 space-y-1">
             <li>お問い合わせへの回答・対応</li>
@@ -45,7 +63,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">4. 第三者提供</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">5. 第三者提供</h2>
           <p>
             当サイトは、法令に基づく場合を除き、
             取得した個人情報を第三者に提供・販売・共有することはありません。
@@ -53,7 +71,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">5. アクセス解析について</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">6. アクセス解析について</h2>
           <p>
             当サイトでは、Googleアナリティクス等のアクセス解析ツールを利用する場合があります。
             これらのツールはCookieを使用して、匿名のトラフィックデータを収集します。
@@ -63,7 +81,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">6. Cookieについて</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">7. Cookieについて</h2>
           <p>
             当サイトでは、ユーザー体験の向上やアクセス解析のためにCookieを使用する場合があります。
             ブラウザの設定によりCookieを拒否することができますが、
@@ -72,7 +90,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">7. お問い合わせ</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">8. お問い合わせ</h2>
           <p>
             個人情報の取り扱いに関するご質問・ご要望は、
             サイト内のお問い合わせフォームからご連絡ください。
@@ -80,7 +98,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="font-bold text-gray-800 text-base mb-3">8. ポリシーの改定</h2>
+          <h2 className="font-bold text-gray-800 text-base mb-3">9. ポリシーの改定</h2>
           <p>
             本ポリシーは、必要に応じて予告なく変更する場合があります。
             変更後のポリシーは、本ページに掲載した時点から効力を生じるものとします。
