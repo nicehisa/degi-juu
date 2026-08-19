@@ -3,6 +3,7 @@ import Link from "next/link";
 import { municipalities } from "@/data/municipalities";
 import detectedMunicipalities from "@/data/detectedMunicipalities.json";
 import { promotions } from "@/data/promotions";
+import { getDataSourceStatus } from "@/lib/dataSource";
 
 export const metadata: Metadata = {
   title: "管理画面｜デジじゅう",
@@ -34,12 +35,48 @@ const operations = [
     title: "お問い合わせフォーム",
     desc: "一般問い合わせ・修正依頼の送信導線を確認します。",
   },
+  {
+    href: "/api/municipalities",
+    title: "自治体データAPI",
+    desc: "現在のデータ取得元と自治体データの返却件数を確認します。",
+  },
+  {
+    href: "/diagnosis",
+    title: "おすすめ診断",
+    desc: "条件に近い制度を案内する診断導線を確認します。",
+  },
+  {
+    href: "/map",
+    title: "都道府県マップ",
+    desc: "都道府県別の検索導線を確認します。",
+  },
+  {
+    href: "/articles",
+    title: "記事・コラム",
+    desc: "SEO記事の一覧・詳細ページを確認します。",
+  },
+  {
+    href: "/news",
+    title: "ニュース",
+    desc: "ニュース記事の一覧・詳細ページを確認します。",
+  },
+  {
+    href: "/newsletter",
+    title: "メールマガジン",
+    desc: "メール登録フォームの導線を確認します。",
+  },
+  {
+    href: "/line",
+    title: "LINE連携",
+    desc: "LINE公式アカウントへの導線を確認します。",
+  },
 ];
 
 export default function AdminPage() {
   const resendReady = Boolean(process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL);
   const geminiReady = Boolean(process.env.GEMINI_API_KEY || process.env.GOOGLE_SEARCH_API_KEY);
   const adminAuthReady = Boolean(process.env.ADMIN_PASSWORD);
+  const dataSource = getDataSourceStatus();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -86,6 +123,15 @@ export default function AdminPage() {
           <p className={adminAuthReady ? "text-green-700" : "text-amber-700"}>
             管理画面認証: {adminAuthReady ? "ADMIN_PASSWORD 設定済み" : "未設定"}
           </p>
+          <p className={dataSource.configured.googleSheets ? "text-green-700" : "text-amber-700"}>
+            Google Sheets: {dataSource.configured.googleSheets ? "GOOGLE_SHEETS_CSV_URL 設定済み" : "未設定"}
+          </p>
+          <p className={dataSource.configured.supabase ? "text-green-700" : "text-amber-700"}>
+            Supabase: {dataSource.configured.supabase ? "SUPABASE_URL / SUPABASE_ANON_KEY 設定済み" : "未設定"}
+          </p>
+          <p className="text-gray-600">
+            現在のデータ取得元: {dataSource.activeSource}
+          </p>
         </div>
       </div>
 
@@ -97,6 +143,7 @@ export default function AdminPage() {
           <p>・掲載依頼は公式URLと制度名を確認してから反映</p>
           <p>・広告掲載時は広告/PR表記を明確にする</p>
           <p>・自動検知候補はそのまま公開せず、人の確認を挟む</p>
+          <p>・外部データ接続後は `/api/municipalities` で取得件数を確認</p>
         </div>
       </section>
 

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { benefitCategories } from "@/data/benefitCategories";
+import { articles } from "@/data/articles";
 import { municipalities } from "@/data/municipalities";
+import { newsItems } from "@/data/news";
 import { regions } from "@/data/regions";
 
 const baseUrl = "https://degi-juu.vercel.app";
@@ -10,17 +12,24 @@ const staticPaths = [
   "/about",
   "/advertise",
   "/advertising-policy",
+  "/articles",
   "/benefits",
   "/company",
   "/compare",
   "/contact",
+  "/diagnosis",
   "/difference",
   "/editorial-policy",
   "/faq",
   "/legal",
+  "/line",
   "/listing-request",
+  "/map",
   "/municipalities",
+  "/news",
+  "/newsletter",
   "/privacy",
+  "/ranking",
   "/regions",
   "/types",
   "/updates",
@@ -41,6 +50,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPaths.map((path) => page(path, path === "" ? 1 : 0.7)),
     ...municipalities.map((item) => page(`/municipalities/${item.slug}`, 0.9)),
+    ...articles.map((item) => page(`/articles/${item.slug}`, 0.8)),
+    ...newsItems.map((item) => page(`/news/${item.slug}`, 0.7)),
     ...regions.map((item) => page(`/regions/${item.slug}`, 0.75)),
     ...benefitCategories.map((item) => page(`/benefits/${item.slug}`, 0.75)),
     ...prefectures.map((prefecture) => page(`/prefectures/${encodeURIComponent(prefecture)}`, 0.75)),

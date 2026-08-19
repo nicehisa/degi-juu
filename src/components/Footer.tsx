@@ -34,6 +34,8 @@ export default function Footer() {
                 { href: "/regions", label: "地域から探す" },
                 { href: "/benefits", label: "特典から探す" },
                 { href: "/types", label: "制度タイプから探す" },
+                { href: "/diagnosis", label: "おすすめ診断" },
+                { href: "/map", label: "都道府県マップ" },
                 { href: "/compare", label: "比較する" },
               ].map((item) => (
                 <li key={item.href}>
@@ -52,6 +54,9 @@ export default function Footer() {
                 { href: "/about", label: "デジタル住民制度とは" },
                 { href: "/difference", label: "ふるさと納税との違い" },
                 { href: "/faq", label: "よくある質問" },
+                { href: "/articles", label: "記事・コラム" },
+                { href: "/news", label: "ニュース" },
+                { href: "/ranking", label: "比較しやすい制度" },
                 { href: "/updates", label: "更新履歴" },
                 { href: "/editorial-policy", label: "掲載基準・編集方針" },
                 { href: "/advertising-policy", label: "広告・PR表記ポリシー" },
@@ -74,6 +79,8 @@ export default function Footer() {
                 { href: "/privacy", label: "プライバシーポリシー" },
                 { href: "/listing-request", label: "自治体向け掲載依頼" },
                 { href: "/advertise", label: "広告・PR掲載" },
+                { href: "/newsletter", label: "メールマガジン" },
+                { href: "/line", label: "LINE連携" },
                 { href: "/contact", label: "お問い合わせ・掲載修正依頼" },
               ].map((item) => (
                 <li key={item.href}>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { municipalities } from "@/data/municipalities";
 import { regions } from "@/data/regions";
 import { benefitCategories } from "@/data/benefitCategories";
+import { newsItems } from "@/data/news";
 import { sortByDisplayPriority } from "@/data/municipalitySort";
 import MunicipalityCard from "@/components/MunicipalityCard";
 import CTAButton from "@/components/CTAButton";
@@ -23,12 +24,6 @@ const COMPARISON_ROWS = [
   { item: "法律上の住民票", digital: "取得できない", furusato: "取得できない" },
   { item: "特典", digital: "自治体・発行元により異なる", furusato: "返礼品がある場合がある" },
   { item: "申込先", digital: "公式ページ・発行元", furusato: "ふるさと納税サイト等" },
-];
-
-const NEWS = [
-  { date: "2026-06-01", label: "お知らせ", text: "デジじゅうβ版をリリースしました。全国19自治体の情報を掲載しています。" },
-  { date: "2026-06-01", label: "更新", text: "地域から探す・特典から探す・制度タイプから探すページを追加しました。" },
-  { date: "2026-06-01", label: "お願い", text: "価格・特典・販売状況は変更される場合があります。参加前に必ず公式ページをご確認ください。" },
 ];
 
 const popularKeywords = ["デジタル住民票", "観光", "宿泊", "イベント", "NFT"];
@@ -155,6 +150,23 @@ export default function HomePage() {
                 ))}
               </div>
 
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  { href: "/diagnosis", label: "診断する", desc: "条件に近い制度" },
+                  { href: "/map", label: "地図から探す", desc: "都道府県別" },
+                  { href: "/articles", label: "記事を読む", desc: "基礎知識・選び方" },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-lg border border-blue-100 bg-blue-50 p-4 hover:border-blue-300 hover:bg-white transition-colors"
+                  >
+                    <p className="font-bold text-navy">{item.label}</p>
+                    <p className="mt-1 text-xs text-gray-500">{item.desc}</p>
+                  </Link>
+                ))}
+              </div>
+
               <div className="mt-5 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-xs text-amber-900 leading-relaxed">
                 本サイトは自治体公式サイトではありません。掲載情報は確認日時点の内容です。
                 申込・購入・参加条件は必ず公式ページでご確認ください。
@@ -185,6 +197,24 @@ export default function HomePage() {
                 title: "一覧で比較する",
                 desc: "価格、販売状況、確認日、公式ページをまとめて確認できます。",
                 cta: "自治体一覧へ",
+              },
+              {
+                href: "/diagnosis",
+                title: "おすすめ診断",
+                desc: "地域、特典、NFTの有無などから条件に近い制度を確認できます。",
+                cta: "診断する",
+              },
+              {
+                href: "/map",
+                title: "都道府県マップ",
+                desc: "地方・都道府県ごとの掲載制度数を見ながら探せます。",
+                cta: "地図で探す",
+              },
+              {
+                href: "/articles",
+                title: "記事・コラム",
+                desc: "制度の基礎知識や参加前の確認ポイントを読めます。",
+                cta: "記事一覧へ",
               },
             ].map((item) => (
               <Link
@@ -325,14 +355,21 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4">
           <SectionTitle title="新着・更新情報" />
           <ul className="divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white">
-            {NEWS.map((n) => (
-              <li key={`${n.date}-${n.text}`} className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center">
-                <span className="text-xs text-gray-400 shrink-0">{n.date}</span>
-                <span className="w-fit rounded bg-orange-100 px-2 py-0.5 text-xs text-orange-700 shrink-0">{n.label}</span>
-                <span className="text-sm text-gray-700">{n.text}</span>
+            {newsItems.slice(0, 3).map((n) => (
+              <li key={n.slug} className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center">
+                <span className="text-xs text-gray-400 shrink-0">{n.publishedAt}</span>
+                <span className="w-fit rounded bg-orange-100 px-2 py-0.5 text-xs text-orange-700 shrink-0">{n.category}</span>
+                <Link href={`/news/${n.slug}`} className="text-sm text-gray-700 hover:text-blue-700 hover:underline">
+                  {n.title}
+                </Link>
               </li>
             ))}
           </ul>
+          <div className="mt-5 text-center">
+            <Link href="/news" className="text-sm font-semibold text-blue-600 hover:underline">
+              ニュース一覧を見る →
+            </Link>
+          </div>
         </div>
       </section>
     </>

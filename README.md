@@ -14,6 +14,7 @@
 - **言語**: TypeScript
 - **スタイリング**: Tailwind CSS
 - **データ管理**: TypeScript（`src/data/municipalities.ts`）
+- **外部データ取得**: Google Sheets CSV / Supabase REST APIへの任意接続
 - **デプロイ**: Vercel
 
 ## ローカルでの起動方法
@@ -101,9 +102,17 @@ npm run draft:program -- --id <candidate-id>
 - 広告・PR表記ポリシー: `/advertising-policy`
 - 更新履歴: `/updates`
 - よくある質問: `/faq`
+- 記事・コラム: `/articles`
+- ニュース: `/news`
+- おすすめ診断: `/diagnosis`
+- 都道府県マップ: `/map`
+- 比較しやすい制度一覧: `/ranking`
+- メールマガジン登録: `/newsletter`
+- LINE連携: `/line`
 - 地域別SEOページ: `/regions/[slug]`
 - 都道府県別SEOページ: `/prefectures/[prefecture]`
 - 特典別SEOページ: `/benefits/[slug]`
+- 自治体データAPI: `/api/municipalities`
 
 Vercelで使う場合は、Environment Variablesに以下を設定してください。
 
@@ -115,8 +124,16 @@ Vercelで使う場合は、Environment Variablesに以下を設定してくだ�
 | `CONTACT_AUTO_REPLY` | `false` にすると送信者への自動返信を停止 |
 | `ADMIN_USER` | 管理画面Basic認証のユーザー名。未設定時は `admin` |
 | `ADMIN_PASSWORD` | 管理画面Basic認証のパスワード。未設定時は認証なし |
+| `GOOGLE_SHEETS_CSV_URL` | 自治体データをGoogle Sheetsの公開CSVから取得する場合に設定 |
+| `SUPABASE_URL` | 自治体データをSupabase REST APIから取得する場合に設定 |
+| `SUPABASE_ANON_KEY` | Supabase REST APIのanon key |
+| `NEXT_PUBLIC_LINE_OFFICIAL_URL` | LINE公式アカウントの友だち追加URL |
 
 `RESEND_API_KEY` または `CONTACT_TO_EMAIL` が未設定の場合、フォームは受付完了表示になりますが、メール送信はスキップされます。ローカル確認用の挙動です。
+
+外部データ連携を設定していない場合は、従来通り `src/data/municipalities.ts` の静的データを使用します。接続状況は `/admin`、取得結果は `/api/municipalities` で確認できます。
+
+Supabaseで自治体データを管理する場合は、`supabase/schema.sql` をSQL Editorで実行して `municipalities` テーブルを作成してください。
 
 ## Vercelへの公開方法
 
@@ -140,18 +157,18 @@ vercel
 
 ## 今後の拡張案
 
-- [ ] Google Sheetsからのデータ取得
-- [ ] Supabaseによるデータベース化
+- [x] Google Sheetsからのデータ取得
+- [x] Supabaseによるデータベース化
 - [x] 管理画面の構築
 - [x] 自治体からの掲載依頼フォームの送信機能実装
 - [x] お問い合わせフォームの送信機能実装（Resend等）
 - [x] 広告・PR掲載機能
-- [ ] SEO記事・コラムセクション
-- [ ] おすすめ診断機能
-- [ ] 地図検索（都道府県マップ）
-- [ ] 都道府県別ページ
-- [ ] ランキングページ
-- [ ] ニュース記事
-- [ ] メールマガジン
-- [ ] LINE公式アカウント連携
-- [ ] OGP画像の動的生成
+- [x] SEO記事・コラムセクション
+- [x] おすすめ診断機能
+- [x] 地図検索（都道府県マップ）
+- [x] 都道府県別ページ
+- [x] ランキングページ
+- [x] ニュース記事
+- [x] メールマガジン
+- [x] LINE公式アカウント連携
+- [x] OGP画像の動的生成
