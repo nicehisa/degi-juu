@@ -9,6 +9,7 @@ import { sortByDisplayPriority } from "@/data/municipalitySort";
 import MunicipalityCard from "@/components/MunicipalityCard";
 import CTAButton from "@/components/CTAButton";
 import SectionTitle from "@/components/SectionTitle";
+import { getSiteUrl } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
   title: "デジじゅう｜デジタル住民制度を地域・特典・タイプから探せる比較サイト",
@@ -29,6 +30,8 @@ const COMPARISON_ROWS = [
 const popularKeywords = ["デジタル住民票", "観光", "宿泊", "イベント", "NFT"];
 
 export default function HomePage() {
+  const siteUrl = getSiteUrl();
+
   return (
     <>
       <script
@@ -39,10 +42,10 @@ export default function HomePage() {
             "@type": "WebSite",
             name: "デジじゅう",
             description: "全国のデジタル住民制度を地域・特典・制度タイプから比較できる情報サイト",
-            url: "https://degi-juu.vercel.app",
+            url: siteUrl,
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://degi-juu.vercel.app/municipalities?keyword={search_term_string}",
+              target: `${siteUrl}/municipalities?keyword={search_term_string}`,
               "query-input": "required name=search_term_string",
             },
           }),

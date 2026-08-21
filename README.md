@@ -124,12 +124,15 @@ Vercelで使う場合は、Environment Variablesに以下を設定してくだ�
 | `CONTACT_AUTO_REPLY` | `false` にすると送信者への自動返信を停止 |
 | `ADMIN_USER` | 管理画面Basic認証のユーザー名。未設定時は `admin` |
 | `ADMIN_PASSWORD` | 管理画面Basic認証のパスワード。未設定時は認証なし |
+| `NEXT_PUBLIC_SITE_URL` | 本番サイトURL。OGP、sitemap、robotsのURL生成に使用 |
 | `GOOGLE_SHEETS_CSV_URL` | 自治体データをGoogle Sheetsの公開CSVから取得する場合に設定 |
 | `SUPABASE_URL` | 自治体データをSupabase REST APIから取得する場合に設定 |
 | `SUPABASE_ANON_KEY` | Supabase REST APIのanon key |
 | `NEXT_PUBLIC_LINE_OFFICIAL_URL` | LINE公式アカウントの友だち追加URL |
 
-`RESEND_API_KEY` または `CONTACT_TO_EMAIL` が未設定の場合、フォームは受付完了表示になりますが、メール送信はスキップされます。ローカル確認用の挙動です。
+`RESEND_API_KEY` または `CONTACT_TO_EMAIL` が未設定の場合、ローカルではメール送信をスキップします。本番では問い合わせを取りこぼさないようエラーにします。
+
+`ADMIN_PASSWORD` が未設定の場合、ローカルでは管理画面を確認できます。本番では管理画面を閉じるため、公開前に必ず設定してください。
 
 外部データ連携を設定していない場合は、従来通り `src/data/municipalities.ts` の静的データを使用します。接続状況は `/admin`、取得結果は `/api/municipalities` で確認できます。
 

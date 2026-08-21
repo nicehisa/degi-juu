@@ -31,6 +31,10 @@ export async function sendInquiryEmail(payload: InquiryPayload): Promise<SendRes
   const from = process.env.CONTACT_FROM_EMAIL || "デジじゅう <onboarding@resend.dev>";
 
   if (!apiKey || !to) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY and CONTACT_TO_EMAIL are required in production.");
+    }
+
     console.info("[degi-juu inquiry skipped]", {
       kind: payload.kind,
       email: payload.email,

@@ -24,6 +24,10 @@ export async function sendNewsletterSignup(payload: NewsletterPayload) {
   const from = process.env.CONTACT_FROM_EMAIL || "デジじゅう <onboarding@resend.dev>";
 
   if (!apiKey || !to) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY and CONTACT_TO_EMAIL are required in production.");
+    }
+
     return { delivered: false, skipped: true };
   }
 

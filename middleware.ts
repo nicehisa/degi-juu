@@ -2,7 +2,15 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const password = process.env.ADMIN_PASSWORD;
-  if (!password) return NextResponse.next();
+  if (!password) {
+    if (process.env.NODE_ENV === "production") {
+      return new NextResponse("Admin access is disabled until ADMIN_PASSWORD is set.", {
+        status: 503,
+      });
+    }
+
+    return NextResponse.next();
+  }
 
   const user = process.env.ADMIN_USER || "admin";
   const auth = request.headers.get("authorization");

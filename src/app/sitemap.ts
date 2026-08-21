@@ -4,8 +4,9 @@ import { articles } from "@/data/articles";
 import { municipalities } from "@/data/municipalities";
 import { newsItems } from "@/data/news";
 import { regions } from "@/data/regions";
+import { getSiteUrl } from "@/lib/siteUrl";
 
-const baseUrl = "https://degi-juu.vercel.app";
+const baseUrl = getSiteUrl();
 
 const staticPaths = [
   "",
