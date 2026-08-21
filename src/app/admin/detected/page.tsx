@@ -20,6 +20,8 @@ type DetectedMunicipality = {
   reviewNotes: string;
 };
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "自動検知候補｜デジじゅう",
   description: "デジじゅうの自動検知で見つかった未確認の自治体制度候補です。",

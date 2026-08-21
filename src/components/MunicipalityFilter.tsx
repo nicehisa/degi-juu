@@ -199,7 +199,7 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       <button
         onClick={() => onChange(DEFAULT_FILTERS)}
-        className="w-full text-xs text-gray-500 hover:text-gray-700 underline pt-1"
+        className="w-full py-2 text-xs text-gray-500 hover:text-gray-700 underline"
       >
         絞り込みをリセット
       </button>

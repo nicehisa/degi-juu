@@ -28,7 +28,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold text-blue-200 mb-3">制度を探す</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               {[
                 { href: "/municipalities", label: "自治体一覧" },
                 { href: "/regions", label: "地域から探す" },
@@ -39,7 +39,7 @@ export default function Footer() {
                 { href: "/compare", label: "比較する" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -49,7 +49,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold text-blue-200 mb-3">ガイド</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               {[
                 { href: "/about", label: "デジタル住民制度とは" },
                 { href: "/difference", label: "ふるさと納税との違い" },
@@ -62,7 +62,7 @@ export default function Footer() {
                 { href: "/advertising-policy", label: "広告・PR表記ポリシー" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -72,7 +72,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold text-blue-200 mb-3">サイト情報</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               {[
                 { href: "/company", label: "運営会社" },
                 { href: "/legal", label: "注意事項・免責事項" },
@@ -84,7 +84,7 @@ export default function Footer() {
                 { href: "/contact", label: "お問い合わせ・掲載修正依頼" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>

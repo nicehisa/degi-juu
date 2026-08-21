@@ -25,6 +25,8 @@ const kindConfig = {
   },
 };
 
+const CONTACT_FALLBACK_EMAIL = "info@fortitudejapan.com";
+
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400";
 
@@ -32,6 +34,7 @@ export default function InquiryForm({ kind }: Props) {
   const [agreed, setAgreed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [delivered, setDelivered] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
 
   const config = kindConfig[kind];
@@ -61,6 +64,9 @@ export default function InquiryForm({ kind }: Props) {
         return;
       }
 
+      // ok:true でもメール配信されていない場合がある（Resend未設定・送信失敗）。
+      // その場合は受付だけ伝えて、直接連絡先も案内する。
+      setDelivered(data.delivered !== false);
       setSubmitted(true);
     } catch {
       setErrors(["送信に失敗しました。通信環境をご確認ください。"]);
@@ -70,6 +76,22 @@ export default function InquiryForm({ kind }: Props) {
   };
 
   if (submitted) {
+    if (!delivered) {
+      return (
+        <div className="rounded-xl border border-amber-300 bg-amber-50 p-6">
+          <p className="text-lg font-bold text-amber-900">送信内容を受け付けました</p>
+          <p className="mt-2 text-sm leading-relaxed text-amber-900">
+            ただし、メール自動送信が完了していない可能性があります。
+            お急ぎの場合、または数日たっても返信がない場合は、お手数ですが
+            <a href={`mailto:${CONTACT_FALLBACK_EMAIL}`} className="mx-1 font-semibold underline">
+              {CONTACT_FALLBACK_EMAIL}
+            </a>
+            まで直接ご連絡ください。
+          </p>
+        </div>
+      );
+    }
+
     return (
       <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center">
         <p className="text-lg font-bold text-green-800">{config.title}</p>

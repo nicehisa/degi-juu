@@ -5,6 +5,8 @@ import detectedMunicipalities from "@/data/detectedMunicipalities.json";
 import { promotions } from "@/data/promotions";
 import { getDataSourceStatus } from "@/lib/dataSource";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "管理画面｜デジじゅう",
   description: "デジじゅうの運用状況を確認する管理者向けページです。",

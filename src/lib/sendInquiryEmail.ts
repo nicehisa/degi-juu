@@ -1,10 +1,12 @@
 import { formatInquiryEmail, inquiryKindLabels, type InquiryPayload } from "@/lib/inquiry";
+import { logInquiryFallback } from "@/lib/inquiryLog";
 
-type SendResult = {
+export type SendResult = {
   delivered: boolean;
   id?: string;
   autoReplyId?: string;
-  skipped?: boolean;
+  /** 未配信のとき、その理由。UIの案内文の出し分けに使う。 */
+  fallback?: "resend-not-configured" | "resend-send-failed";
 };
 
 async function sendResendEmail(apiKey: string, body: Record<string, unknown>) {
@@ -15,6 +17,7 @@ async function sendResendEmail(apiKey: string, body: Record<string, unknown>) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(10_000),
   });
 
   if (!response.ok) {
@@ -30,29 +33,29 @@ export async function sendInquiryEmail(payload: InquiryPayload): Promise<SendRes
   const to = process.env.CONTACT_TO_EMAIL;
   const from = process.env.CONTACT_FROM_EMAIL || "デジじゅう <onboarding@resend.dev>";
 
+  // 未設定でもエラーにせず、内容をログへ退避してから未配信として返す。
+  // 500を返して終わると問い合わせ内容がどこにも残らないため。
   if (!apiKey || !to) {
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("RESEND_API_KEY and CONTACT_TO_EMAIL are required in production.");
-    }
-
-    console.info("[degi-juu inquiry skipped]", {
-      kind: payload.kind,
-      email: payload.email,
-      organization: payload.organization,
-    });
-    return { delivered: false, skipped: true };
+    logInquiryFallback("resend-not-configured", payload.kind, { ...payload });
+    return { delivered: false, fallback: "resend-not-configured" };
   }
 
   const subject = `【デジじゅう】${inquiryKindLabels[payload.kind]}: ${payload.organization || payload.name}`;
   const text = formatInquiryEmail(payload);
 
-  const data = await sendResendEmail(apiKey, {
-    from,
-    to,
-    reply_to: payload.email,
-    subject,
-    text,
-  });
+  let data: { id?: string };
+  try {
+    data = await sendResendEmail(apiKey, {
+      from,
+      to,
+      reply_to: payload.email,
+      subject,
+      text,
+    });
+  } catch (error) {
+    logInquiryFallback("resend-send-failed", payload.kind, { ...payload }, error);
+    return { delivered: false, fallback: "resend-send-failed" };
+  }
 
   let autoReplyId: string | undefined;
   if (process.env.CONTACT_AUTO_REPLY !== "false") {
@@ -76,6 +79,7 @@ export async function sendInquiryEmail(payload: InquiryPayload): Promise<SendRes
       });
       autoReplyId = autoReply.id;
     } catch (error) {
+      // 管理者宛は届いているので、自動返信の失敗だけで未配信扱いにはしない
       console.error("[degi-juu auto reply failed]", error);
     }
   }

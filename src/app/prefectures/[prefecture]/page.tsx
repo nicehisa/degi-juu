@@ -20,9 +20,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const decoded = decodeURIComponent(prefecture);
   if (!prefectures.includes(decoded)) return {};
 
+  const count = municipalities.filter((municipality) => municipality.prefecture === decoded).length;
+
   return {
     title: `${decoded}のデジタル住民票・デジタル住民制度｜デジじゅう`,
     description: `${decoded}のデジタル住民票、デジタル住民NFT、地域ファン向け会員証を一覧で確認できます。`,
+    // 掲載0件のページは内容が薄いためインデックスさせない
+    robots: count === 0 ? { index: false, follow: true } : undefined,
   };
 }
 
@@ -46,7 +50,6 @@ export default async function PrefecturePage({ params }: Props) {
       </nav>
 
       <div className="mb-6">
-        <p className="text-sm font-semibold text-orange-700">都道府県別SEOページ</p>
         <h1 className="mt-2 text-2xl font-bold text-navy md:text-3xl">
           {decoded}のデジタル住民票・デジタル住民制度
         </h1>

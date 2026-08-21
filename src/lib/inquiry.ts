@@ -23,11 +23,60 @@ export const inquiryKindLabels: Record<InquiryKind, string> = {
   advertising: "広告・PR掲載相談",
 };
 
+/** 各項目の最大文字数。巨大なペイロードをメール本文に通さないための上限。 */
+export const INQUIRY_MAX_LENGTHS: Record<string, number> = {
+  name: 100,
+  email: 254,
+  organization: 200,
+  role: 100,
+  municipality: 100,
+  prefecture: 20,
+  programName: 200,
+  targetUrl: 2048,
+  budget: 50,
+  preferredStart: 100,
+  message: 5000,
+};
+
+const FIELD_LABELS: Record<string, string> = {
+  name: "お名前",
+  email: "メールアドレス",
+  organization: "会社名・団体名",
+  role: "役職・担当",
+  municipality: "自治体名",
+  prefecture: "都道府県",
+  programName: "制度名",
+  targetUrl: "対象URL",
+  budget: "想定予算",
+  preferredStart: "掲載希望時期",
+  message: "内容",
+};
+
+function isSafeHttpUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
 export function validateInquiryPayload(payload: Partial<InquiryPayload>) {
   const errors: string[] = [];
 
   if (payload.website) {
     errors.push("不正な送信の可能性があります。");
+  }
+
+  for (const [field, max] of Object.entries(INQUIRY_MAX_LENGTHS)) {
+    const value = payload[field as keyof InquiryPayload];
+    if (typeof value === "string" && value.length > max) {
+      errors.push(`${FIELD_LABELS[field]}は${max}文字以内で入力してください。`);
+    }
+  }
+
+  if (payload.targetUrl && !isSafeHttpUrl(payload.targetUrl)) {
+    errors.push("URLは http:// または https:// で始まる形式で入力してください。");
   }
 
   if (!payload.kind || !inquiryKindLabels[payload.kind]) {
