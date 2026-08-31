@@ -40,6 +40,7 @@ jobs:
           delete-branch: true
           title: "chore: 新しいデジタル住民制度候補を追加"
           commit-message: "chore: add detected digital resident program candidates"
+          assignees: nicehisa
           body: |
             1日1回の自動検知で、新しいデジタル住民制度の候補が見つかりました。
 
