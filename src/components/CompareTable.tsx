@@ -20,7 +20,7 @@ export default function CompareTable({ municipalities }: Props) {
             <th className="px-4 py-3 text-left font-semibold min-w-[80px]">状況</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[200px]">主な特典</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[100px]">確認日</th>
-            <th className="px-4 py-3 text-left font-semibold min-w-[100px]">公式ページ</th>
+            <th className="px-4 py-3 text-left font-semibold min-w-[120px]">公式・販売ページ</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +58,7 @@ export default function CompareTable({ municipalities }: Props) {
                   rel="noopener noreferrer"
                   className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
                 >
-                  公式ページ
+                  公式・販売元
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>

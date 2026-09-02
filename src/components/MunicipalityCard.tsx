@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Municipality } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
 import { StatusBadge, TypeBadge } from "./Badge";
@@ -16,20 +15,15 @@ export default function MunicipalityCard({ municipality: m }: Props) {
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:border-orange-300 hover:shadow-md transition-all flex flex-col overflow-hidden">
       <Link href={`/municipalities/${m.slug}`} className="block">
-        <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
-          {m.imageUrl ? (
-            <Image
-              src={m.imageUrl}
-              alt={`${m.municipality}のイメージ`}
-              fill
-              sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[#f7f3eb] text-sm font-semibold text-orange-700">
-              {m.municipality}
-            </div>
-          )}
+        <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#f6efe2] via-[#eef6ef] to-[#e5f0f7]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.9),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.42),transparent_55%)]" />
+          <div className="relative flex h-full w-full flex-col items-center justify-center px-4 text-center">
+            <p className="text-xs font-semibold text-orange-700">{m.prefecture}</p>
+            <p className="mt-1 text-lg font-bold text-navy">{m.municipality}</p>
+            <p className="mt-2 max-w-[12rem] text-xs leading-relaxed text-gray-600">
+              画像は許諾確認後に掲載
+            </p>
+          </div>
           <div className="absolute left-3 top-3">
             <StatusBadge status={m.status} />
           </div>
@@ -84,7 +78,7 @@ export default function MunicipalityCard({ municipality: m }: Props) {
             rel="noopener noreferrer"
             className="inline-flex min-h-8 items-center justify-center gap-1 rounded-md bg-orange-500 px-2 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 transition-colors md:min-h-7 md:py-1"
           >
-            公式で確認
+            公式・販売元
             <svg className="h-3 w-3 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>

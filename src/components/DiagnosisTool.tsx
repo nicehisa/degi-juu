@@ -128,7 +128,7 @@ export default function DiagnosisTool() {
                   rel="noopener noreferrer"
                   className="rounded-md bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600"
                 >
-                  公式で確認
+                  公式・販売元
                 </a>
               </div>
             </article>

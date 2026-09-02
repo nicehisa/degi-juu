@@ -59,7 +59,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
 
       {/* Notice */}
       <LegalNoticeBox
-        text="本ページの情報は、公式ページ等で公表されている内容をもとに整理しています。最新情報、購入条件、特典内容、販売状況は必ず公式ページをご確認ください。"
+        text="本ページの情報は、自治体・発行元・販売元などが公表している情報をもとに整理しています。最新情報、購入条件、特典内容、販売状況は必ずリンク先でご確認ください。"
         className="mb-6"
       />
 
@@ -126,7 +126,10 @@ export default async function MunicipalityDetailPage({ params }: Props) {
 
       {/* Official Links */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-        <h2 className="font-bold text-gray-800 mb-3">公式ページ・関連リンク</h2>
+        <h2 className="font-bold text-gray-800 mb-3">公式・販売元・関連リンク</h2>
+        <p className="mb-3 text-xs leading-relaxed text-gray-500">
+          リンク先には自治体ページのほか、制度運営元・販売プラットフォームのページが含まれる場合があります。
+        </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <CTAButton
             href={m.officialUrl}
@@ -134,7 +137,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
             external
             className="flex-1 justify-center"
           >
-            公式ページを見る
+            公式・販売ページを確認
           </CTAButton>
           {m.relatedUrl && (
             <CTAButton
@@ -143,7 +146,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
               external
               className="flex-1 justify-center"
             >
-              関連ページを見る
+              関連情報を確認
             </CTAButton>
           )}
         </div>
