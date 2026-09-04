@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const result = await sendNewsletterSignup(payload as NewsletterPayload);
     return NextResponse.json({ ok: true, ...result });
   } catch (error) {
-    logInquiryFallback("resend-send-failed", "newsletter", { ...payload }, error);
+    await logInquiryFallback("resend-send-failed", "newsletter", { ...payload }, error);
     return NextResponse.json({ ok: true, delivered: false, fallback: "resend-send-failed" });
   }
 }

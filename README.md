@@ -35,7 +35,7 @@ npm run dev
 自治体データは `src/data/municipalities.ts` で管理しています。
 
 新しい自治体を追加する場合は、`municipalities` 配列に `Municipality` 型のオブジェクトを追加してください。
-`imageUrl` に新しいドメインを使う場合は、`next.config.ts` の `images.remotePatterns` にホスト名を追加しないと、そのカードを含むページが実行時にエラーになります。
+自治体・発行元サイトの画像は、許諾確認が取れるまでカードに表示しません。許諾取得後に外部画像を使う場合のみ、`next.config.ts` の `images.remotePatterns` へホスト名を追加してください。
 
 ```typescript
 {
@@ -54,10 +54,10 @@ npm run dev
   benefits: ["特典1", "特典2"],
   benefitCategories: ["tourism", "community"], // benefitCategories.ts の id
   benefitConditions: "特典の利用条件",
-  applicationMethod: "公式ページよりご確認ください。",
+  applicationMethod: "公式・販売ページよりご確認ください。",
   officialUrl: "https://...",
   relatedUrl: "https://...",    // 任意
-  imageUrl: "https://...",      // 任意。外部ホストは next.config.ts の remotePatterns への追加が必要
+  imageUrl: "https://...",      // 任意。許諾確認後のみ使用。外部ホストは remotePatterns への追加が必要
   lastChecked: "2026-08-21",
   notes: "注意事項",
   isOfficialInfo: false,
@@ -144,6 +144,7 @@ npm run draft:program -- --id <candidate-id>
 | `ADMIN_USER` | 管理画面Basic認証のユーザー名。未設定時は `admin` |
 | `CONTACT_FROM_EMAIL` | 送信元メールアドレス。未設定時は `デジじゅう <onboarding@resend.dev>`。**独自ドメインをResendで認証して設定することを推奨** |
 | `CONTACT_AUTO_REPLY` | `false` にすると送信者への自動返信を停止 |
+| `ALERT_WEBHOOK_URL` | 問い合わせ送信失敗時のSlack Incoming Webhook互換通知先。未設定時は通知せずログ退避のみ |
 | `GEMINI_API_KEY` | 新規制度の自動検知（GitHub Actions側で使用） |
 | `GOOGLE_SHEETS_CSV_URL` | 自治体データをGoogle Sheetsの公開CSVから取得する場合に設定 |
 | `SUPABASE_URL` | 自治体データをSupabase REST APIから取得する場合に設定 |
@@ -161,7 +162,18 @@ degi-juu:inquiry-fallback {"tag":"degi-juu:inquiry-fallback","reason":"resend-no
 
 - 復旧手順: Vercel の Runtime Logs で `degi-juu:inquiry-fallback` を検索し、`payload` から内容を取り出す
 - 利用者側には「受け付けたが自動送信が完了していない可能性がある」旨と、直接連絡先を表示する
-- 運用上は、このタグに対するログドレイン／アラートを設定しておくことを推奨
+- `ALERT_WEBHOOK_URL` を設定している場合は、送信失敗時にWebhookへも通知します
+- 通知本文には氏名・メールアドレス・団体名・本文冒頭が含まれるため、Webhook先はアクセス制限されたプライベートチャンネルに限定してください
+
+### 公開前env検証
+
+デプロイ前に、必須環境変数と本番URLの形式を確認してください。
+
+```bash
+npm run preflight
+```
+
+未設定項目がある場合は日本語で不足項目と直し方を表示し、終了コード `1` で停止します。
 
 ### 公開前チェックリスト
 
@@ -169,7 +181,8 @@ degi-juu:inquiry-fallback {"tag":"degi-juu:inquiry-fallback","reason":"resend-no
 - [ ] `RESEND_API_KEY` / `CONTACT_TO_EMAIL` を設定し、実際に問い合わせが届くことを確認
 - [ ] `NEXT_PUBLIC_SITE_URL` を本番ドメインに設定し、`/robots.txt` と `/sitemap.xml` のURLを確認
 - [ ] `CONTACT_FROM_EMAIL` を独自ドメイン（SPF/DKIM設定済み）に変更
-- [ ] `degi-juu:inquiry-fallback` のログ監視／通知を設定
+- [ ] `ALERT_WEBHOOK_URL` をプライベートチャンネルのWebhookに設定し、`degi-juu:inquiry-fallback` の通知を確認
+- [ ] `npm run preflight` を実行し、必須環境変数と本番URLの形式を確認
 - [ ] Search Console にサイトマップを登録
 
 外部データ連携を設定していない場合は、従来通り `src/data/municipalities.ts` の静的データを使用します。接続状況は `/admin`、取得結果は `/api/municipalities` で確認できます。

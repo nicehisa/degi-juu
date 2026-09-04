@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, ...result });
   } catch (error) {
     // sendInquiryEmail内で拾えなかった想定外の例外でも、内容だけは必ず残す
-    logInquiryFallback("resend-send-failed", payload.kind || "unknown", { ...payload }, error);
+    await logInquiryFallback("resend-send-failed", payload.kind || "unknown", { ...payload }, error);
     return NextResponse.json(
       {
         ok: true,

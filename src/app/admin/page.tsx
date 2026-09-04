@@ -82,6 +82,8 @@ export default function AdminPage() {
   const resendReady = Boolean(process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL);
   const geminiReady = Boolean(process.env.GEMINI_API_KEY || process.env.GOOGLE_SEARCH_API_KEY);
   const adminAuthReady = Boolean(process.env.ADMIN_PASSWORD);
+  const contactFromEmail = process.env.CONTACT_FROM_EMAIL;
+  const contactFromReady = Boolean(contactFromEmail && !contactFromEmail.includes("onboarding@resend.dev"));
   const dataSource = getDataSourceStatus();
   const detectedItems = detectedMunicipalities as DetectedMunicipality[];
   const unreviewedCount = detectedItems.filter((item) => item.reviewStatus !== "確認済み").length;
@@ -161,6 +163,9 @@ export default function AdminPage() {
         <div className="mt-3 grid gap-3 text-sm md:grid-cols-2">
           <p className={resendReady ? "text-green-700" : "text-amber-700"}>
             メール送信: {resendReady ? "RESEND_API_KEY / CONTACT_TO_EMAIL 設定済み" : "未設定"}
+          </p>
+          <p className={contactFromReady ? "text-green-700" : "text-red-700"}>
+            送信元アドレス: {contactFromReady ? contactFromEmail : "⚠ 検証用アドレスのままです。独自ドメインに変更してください"}
           </p>
           <p className={geminiReady ? "text-green-700" : "text-amber-700"}>
             自動検知API: {geminiReady ? "Gemini / Google APIキー設定済み" : "未設定"}

@@ -35,8 +35,25 @@ const faqs = [
 ];
 
 export default function FAQPage() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div className="mb-8">
         <p className="text-sm font-semibold text-orange-700">誤認防止・不安解消</p>
         <h1 className="mt-2 text-2xl font-bold text-navy md:text-3xl">よくある質問</h1>

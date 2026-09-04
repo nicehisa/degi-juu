@@ -36,7 +36,7 @@ export async function sendInquiryEmail(payload: InquiryPayload): Promise<SendRes
   // 未設定でもエラーにせず、内容をログへ退避してから未配信として返す。
   // 500を返して終わると問い合わせ内容がどこにも残らないため。
   if (!apiKey || !to) {
-    logInquiryFallback("resend-not-configured", payload.kind, { ...payload });
+    await logInquiryFallback("resend-not-configured", payload.kind, { ...payload });
     return { delivered: false, fallback: "resend-not-configured" };
   }
 
@@ -53,7 +53,7 @@ export async function sendInquiryEmail(payload: InquiryPayload): Promise<SendRes
       text,
     });
   } catch (error) {
-    logInquiryFallback("resend-send-failed", payload.kind, { ...payload }, error);
+    await logInquiryFallback("resend-send-failed", payload.kind, { ...payload }, error);
     return { delivered: false, fallback: "resend-send-failed" };
   }
 

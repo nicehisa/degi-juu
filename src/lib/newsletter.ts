@@ -40,7 +40,7 @@ export async function sendNewsletterSignup(payload: NewsletterPayload): Promise<
 
   // 未設定・送信失敗のどちらでも登録内容を失わないよう、必ずログへ退避する。
   if (!apiKey || !to) {
-    logInquiryFallback("resend-not-configured", "newsletter", { ...payload });
+    await logInquiryFallback("resend-not-configured", "newsletter", { ...payload });
     return { delivered: false, fallback: "resend-not-configured" };
   }
 
@@ -71,7 +71,7 @@ export async function sendNewsletterSignup(payload: NewsletterPayload): Promise<
       throw new Error(`Resend failed: ${response.status} ${text.slice(0, 500)}`);
     }
   } catch (error) {
-    logInquiryFallback("resend-send-failed", "newsletter", { ...payload }, error);
+    await logInquiryFallback("resend-send-failed", "newsletter", { ...payload }, error);
     return { delivered: false, fallback: "resend-send-failed" };
   }
 
