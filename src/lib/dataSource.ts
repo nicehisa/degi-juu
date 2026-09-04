@@ -102,6 +102,10 @@ function normalizeMunicipality(row: unknown): Municipality | null {
     officialUrl: String(item.officialUrl || ""),
     relatedUrl: typeof item.relatedUrl === "string" ? item.relatedUrl : undefined,
     imageUrl: typeof item.imageUrl === "string" ? item.imageUrl : undefined,
+    imagePermissionStatus: normalizeImagePermissionStatus(item.imagePermissionStatus),
+    imageCredit: typeof item.imageCredit === "string" ? item.imageCredit : undefined,
+    imageSourceUrl: typeof item.imageSourceUrl === "string" ? item.imageSourceUrl : undefined,
+    imageAlt: typeof item.imageAlt === "string" ? item.imageAlt : undefined,
     lastChecked: String(item.lastChecked || ""),
     notes: String(item.notes || ""),
     isOfficialInfo: Boolean(item.isOfficialInfo),
@@ -109,6 +113,17 @@ function normalizeMunicipality(row: unknown): Municipality | null {
     createdAt: String(item.createdAt || ""),
     updatedAt: String(item.updatedAt || ""),
   };
+}
+
+function normalizeImagePermissionStatus(value: unknown): Municipality["imagePermissionStatus"] {
+  const statuses: NonNullable<Municipality["imagePermissionStatus"]>[] = [
+    "permitted",
+    "free-stock",
+    "pending",
+  ];
+  return statuses.includes(value as NonNullable<Municipality["imagePermissionStatus"]>)
+    ? (value as NonNullable<Municipality["imagePermissionStatus"]>)
+    : "pending";
 }
 
 function toStringArray(value: unknown): string[] {

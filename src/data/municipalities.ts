@@ -8,6 +8,7 @@ export type MunicipalityType =
   | "その他";
 
 export type MunicipalityStatus = "販売中" | "受付中" | "終了" | "要確認";
+export type MunicipalityImagePermissionStatus = "permitted" | "free-stock" | "pending";
 
 export type Municipality = {
   id: string;
@@ -29,6 +30,10 @@ export type Municipality = {
   officialUrl: string;
   relatedUrl?: string;
   imageUrl?: string;
+  imagePermissionStatus?: MunicipalityImagePermissionStatus;
+  imageCredit?: string;
+  imageSourceUrl?: string;
+  imageAlt?: string;
   lastChecked: string;
   notes: string;
   isOfficialInfo: boolean;

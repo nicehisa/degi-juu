@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { municipalities } from "@/data/municipalities";
 import { StatusBadge, TypeBadge } from "@/components/Badge";
 import CTAButton from "@/components/CTAButton";
@@ -8,6 +9,7 @@ import LegalNoticeBox from "@/components/LegalNoticeBox";
 import MunicipalityCard from "@/components/MunicipalityCard";
 import PromotionSlot from "@/components/PromotionSlot";
 import { getActivePromotions } from "@/data/promotions";
+import { getMunicipalityImage } from "@/lib/municipalityImages";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -34,6 +36,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
     .filter((x) => x.slug !== m.slug && (x.type === m.type || x.prefecture === m.prefecture))
     .slice(0, 3);
   const promotions = getActivePromotions("municipality-detail");
+  const image = getMunicipalityImage(m);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -62,6 +65,39 @@ export default async function MunicipalityDetailPage({ params }: Props) {
         text="本ページの情報は、自治体・発行元・販売元などが公表している情報をもとに整理しています。最新情報、購入条件、特典内容、販売状況は必ずリンク先でご確認ください。"
         className="mb-6"
       />
+
+      <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <div className="relative aspect-[16/9] bg-gray-100">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            priority
+            sizes="(min-width: 768px) 896px, 100vw"
+            className="object-cover"
+          />
+          <div className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm">
+            {image.label}
+          </div>
+        </div>
+        <div className="flex flex-col gap-1 border-t border-gray-100 px-4 py-3 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+          <span>
+            {image.isRepresentative
+              ? "掲載元の許諾確認済み画像です。"
+              : "自治体の実際の写真ではなく、地域イメージを伝えるための画像です。"}
+          </span>
+          {image.sourceUrl && (
+            <a
+              href={image.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              画像出典を確認
+            </a>
+          )}
+        </div>
+      </div>
 
       {/* JSON-LD */}
       <script

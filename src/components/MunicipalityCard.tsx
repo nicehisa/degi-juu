@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Municipality } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
+import { getMunicipalityImage } from "@/lib/municipalityImages";
 import { StatusBadge, TypeBadge } from "./Badge";
 
 type Props = {
@@ -11,21 +13,34 @@ export default function MunicipalityCard({ municipality: m }: Props) {
   const benefitCats = benefitCategories.filter((c) =>
     m.benefitCategories.includes(c.id)
   );
+  const image = getMunicipalityImage(m);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:border-orange-300 hover:shadow-md transition-all flex flex-col overflow-hidden">
       <Link href={`/municipalities/${m.slug}`} className="block">
-        <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#f6efe2] via-[#eef6ef] to-[#e5f0f7]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.9),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.42),transparent_55%)]" />
-          <div className="relative flex h-full w-full flex-col items-center justify-center px-4 text-center">
-            <p className="text-xs font-semibold text-orange-700">{m.prefecture}</p>
-            <p className="mt-1 text-lg font-bold text-navy">{m.municipality}</p>
-            <p className="mt-2 max-w-[12rem] text-xs leading-relaxed text-gray-600">
-              画像は許諾確認後に掲載
-            </p>
-          </div>
+        <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
           <div className="absolute left-3 top-3">
             <StatusBadge status={m.status} />
+          </div>
+          <div className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-gray-700 shadow-sm">
+            {image.label}
+          </div>
+          <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+            <p className="text-xs font-semibold text-white/90">{m.prefecture}</p>
+            <p className="mt-0.5 text-lg font-bold leading-tight drop-shadow-sm">{m.municipality}</p>
+            {image.credit && (
+              <p className="mt-1 line-clamp-1 text-[10px] text-white/75">
+                画像: {image.credit}
+              </p>
+            )}
           </div>
         </div>
       </Link>

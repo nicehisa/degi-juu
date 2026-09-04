@@ -35,7 +35,7 @@ npm run dev
 自治体データは `src/data/municipalities.ts` で管理しています。
 
 新しい自治体を追加する場合は、`municipalities` 配列に `Municipality` 型のオブジェクトを追加してください。
-自治体・発行元サイトの画像は、許諾確認が取れるまでカードに表示しません。許諾取得後に外部画像を使う場合のみ、`next.config.ts` の `images.remotePatterns` へホスト名を追加してください。
+自治体・発行元サイトの画像は、許諾確認が取れるまでカードに表示しません。未許諾の場合は `src/lib/municipalityImages.ts` のローカルフリー素材をイメージ画像として表示します。許諾取得後に外部画像を使う場合のみ、`next.config.ts` の `images.remotePatterns` へホスト名を追加してください。
 
 ```typescript
 {
@@ -57,7 +57,11 @@ npm run dev
   applicationMethod: "公式・販売ページよりご確認ください。",
   officialUrl: "https://...",
   relatedUrl: "https://...",    // 任意
-  imageUrl: "https://...",      // 任意。許諾確認後のみ使用。外部ホストは remotePatterns への追加が必要
+  imageUrl: "https://...",      // 任意。許諾確認済み、またはフリー素材のみ使用
+  imagePermissionStatus: "pending", // permitted / free-stock / pending
+  imageCredit: "画像提供元名",    // 任意。許諾元・素材提供元の表記
+  imageSourceUrl: "https://...", // 任意。許諾確認ページ・素材ページ
+  imageAlt: "画像の説明",        // 任意
   lastChecked: "2026-08-21",
   notes: "注意事項",
   isOfficialInfo: false,
@@ -66,6 +70,14 @@ npm run dev
   updatedAt: "2026-08-21",
 }
 ```
+
+### 画像掲載ルール
+
+- 自治体・発行元ページの写真やバナーは、転載許諾または利用規約上の転載可否を確認してから掲載してください。
+- 許諾済み画像は `imagePermissionStatus: "permitted"`、Pixabay等の商用利用可能な素材は `imagePermissionStatus: "free-stock"` を設定してください。
+- 許諾未確認の画像は `imagePermissionStatus: "pending"` のままにし、サイト上ではローカルのイメージ画像を表示します。
+- イメージ画像は実際の自治体風景とは限らないため、UI上で「イメージ画像」と明示します。
+- 現在のローカル代替画像はPixabay素材を利用しています。クレジット表記は必須ではありませんが、出典確認のため `src/lib/municipalityImages.ts` に素材ページとライセンスURLを残しています。
 
 ## 新規制度の自動検知
 
