@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import InquiryForm from "@/components/InquiryForm";
+import InquiryEntry from "@/components/InquiryEntry";
 
 export const metadata: Metadata = {
   title: "自治体・運営者向け掲載依頼｜デジじゅう",
@@ -51,7 +51,7 @@ export default function ListingRequestPage() {
         </aside>
 
         <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <InquiryForm kind="listing" />
+          <InquiryEntry kind="listing" />
         </section>
       </div>
     </div>

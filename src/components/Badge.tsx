@@ -14,7 +14,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     <span
       className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full border ${styles[status]}`}
     >
-      {status}
+      {status === "終了" ? "受付終了" : status === "要確認" ? "受付状況を要確認" : status}
     </span>
   );
 }

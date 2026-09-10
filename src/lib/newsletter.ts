@@ -13,20 +13,25 @@ export type NewsletterResult = {
 
 const INTEREST_VALUES = ["new-programs", "benefits", "municipality-dx", "listing"];
 
-export function validateNewsletterPayload(payload: Partial<NewsletterPayload>) {
+export function validateNewsletterPayload(payload: unknown) {
   const errors: string[] = [];
 
-  if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return ["送信内容の形式が正しくありません。"];
+  }
+  const input = payload as Partial<NewsletterPayload>;
+
+  if (typeof input.email !== "string" || !input.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)) {
     errors.push("有効なメールアドレスを入力してください。");
-  } else if (payload.email.length > 254) {
+  } else if (input.email.length > 254) {
     errors.push("メールアドレスが長すぎます。");
   }
 
-  if (payload.interest && !INTEREST_VALUES.includes(payload.interest)) {
+  if (input.interest !== undefined && (typeof input.interest !== "string" || (input.interest !== "" && !INTEREST_VALUES.includes(input.interest)))) {
     errors.push("関心テーマの選択内容が不正です。");
   }
 
-  if (!payload.consent) {
+  if (input.consent !== true) {
     errors.push("プライバシーポリシーへの同意が必要です。");
   }
 

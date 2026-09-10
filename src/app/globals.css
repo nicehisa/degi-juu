@@ -8,6 +8,11 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  :where(a, button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid #1d4ed8;
+    outline-offset: 3px;
+  }
+
   body {
     @apply text-gray-800 bg-white;
   }

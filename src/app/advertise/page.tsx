@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import InquiryForm from "@/components/InquiryForm";
+import InquiryEntry from "@/components/InquiryEntry";
 
 export const metadata: Metadata = {
   title: "広告・PR掲載について｜デジじゅう",
@@ -57,7 +57,7 @@ export default function AdvertisePage() {
         </aside>
 
         <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <InquiryForm kind="advertising" />
+          <InquiryEntry kind="advertising" />
         </section>
       </div>
     </div>

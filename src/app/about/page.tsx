@@ -13,11 +13,11 @@ const SECTIONS = [
     id: "what",
     title: "デジタル住民制度とは？",
     content: (
-      <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+      <div className="space-y-3 text-base text-gray-700 leading-8">
         <p>
           デジタル住民制度とは、地域外に住む人がデジタル上で自治体や地域とつながり、
           応援・参加できる仕組みです。
-          各自治体が独自に企画・運営しており、
+          自治体や地域の団体などが企画・運営しており、
           「デジタル住民票NFT」「デジタル住民NFT」「デジタル住民証」
           「地域ファン向け会員証」など、名称や内容は自治体によって異なります。
         </p>
@@ -35,7 +35,7 @@ const SECTIONS = [
     title: "法律上の住民票とは違う",
     content: (
       <div className="space-y-3">
-        <p className="text-sm text-gray-700 leading-relaxed">
+        <p className="text-base text-gray-700 leading-8">
           デジタル住民票という名称が使われる場合でも、
           住民基本台帳法に基づく住民票・住民登録とは<strong>まったく異なります</strong>。
         </p>
@@ -63,7 +63,7 @@ const SECTIONS = [
     id: "why",
     title: "なぜ自治体が取り組むのか",
     content: (
-      <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+      <div className="text-base text-gray-700 leading-8 space-y-3">
         <p>
           多くの自治体では、少子高齢化・人口減少を背景に、
           「関係人口」（移住はしないが地域と継続的につながる人）の創出に取り組んでいます。
@@ -80,7 +80,7 @@ const SECTIONS = [
     id: "kankei-jinko",
     title: "関係人口とは",
     content: (
-      <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+      <div className="text-base text-gray-700 leading-8 space-y-3">
         <p>
           関係人口とは、移住した「定住人口」でも、観光に来た「交流人口」でもなく、
           地域と多様に関わる人々のことです（総務省の定義に基づく概念）。
@@ -97,7 +97,7 @@ const SECTIONS = [
     id: "nft-vs-app",
     title: "NFT型とアプリ型の違い",
     content: (
-      <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+      <div className="text-base text-gray-700 leading-8 space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
             <h4 className="font-bold text-purple-800 mb-2">NFT型</h4>
@@ -125,7 +125,7 @@ const SECTIONS = [
     id: "furusato",
     title: "ふるさと納税との違い",
     content: (
-      <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+      <div className="text-base text-gray-700 leading-8 space-y-3">
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
           <strong>デジタル住民制度はふるさと納税ではありません。</strong>
           <ul className="mt-2 space-y-1 list-disc list-inside">
@@ -146,7 +146,7 @@ const SECTIONS = [
     id: "checklist",
     title: "参加前に確認すべきこと",
     content: (
-      <div className="text-sm text-gray-700 leading-relaxed">
+      <div className="text-base text-gray-700 leading-8">
         <ul className="space-y-2">
           {[
             "制度の目的・内容を公式ページで確認する",

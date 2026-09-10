@@ -9,12 +9,13 @@ import { sortByDisplayPriority } from "@/data/municipalitySort";
 import MunicipalityCard from "@/components/MunicipalityCard";
 import CTAButton from "@/components/CTAButton";
 import SectionTitle from "@/components/SectionTitle";
+import { HomeIntroduction, HomeParticipationSteps, HomeQuestions } from "@/components/HomeGuide";
 import { getSiteUrl } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
-  title: "デジじゅう｜デジタル住民制度を地域・特典・タイプから探せる比較サイト",
+  title: "デジじゅう-好きなまちとつながる、デジタル住民票紹介サイト",
   description:
-    "全国のデジタル住民票、デジタル住民NFT、デジタル住民証、地域ファン向け会員証を、地域・特典・価格・制度タイプから比較できる情報サイトです。法律上の住民票やふるさと納税とは異なります。",
+    "ふるさと納税以外にも、地域を応援する選択肢。デジタル住民票や地域ファン向け会員証を、地域・特典・価格から比較して、応援したいまちを探せます。法律上の住民票やふるさと納税とは異なります。",
 };
 
 const FEATURED = sortByDisplayPriority(municipalities.filter((m) => m.isFeatured)).slice(0, 6);
@@ -61,11 +62,10 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-white/78" />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/86 to-white/70" />
+        <div className="absolute inset-0 bg-white/20" aria-hidden="true" />
         <div className="relative max-w-6xl mx-auto px-4 py-8 md:py-12">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="rounded-lg bg-white/68 p-4 shadow-sm backdrop-blur-[1px] md:p-6 lg:pr-8">
+            <div className="rounded-lg bg-white/85 p-4 shadow-sm backdrop-blur-[1px] md:p-6 lg:pr-8">
               <div className="mb-4 flex flex-wrap gap-2">
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-900 border border-amber-200">
                   法律上の住民票ではありません
@@ -75,18 +75,31 @@ export default function HomePage() {
                 </span>
               </div>
               <p className="text-sm font-semibold text-orange-700 mb-3">
-                全国のデジタル住民制度 比較・検索サイト
+                ふるさと納税以外にも、地域を応援する選択肢。
               </p>
               <h1 className="text-3xl md:text-5xl font-bold leading-tight text-[#13233f]">
                 デジじゅう
                 <span className="mt-3 block text-2xl md:text-4xl">
-                  地域と特典から、参加したい制度を探す。
+                  住んでいなくても、
+                  <br />好きなまちの力になれる。
                 </span>
               </h1>
               <p className="mt-5 text-base md:text-lg font-medium text-[#25324a] leading-relaxed">
-                デジタル住民票・デジタル住民NFT・地域ファン向け会員証を、
-                自治体・特典・価格・制度タイプから比較できます。
+                生まれ育ったふるさと、旅で出会ったお気に入りのまち。
+                デジタル住民票をきっかけに、地域とつながる応援を始めませんか。
               </p>
+              <p className="mt-3 text-sm text-gray-700 leading-relaxed">
+                デジじゅうは、全国のデジタル住民票・デジタル住民NFT・地域ファン向け会員証を、
+                地域・特典・価格から比較できる情報サイトです。
+              </p>
+              <div className="mt-5 flex flex-col items-start gap-3">
+                <CTAButton href="/municipalities" variant="primary" className="w-full sm:w-auto">
+                  応援したいまちを探す
+                </CTAButton>
+                <Link href="/about" className="text-sm font-semibold text-blue-700 underline underline-offset-4">
+                  デジタル住民票について知る
+                </Link>
+              </div>
               <div className="mt-6 grid grid-cols-3 gap-3 text-center">
                 <div className="rounded-lg bg-white border border-orange-100 px-3 py-3">
                   <p className="text-2xl font-bold text-navy">{municipalities.length}</p>
@@ -104,7 +117,7 @@ export default function HomePage() {
             </div>
 
             <div className="bg-white rounded-lg border border-orange-100 shadow-sm p-4 md:p-5">
-              <h2 className="text-lg font-bold text-navy mb-3">制度を探す</h2>
+              <h2 className="text-lg font-bold text-navy mb-3">応援したいまちを見つける</h2>
               <form action="/municipalities" className="flex flex-col sm:flex-row gap-2">
                 <label htmlFor="top-search" className="sr-only">
                   キーワード検索
@@ -114,7 +127,7 @@ export default function HomePage() {
                   name="keyword"
                   type="search"
                   placeholder="自治体名・制度名・特典で検索"
-                  className="min-h-12 flex-1 rounded-lg border border-gray-300 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="min-h-12 min-w-0 flex-1 rounded-lg border border-gray-300 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <button
                   type="submit"
@@ -153,92 +166,20 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  { href: "/diagnosis", label: "診断する", desc: "条件に近い制度" },
-                  { href: "/map", label: "地図から探す", desc: "都道府県別" },
-                  { href: "/articles", label: "記事を読む", desc: "基礎知識・選び方" },
-                ].map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="rounded-lg border border-blue-100 bg-blue-50 p-4 hover:border-blue-300 hover:bg-white transition-colors"
-                  >
-                    <p className="font-bold text-navy">{item.label}</p>
-                    <p className="mt-1 text-xs text-gray-500">{item.desc}</p>
-                  </Link>
-                ))}
-              </div>
-
               <div className="mt-5 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-xs text-amber-900 leading-relaxed">
-                本サイトは自治体公式サイトではありません。掲載情報は確認日時点の内容です。
-                申込・購入・参加条件は必ず公式ページでご確認ください。
+                まずは地域や気になる特典から探してみましょう。
+                参加・購入は各公式サイトで行います。
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-10 bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              {
-                href: "/regions",
-                title: "地域から探す",
-                desc: "応援したい地方や都道府県から制度を比較できます。",
-                cta: "地域一覧へ",
-              },
-              {
-                href: "/benefits",
-                title: "特典から探す",
-                desc: "観光優待、宿泊、イベント、コミュニティなどから探せます。",
-                cta: "特典カテゴリへ",
-              },
-              {
-                href: "/municipalities",
-                title: "一覧で比較する",
-                desc: "価格、販売状況、確認日、公式ページをまとめて確認できます。",
-                cta: "自治体一覧へ",
-              },
-              {
-                href: "/diagnosis",
-                title: "おすすめ診断",
-                desc: "地域、特典、NFTの有無などから条件に近い制度を確認できます。",
-                cta: "診断する",
-              },
-              {
-                href: "/map",
-                title: "都道府県マップ",
-                desc: "地方・都道府県ごとの掲載制度数を見ながら探せます。",
-                cta: "地図で探す",
-              },
-              {
-                href: "/articles",
-                title: "記事・コラム",
-                desc: "制度の基礎知識や参加前の確認ポイントを読めます。",
-                cta: "記事一覧へ",
-              },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group rounded-lg border border-gray-200 bg-white p-5 hover:border-orange-300 hover:shadow-sm transition-all"
-              >
-                <h2 className="text-lg font-bold text-navy">{item.title}</h2>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{item.desc}</p>
-                <p className="mt-4 text-sm font-semibold text-orange-600 group-hover:text-orange-700">
-                  {item.cta} →
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeIntroduction />
 
       <section className="py-12 bg-[#eaf4e7] border-y border-green-200">
         <div className="max-w-6xl mx-auto px-4">
-          <SectionTitle title="地方から探す" subtitle="ランキングではなく、地域の入口から探しやすく整理しています。" />
+          <SectionTitle title="地方から探す" subtitle="ふるさとや旅先など、気になる地域から制度を探してみましょう。" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {regions.map((r) => {
               const count = municipalities.filter((m) => m.region === r.name).length;
@@ -288,7 +229,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <SectionTitle
             title="注目の制度"
-            subtitle="情報が充実している制度を掲載しています。人気・お得ランキングではありません。"
+            subtitle="地域との関わり方や特典を見比べてみましょう。受付状況は確認日時点の情報です。"
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURED.map((m) => (
@@ -303,25 +244,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-14 bg-[#edf6ff] border-b border-blue-200">
-        <div className="max-w-4xl mx-auto px-4">
-          <SectionTitle title="デジタル住民制度とは？" />
-          <div className="rounded-lg border border-blue-100 bg-blue-50 p-6 md:p-8">
-            <p className="text-gray-700 leading-relaxed">
-              地域外に住む人が、デジタル上で自治体や地域とつながり、応援・参加できる仕組みです。
-              名称や内容は自治体・発行元によって異なり、デジタル住民票NFT、デジタル住民証、
-              地域ファン向け会員証などがあります。
-            </p>
-            <div className="mt-4 rounded-lg bg-white border border-amber-200 px-4 py-3 text-xs text-amber-900 leading-relaxed">
-              重要：デジタル住民票という名称が使われる場合でも、住民基本台帳上の住民票ではありません。
-              転入・転出・住民登録・行政サービスの利用資格を意味するものではありません。
-            </div>
-            <div className="mt-5 text-center">
-              <CTAButton href="/about" variant="outline">詳しく解説を読む</CTAButton>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeParticipationSteps />
 
       <section className="py-14 bg-[#f0ece4] border-b border-stone-300">
         <div className="max-w-4xl mx-auto px-4">
@@ -375,6 +298,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeQuestions />
     </>
   );
 }

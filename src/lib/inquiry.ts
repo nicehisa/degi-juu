@@ -61,52 +61,64 @@ function isSafeHttpUrl(value: string) {
   }
 }
 
-export function validateInquiryPayload(payload: Partial<InquiryPayload>) {
+export function validateInquiryPayload(payload: unknown) {
   const errors: string[] = [];
 
-  if (payload.website) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return ["送信内容の形式が正しくありません。"];
+  }
+  const values = payload as Record<string, unknown>;
+  for (const field of [...Object.keys(INQUIRY_MAX_LENGTHS), "kind", "website"]) {
+    if (values[field] !== undefined && typeof values[field] !== "string") {
+      errors.push(`${FIELD_LABELS[field] || field}の入力形式が正しくありません。`);
+    }
+  }
+  if (errors.length > 0) return errors;
+  const input = payload as Partial<InquiryPayload>;
+
+  if (input.website) {
     errors.push("不正な送信の可能性があります。");
   }
 
   for (const [field, max] of Object.entries(INQUIRY_MAX_LENGTHS)) {
-    const value = payload[field as keyof InquiryPayload];
+    const value = input[field as keyof InquiryPayload];
     if (typeof value === "string" && value.length > max) {
       errors.push(`${FIELD_LABELS[field]}は${max}文字以内で入力してください。`);
     }
   }
 
-  if (payload.targetUrl && !isSafeHttpUrl(payload.targetUrl)) {
+  if (input.targetUrl && !isSafeHttpUrl(input.targetUrl)) {
     errors.push("URLは http:// または https:// で始まる形式で入力してください。");
   }
 
-  if (!payload.kind || !inquiryKindLabels[payload.kind]) {
+  if (!input.kind || !Object.prototype.hasOwnProperty.call(inquiryKindLabels, input.kind)) {
     errors.push("お問い合わせ種別を選択してください。");
   }
 
-  if (!payload.name || payload.name.trim().length < 2) {
+  if (!input.name || input.name.trim().length < 2) {
     errors.push("お名前を入力してください。");
   }
 
-  if (!payload.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+  if (!input.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)) {
     errors.push("メールアドレスを正しく入力してください。");
   }
 
-  if (!payload.message || payload.message.trim().length < 10) {
+  if (!input.message || input.message.trim().length < 10) {
     errors.push("内容は10文字以上で入力してください。");
   }
 
-  if (!payload.agreed) {
+  if (input.agreed !== true) {
     errors.push("プライバシーポリシーへの同意が必要です。");
   }
 
-  if (payload.kind === "listing") {
-    if (!payload.organization) errors.push("自治体名または団体名を入力してください。");
-    if (!payload.programName) errors.push("制度名を入力してください。");
-    if (!payload.targetUrl) errors.push("公式ページURLを入力してください。");
+  if (input.kind === "listing") {
+    if (!input.organization) errors.push("自治体名または団体名を入力してください。");
+    if (!input.programName) errors.push("制度名を入力してください。");
+    if (!input.targetUrl) errors.push("公式ページURLを入力してください。");
   }
 
-  if (payload.kind === "advertising") {
-    if (!payload.organization) errors.push("会社名・団体名を入力してください。");
+  if (input.kind === "advertising") {
+    if (!input.organization) errors.push("会社名・団体名を入力してください。");
   }
 
   return errors;

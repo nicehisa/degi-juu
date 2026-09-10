@@ -39,7 +39,7 @@ export default function Footer() {
                 { href: "/compare", label: "比較する" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-100 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -62,7 +62,7 @@ export default function Footer() {
                 { href: "/advertising-policy", label: "広告・PR表記ポリシー" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-100 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -79,12 +79,12 @@ export default function Footer() {
                 { href: "/privacy", label: "プライバシーポリシー" },
                 { href: "/listing-request", label: "自治体向け掲載依頼" },
                 { href: "/advertise", label: "広告・PR掲載" },
-                { href: "/newsletter", label: "メールマガジン" },
-                { href: "/line", label: "LINE連携" },
+                ...(process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL ? [{ href: "/newsletter", label: "メールマガジン" }] : []),
+                ...(process.env.NEXT_PUBLIC_LINE_OFFICIAL_URL ? [{ href: "/line", label: "LINEで更新情報" }] : []),
                 { href: "/contact", label: "お問い合わせ・掲載修正依頼" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="block py-1.5 text-sm text-blue-300 hover:text-white transition-colors">
+                  <Link href={item.href} className="block py-1.5 text-sm text-blue-100 hover:text-white transition-colors">
                     {item.label}
                   </Link>
                 </li>

@@ -41,7 +41,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500 mb-4 flex items-center gap-1.5">
+      <nav className="text-sm text-gray-500 mb-4 flex flex-wrap items-center gap-1.5">
         <Link href="/" className="hover:text-blue-600">トップ</Link>
         <span>/</span>
         <Link href="/municipalities" className="hover:text-blue-600">自治体一覧</Link>
@@ -60,11 +60,44 @@ export default async function MunicipalityDetailPage({ params }: Props) {
         </div>
       </div>
 
+      {m.status !== "販売中" && m.status !== "受付中" && (
+        <div className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-5">
+          <h2 className="text-lg text-amber-950">{m.status === "終了" ? "掲載している募集は終了しています" : "現在の受付状況をご確認ください"}</h2>
+          <p className="mt-2 text-base leading-7 text-amber-900">{m.status === "終了" ? "このページには募集時の情報を掲載しています。再募集や二次取引の有無は、募集元の案内をご確認ください。" : "参加できるかどうか、最新の費用や特典とあわせて公式サイトでご確認ください。"}</p>
+          <Link href="/municipalities" className="mt-3 inline-flex min-h-11 items-center font-semibold text-blue-700 underline">ほかの制度を探す →</Link>
+        </div>
+      )}
+
       {/* Notice */}
       <LegalNoticeBox
         text="本ページの情報は、自治体・発行元・販売元などが公表している情報をもとに整理しています。最新情報、購入条件、特典内容、販売状況は必ずリンク先でご確認ください。"
         className="mb-6"
       />
+
+      {/* Details */}
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
+        <table className="w-full text-base">
+          <tbody>
+            {[
+              { label: "都道府県", value: m.prefecture },
+              { label: "自治体名", value: m.municipality },
+              { label: "制度名", value: m.programName },
+              { label: "種別", value: <TypeBadge type={m.type} /> },
+              { label: "受付状況", value: <StatusBadge status={m.status} /> },
+              { label: m.status === "終了" ? "募集時の費用" : "参加費用", value: m.price },
+              { label: "対象者", value: m.target },
+              { label: "情報確認日", value: m.lastChecked },
+            ].map((row, i) => (
+              <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                <th className="px-4 py-3 text-left text-gray-600 font-medium w-28 md:w-40 border-r border-gray-100">
+                  {row.label}
+                </th>
+                <td className="px-4 py-3 text-gray-800">{row.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
         <div className="relative aspect-[16/9] bg-gray-100">
@@ -113,35 +146,10 @@ export default async function MunicipalityDetailPage({ params }: Props) {
         }}
       />
 
-      {/* Details */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-        <table className="w-full text-sm">
-          <tbody>
-            {[
-              { label: "都道府県", value: m.prefecture },
-              { label: "自治体名", value: m.municipality },
-              { label: "制度名", value: m.programName },
-              { label: "種別", value: <TypeBadge type={m.type} /> },
-              { label: "販売状況", value: <StatusBadge status={m.status} /> },
-              { label: "価格", value: m.price },
-              { label: "対象者", value: m.target },
-              { label: "確認日", value: m.lastChecked },
-            ].map((row, i) => (
-              <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                <th className="px-4 py-3 text-left text-gray-500 font-medium w-32 md:w-40 border-r border-gray-100">
-                  {row.label}
-                </th>
-                <td className="px-4 py-3 text-gray-800">{row.value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
       {/* Summary */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
         <h2 className="font-bold text-gray-800 mb-2">概要</h2>
-        <p className="text-sm text-gray-700 leading-relaxed">{m.summary}</p>
+        <p className="text-base text-gray-700 leading-8">{m.summary}</p>
       </div>
 
       {/* Benefits */}
@@ -149,7 +157,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
         <h2 className="font-bold text-gray-800 mb-3">主な特典（公表内容）</h2>
         <ul className="space-y-2 mb-4">
           {m.benefits.map((b, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+            <li key={i} className="flex items-start gap-2 text-base text-gray-700">
               <span className="text-blue-500 mt-0.5">✓</span>
               <span>{b}</span>
             </li>
@@ -160,9 +168,19 @@ export default async function MunicipalityDetailPage({ params }: Props) {
         </div>
       </div>
 
+      <section className="bg-white rounded-xl border border-gray-200 p-5 mb-6" aria-labelledby="application-method">
+        <h2 id="application-method" className="text-lg text-navy">参加方法・必要な準備</h2>
+        <p className="mt-3 text-base leading-8 text-gray-700">{m.applicationMethod}</p>
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-gray-700">
+          <li>対象者・受付状況と、費用・特典の利用条件を確認してください。</li>
+          <li>決済方法やアカウント登録の要否は、申込先で確認してください。NFTを使う制度では、ウォレットの準備が必要かも確認しましょう。</li>
+          <li>デジじゅうでは申込・購入を受け付けていません。手続きは自治体・発行元の案内に沿って行ってください。</li>
+        </ul>
+      </section>
+
       {/* Official Links */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-        <h2 className="font-bold text-gray-800 mb-3">公式・販売元・関連リンク</h2>
+        <h2 className="font-bold text-gray-800 mb-3">情報の出典・公式サイト</h2>
         <p className="mb-3 text-xs leading-relaxed text-gray-500">
           リンク先には自治体ページのほか、制度運営元・販売プラットフォームのページが含まれる場合があります。
         </p>
@@ -173,7 +191,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
             external
             className="flex-1 justify-center"
           >
-            公式・販売ページを確認
+            {m.status === "終了" ? "募集元の最新案内を確認する" : "公式サイトで参加条件を確認する"}
           </CTAButton>
           {m.relatedUrl && (
             <CTAButton

@@ -68,7 +68,7 @@ export default function MunicipalityCard({ municipality: m }: Props) {
 
         <div className="mt-auto rounded-lg bg-gray-50 px-3 py-2">
           <div className="flex items-center justify-between gap-3 text-sm">
-            <span className="text-xs text-gray-500">価格</span>
+            <span className="text-xs text-gray-500">{m.status === "終了" ? "募集時の費用" : "参加費用"}</span>
             <span className="font-semibold text-gray-800">{m.price}</span>
           </div>
           {m.benefits[0] && (
@@ -78,12 +78,14 @@ export default function MunicipalityCard({ municipality: m }: Props) {
           )}
         </div>
 
-        <p className="text-xs text-gray-400">確認日: {m.lastChecked}</p>
+        <p className="text-xs text-gray-600">情報確認日: {m.lastChecked}</p>
 
+        {m.status === "終了" && <p className="text-sm leading-6 text-gray-600">掲載している募集は終了しています。再募集などの最新情報は募集元でご確認ください。</p>}
+        {m.status === "要確認" && <p className="text-sm leading-6 text-amber-800">現在の受付状況は募集元でご確認ください。</p>}
         <div className="grid grid-cols-2 gap-2">
           <Link
             href={`/municipalities/${m.slug}`}
-            className="inline-flex min-h-8 items-center justify-center rounded-md border border-blue-300 px-2 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-50 transition-colors md:min-h-7 md:py-1"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-blue-300 px-2 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-50 transition-colors"
           >
             詳細を見る
           </Link>
@@ -91,9 +93,9 @@ export default function MunicipalityCard({ municipality: m }: Props) {
             href={m.officialUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-8 items-center justify-center gap-1 rounded-md bg-orange-500 px-2 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 transition-colors md:min-h-7 md:py-1"
+            className="inline-flex min-h-11 items-center justify-center gap-1 rounded-md bg-orange-500 px-2 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 transition-colors"
           >
-            公式・販売元
+            {m.status === "終了" ? "募集元の案内" : "公式で条件確認"}
             <svg className="h-3 w-3 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>

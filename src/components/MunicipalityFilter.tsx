@@ -34,7 +34,7 @@ const TYPES: MunicipalityType[] = [
 const STATUSES: MunicipalityStatus[] = ["販売中", "受付中", "終了", "要確認"];
 
 const SORT_OPTIONS = [
-  { value: "default", label: "新着順" },
+  { value: "default", label: "標準の表示順" },
   { value: "updated", label: "情報更新順" },
   { value: "priceAsc", label: "価格が安い順" },
   { value: "priceDesc", label: "価格が高い順" },
@@ -83,8 +83,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Keyword */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">キーワード検索</label>
+        <label htmlFor="filter-keyword" className="block text-xs text-gray-500 mb-1">キーワード検索</label>
         <input
+          id="filter-keyword"
           type="text"
           value={filters.keyword}
           onChange={(e) => update("keyword", e.target.value)}
@@ -95,8 +96,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Region */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">地方</label>
+        <label htmlFor="filter-region" className="block text-xs text-gray-500 mb-1">地方</label>
         <select
+          id="filter-region"
           value={filters.region}
           onChange={(e) => update("region", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -110,8 +112,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Prefecture */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">都道府県</label>
+        <label htmlFor="filter-prefecture" className="block text-xs text-gray-500 mb-1">都道府県</label>
         <select
+          id="filter-prefecture"
           value={filters.prefecture}
           onChange={(e) => update("prefecture", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -125,8 +128,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Benefit Category */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">特典カテゴリ</label>
+        <label htmlFor="filter-benefit" className="block text-xs text-gray-500 mb-1">特典カテゴリ</label>
         <select
+          id="filter-benefit"
           value={filters.benefit}
           onChange={(e) => update("benefit", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -140,8 +144,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Type */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">制度タイプ</label>
+        <label htmlFor="filter-制度タイプ" className="block text-xs text-gray-500 mb-1">制度タイプ</label>
         <select
+          id="filter-制度タイプ"
           value={filters.type}
           onChange={(e) => update("type", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -155,8 +160,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Status */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">販売状況</label>
+        <label htmlFor="filter-status" className="block text-xs text-gray-500 mb-1">販売状況</label>
         <select
+          id="filter-status"
           value={filters.status}
           onChange={(e) => update("status", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -170,8 +176,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Price Range */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">価格帯</label>
+        <label htmlFor="filter-priceRange" className="block text-xs text-gray-500 mb-1">価格帯</label>
         <select
+          id="filter-priceRange"
           value={filters.priceRange}
           onChange={(e) => update("priceRange", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -185,8 +192,9 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Sort */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1">並び替え</label>
+        <label htmlFor="filter-sort" className="block text-xs text-gray-500 mb-1">並び替え</label>
         <select
+          id="filter-sort"
           value={filters.sortBy}
           onChange={(e) => update("sortBy", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"

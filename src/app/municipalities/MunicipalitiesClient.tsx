@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { municipalities } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
@@ -14,33 +14,20 @@ const PREFECTURES = Array.from(
 
 export default function MunicipalitiesClient() {
   const searchParams = useSearchParams();
-  const [filters, setFilters] = useState<FilterState>({
-    ...DEFAULT_FILTERS,
-    region: searchParams.get("region") ?? "",
-    type: searchParams.get("type") ?? "",
-    benefit: searchParams.get("benefit") ?? "",
-    keyword: searchParams.get("keyword") ?? "",
-    priceRange: searchParams.get("priceRange") ?? "",
-  });
+  const initialFilters = Object.fromEntries(
+    Object.entries(DEFAULT_FILTERS).map(([key, value]) => [key, searchParams.get(key) ?? value])
+  ) as FilterState;
+  return <FilteredMunicipalities key={searchParams.toString()} initialFilters={initialFilters} />;
+}
 
-  // Sync URL params on mount
-  useEffect(() => {
-    setFilters((prev) => ({
-      ...prev,
-      region: searchParams.get("region") ?? prev.region,
-      type: searchParams.get("type") ?? prev.type,
-      benefit: searchParams.get("benefit") ?? prev.benefit,
-      keyword: searchParams.get("keyword") ?? prev.keyword,
-      priceRange: searchParams.get("priceRange") ?? prev.priceRange,
-    }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterState }) {
+  const [filters, setFilters] = useState<FilterState>(initialFilters);
 
   const filtered = useMemo(() => {
     let result = [...municipalities];
 
     if (filters.keyword) {
-      const kw = filters.keyword.toLowerCase();
+      const kw = filters.keyword.trim().toLowerCase();
       result = result.filter(
         (m) => {
           const benefitNames = benefitCategories
@@ -105,13 +92,13 @@ export default function MunicipalitiesClient() {
         />
       </aside>
 
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-500">
             {filtered.length}件の制度が見つかりました
           </p>
           <p className="text-xs text-gray-500">
-            申込前に価格・条件・特典を公式ページで確認してください。
+            価格帯は掲載された基本・最低費用が目安です。追加費用などは公式ページで確認してください。
           </p>
         </div>
         {filtered.length === 0 ? (

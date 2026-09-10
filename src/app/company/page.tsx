@@ -51,7 +51,7 @@ export default function CompanyPage() {
         <h1 className="mt-2 text-2xl font-bold text-navy md:text-3xl">運営会社</h1>
         <p className="mt-3 text-sm leading-relaxed text-gray-600">
           デジじゅうは、全国のデジタル住民制度を比較・確認しやすくすることを目的に運営しています。
-          掲載内容の修正依頼やお問い合わせは、お問い合わせフォームよりご連絡ください。
+          掲載内容の修正依頼やお問い合わせは、お問い合わせページよりご連絡ください。
         </p>
       </div>
 

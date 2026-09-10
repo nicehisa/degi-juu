@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Municipality } from "@/data/municipalities";
 import { StatusBadge, TypeBadge } from "./Badge";
 
@@ -16,7 +17,7 @@ export default function CompareTable({ municipalities }: Props) {
             </th>
             <th className="px-4 py-3 text-left font-semibold min-w-[200px]">制度名</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[120px]">種別</th>
-            <th className="px-4 py-3 text-left font-semibold min-w-[100px]">価格</th>
+            <th className="px-4 py-3 text-left font-semibold min-w-[100px]">参加費用</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[80px]">状況</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[200px]">主な特典</th>
             <th className="px-4 py-3 text-left font-semibold min-w-[100px]">確認日</th>
@@ -33,11 +34,11 @@ export default function CompareTable({ municipalities }: Props) {
                 <div className="text-xs text-gray-500">{m.prefecture}</div>
                 <div className="font-bold text-gray-800">{m.municipality}</div>
               </td>
-              <td className="px-4 py-3 text-gray-700">{m.programName}</td>
+              <td className="px-4 py-3 text-gray-700"><Link href={`/municipalities/${m.slug}`} className="inline-flex min-h-11 items-center text-blue-700 underline underline-offset-4">{m.programName}</Link></td>
               <td className="px-4 py-3">
                 <TypeBadge type={m.type} />
               </td>
-              <td className="px-4 py-3 text-gray-700">{m.price}</td>
+              <td className="px-4 py-3 text-gray-700">{m.price}{m.status === "終了" && <span className="block text-xs text-gray-600">募集時の費用</span>}</td>
               <td className="px-4 py-3">
                 <StatusBadge status={m.status} />
               </td>
@@ -56,7 +57,7 @@ export default function CompareTable({ municipalities }: Props) {
                   href={m.officialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                  className="min-h-11 text-sm text-blue-700 hover:underline inline-flex items-center gap-0.5"
                 >
                   公式・販売元
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

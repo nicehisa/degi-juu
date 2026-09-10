@@ -16,7 +16,7 @@ export default function CTAButton({
   className = "",
 }: Props) {
   const base =
-    "inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "inline-flex min-h-11 items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
   const variants = {
     primary:
       "bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-400",

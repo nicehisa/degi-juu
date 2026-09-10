@@ -1,5 +1,5 @@
-import InquiryForm from "@/components/InquiryForm";
+import InquiryEntry from "@/components/InquiryEntry";
 
 export default function ContactForm() {
-  return <InquiryForm kind="contact" />;
+  return <InquiryEntry kind="contact" />;
 }

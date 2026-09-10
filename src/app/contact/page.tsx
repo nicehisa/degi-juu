@@ -16,15 +16,15 @@ export default function ContactPage() {
         </h1>
         <p className="text-gray-600 text-sm leading-relaxed">
           掲載情報の修正依頼、一般の方からのご意見・ご質問をお受けしています。
-          新規掲載依頼や広告相談は専用フォームをご利用ください。
+          新規掲載依頼や広告相談は専用ページをご利用ください。
         </p>
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 text-sm text-blue-800 space-y-1">
         <p className="font-bold">ご利用にあたって</p>
         <ul className="list-disc list-inside space-y-1 text-xs mt-1">
-          <li>掲載情報の誤りや更新が必要な情報は「修正依頼」をご選択ください</li>
-          <li>新たな制度の掲載をご希望の場合は専用の掲載依頼フォームをご利用ください</li>
+          <li>掲載情報の修正依頼には、対象ページURLと修正内容をお知らせください</li>
+          <li>新たな制度の掲載をご希望の場合は掲載依頼ページをご利用ください</li>
           <li>広告・PR掲載の相談は広告・PR掲載ページからお送りください</li>
           <li>ご回答まで数日〜1週間程度かかる場合があります</li>
           <li>内容によってはご回答できない場合があります</li>
