@@ -16,6 +16,16 @@ export const metadata: Metadata = {
   title: "デジじゅう-好きなまちとつながる、デジタル住民票紹介サイト",
   description:
     "ふるさと納税以外にも、地域を応援する選択肢。デジタル住民票や地域ファン向け会員証を、地域・特典・価格から比較して、応援したいまちを探せます。法律上の住民票やふるさと納税とは異なります。",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "デジじゅう-好きなまちとつながる、デジタル住民票紹介サイト",
+    description:
+      "ふるさと納税以外にも、地域を応援する選択肢。デジタル住民票や地域ファン向け会員証を、地域・特典・価格から比較して、応援したいまちを探せます。",
+    url: "/",
+    type: "website",
+  },
 };
 
 const FEATURED = sortByDisplayPriority(municipalities.filter((m) => m.isFeatured)).slice(0, 6);
