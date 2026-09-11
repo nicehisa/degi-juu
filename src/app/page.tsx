@@ -287,27 +287,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-14 bg-[#f5f1e9]">
-        <div className="max-w-4xl mx-auto px-4">
-          <SectionTitle title="新着・更新情報" />
-          <ul className="divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white">
-            {newsItems.slice(0, 3).map((n) => (
-              <li key={n.slug} className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center">
-                <span className="text-xs text-gray-400 shrink-0">{n.publishedAt}</span>
-                <span className="w-fit rounded bg-orange-100 px-2 py-0.5 text-xs text-orange-700 shrink-0">{n.category}</span>
-                <Link href={`/news/${n.slug}`} className="text-sm text-gray-700 hover:text-blue-700 hover:underline">
-                  {n.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-5 text-center">
-            <Link href="/news" className="text-sm font-semibold text-blue-600 hover:underline">
-              ニュース一覧を見る →
-            </Link>
+      {newsItems.length > 0 && (
+        <section className="py-14 bg-[#f5f1e9]">
+          <div className="max-w-4xl mx-auto px-4">
+            <SectionTitle title="新着・更新情報" />
+            <ul className="divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white">
+              {newsItems.slice(0, 3).map((n) => (
+                <li key={n.slug} className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center">
+                  <span className="text-xs text-gray-400 shrink-0">{n.publishedAt}</span>
+                  <span className="w-fit rounded bg-orange-100 px-2 py-0.5 text-xs text-orange-700 shrink-0">{n.category}</span>
+                  <Link href={`/news/${n.slug}`} className="text-sm text-gray-700 hover:text-blue-700 hover:underline">
+                    {n.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 text-center">
+              <Link href="/news" className="text-sm font-semibold text-blue-600 hover:underline">
+                ニュース一覧を見る →
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <HomeQuestions />
     </>
