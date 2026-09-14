@@ -5,7 +5,7 @@ export default function InquiryEntry({ kind }: { kind: InquiryKind }) {
   if (process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL) {
     return <InquiryForm kind={kind} />;
   }
-  const email = "info@fortitudejapan.com";
+  const email = "info@digijuu.jp";
   return (
     <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
       <h2 className="text-lg text-navy">メールで受け付けています</h2>

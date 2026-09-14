@@ -17,7 +17,7 @@ const companyRows = [
     value: "企業顧問、AI事業、マーケティング事業、広告代理業、健康食品販売",
   },
   { label: "電話番号", value: "03-5050-4335" },
-  { label: "メール", value: "info@fortitudejapan.com" },
+  { label: "メール", value: "info@digijuu.jp" },
 ];
 
 const organizationJsonLd = {
@@ -34,7 +34,7 @@ const organizationJsonLd = {
     addressCountry: "JP",
   },
   telephone: "03-5050-4335",
-  email: "info@fortitudejapan.com",
+  email: "info@digijuu.jp",
   foundingDate: "2022",
 };
 

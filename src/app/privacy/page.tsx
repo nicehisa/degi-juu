@@ -38,7 +38,7 @@ export default function PrivacyPage() {
             </div>
             <div className="grid gap-1 py-2 sm:grid-cols-[140px_1fr]">
               <dt className="font-semibold text-gray-600">個人情報お問い合わせ窓口</dt>
-              <dd>info@fortitudejapan.com</dd>
+              <dd>info@digijuu.jp</dd>
             </div>
           </dl>
         </section>
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
           <p>
             ご本人からの、保有個人データの利用目的の通知、開示、内容の訂正・追加・削除、
             利用の停止・消去、第三者への提供の停止のご請求については、
-            上記2.のお問い合わせ窓口（info@fortitudejapan.com）で承ります。
+            上記2.のお問い合わせ窓口（info@digijuu.jp）で承ります。
             ご本人であることを確認したうえで、法令に従い、合理的な期間内に対応します。
           </p>
         </section>
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
           <p>
             メールマガジンは、ご本人の同意（オプトイン）にもとづき配信します。
             配信停止をご希望の場合は、配信メール本文に記載の停止用リンク、
-            または info@fortitudejapan.com へのご連絡でいつでも停止できます。
+            または info@digijuu.jp へのご連絡でいつでも停止できます。
             配信停止後、新たな配信は行いません。
           </p>
         </section>
@@ -154,7 +154,7 @@ export default function PrivacyPage() {
           <h2 className="font-bold text-gray-800 text-base mb-3">13. お問い合わせ</h2>
           <p>
             個人情報の取り扱いに関するご質問・ご要望は、
-            サイト内のお問い合わせフォーム、または info@fortitudejapan.com からご連絡ください。
+            サイト内のお問い合わせフォーム、または info@digijuu.jp からご連絡ください。
           </p>
         </section>
 
