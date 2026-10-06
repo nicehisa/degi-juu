@@ -52,7 +52,7 @@ async function fetchMunicipalitiesFromSupabase(): Promise<Municipality[]> {
       apikey: key,
       Authorization: `Bearer ${key}`,
     },
-    next: { revalidate: 3600 },
+    next: { revalidate: 86400 },
   });
 
   if (!response.ok) return [];
@@ -63,7 +63,7 @@ async function fetchMunicipalitiesFromGoogleSheets(): Promise<Municipality[]> {
   const csvUrl = process.env.GOOGLE_SHEETS_CSV_URL;
   if (!csvUrl) return [];
 
-  const response = await fetch(csvUrl, { next: { revalidate: 3600 } });
+  const response = await fetch(csvUrl, { next: { revalidate: 86400 } });
   if (!response.ok) return [];
 
   return normalizeMunicipalities(parseCsv(await response.text()));
