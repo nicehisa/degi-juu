@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function AdminClient() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
+  const [authedPassword, setAuthedPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -17,6 +18,7 @@ export default function AdminClient() {
     });
     if (res.ok) {
       setAuthed(true);
+      setAuthedPassword(password);
     } else {
       setMessage("パスワードが正しくありません");
     }
@@ -26,11 +28,10 @@ export default function AdminClient() {
     setStatus("loading");
     setMessage("");
     try {
-      const res = await fetch("/api/revalidate", {
+      const res = await fetch("/api/admin-revalidate", {
         method: "POST",
-        headers: {
-          "x-revalidate-secret": process.env.NEXT_PUBLIC_REVALIDATE_SECRET ?? "",
-        },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: authedPassword }),
       });
       if (res.ok) {
         const data = await res.json();
