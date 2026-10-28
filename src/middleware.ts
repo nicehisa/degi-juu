@@ -6,6 +6,44 @@ const UNAUTHORIZED_HEADERS = {
   "X-Robots-Tag": "noindex, nofollow",
 };
 
+// 既知の悪意あるボット・スキャナーのUser-Agent
+const BLOCKED_UA_PATTERNS = [
+  /sqlmap/i,
+  /nikto/i,
+  /nmap/i,
+  /masscan/i,
+  /zgrab/i,
+  /nuclei/i,
+  /acunetix/i,
+  /burpsuite/i,
+  /nessus/i,
+  /openvas/i,
+];
+
+function isBlockedUserAgent(ua: string | null): boolean {
+  if (!ua) return false;
+  return BLOCKED_UA_PATTERNS.some((pattern) => pattern.test(ua));
+}
+
+// APIルートへの簡易レート制限（IPごとのリクエスト記録）
+const apiRequestLog = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 30;      // 30リクエスト
+const RATE_WINDOW = 60_000; // 1分間
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = apiRequestLog.get(ip);
+
+  if (!record || now > record.resetAt) {
+    apiRequestLog.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
+    return false;
+  }
+
+  record.count += 1;
+  if (record.count > RATE_LIMIT) return true;
+  return false;
+}
+
 /** 長さの違いで早期returnしないよう、固定長までまとめて比較する */
 function safeEqual(a: string, b: string) {
   const encoder = new TextEncoder();
@@ -40,6 +78,32 @@ function parseBasicAuth(header: string | null) {
 }
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const ua = request.headers.get("user-agent");
+
+  // 悪意あるスキャナーをブロック
+  if (isBlockedUserAgent(ua)) {
+    return new NextResponse(null, { status: 403 });
+  }
+
+  // APIルートへのレート制限
+  if (pathname.startsWith("/api/")) {
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      request.headers.get("x-real-ip") ??
+      "unknown";
+
+    if (isRateLimited(ip)) {
+      return new NextResponse("Too Many Requests", {
+        status: 429,
+        headers: {
+          "Retry-After": "60",
+          "Cache-Control": "no-store",
+        },
+      });
+    }
+  }
+
   const password = process.env.ADMIN_PASSWORD;
 
   if (!password) {
@@ -70,5 +134,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/api/:path*"],
 };
