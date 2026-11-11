@@ -1,21 +1,9 @@
 import { readFile, writeFile } from "node:fs/promises";
-import ts from "typescript";
+import { readPublishedMunicipalities } from "./lib/published-data.mjs";
 import { checkProgram } from "./lib/check-program.mjs";
 
 const root = new URL("../", import.meta.url);
-const source = ts.createSourceFile("municipalities.ts", await readFile(new URL("src/data/municipalities.ts", root), "utf8"), ts.ScriptTarget.Latest, true);
-function literal(node) {
-  if (ts.isStringLiteral(node) || ts.isNumericLiteral(node)) return ts.isNumericLiteral(node) ? Number(node.text) : node.text;
-  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
-  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
-  if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal);
-  if (ts.isObjectLiteralExpression(node)) return Object.fromEntries(node.properties.map(p => [p.name.getText(source).replace(/^"|"$/g, ""), literal(p.initializer)]));
-  throw new Error(`Unsupported data literal: ${node.kind}`);
-}
-const declaration = source.statements.filter(ts.isVariableStatement)
-  .flatMap(s => [...s.declarationList.declarations]).find(d => d.name.getText(source) === "municipalities");
-if (!declaration?.initializer) throw new Error("Municipality data not found");
-const programs = literal(declaration.initializer);
+const programs = await readPublishedMunicipalities();
 const reportPath = new URL("public/data/program-checks.json", root);
 const previous = JSON.parse(await readFile(reportPath, "utf8"));
 const checks = {};

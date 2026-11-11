@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 };
 
 const FEATURED = sortByDisplayPriority(municipalities.filter((m) => m.isFeatured)).slice(0, 6);
+const RECENTLY_ADDED = municipalities.filter(m => m.id.startsWith("auto-")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
 
 const COMPARISON_ROWS = [
   { item: "主な目的", digital: "地域との継続的なつながり", furusato: "自治体への寄付" },
@@ -253,6 +254,15 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {RECENTLY_ADDED.length > 0 && <section className="border-b border-gray-200 bg-white py-12">
+        <div className="mx-auto max-w-6xl px-4">
+          <SectionTitle title="新しく掲載した制度" />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {RECENTLY_ADDED.map(m => <MunicipalityCard key={m.id} municipality={m} />)}
+          </div>
+        </div>
+      </section>}
 
       <HomeParticipationSteps />
 

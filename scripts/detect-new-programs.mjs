@@ -1,6 +1,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readPublishedMunicipalities } from "./lib/published-data.mjs";
+import { createHash } from "node:crypto";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -42,7 +44,9 @@ Google検索を使って、全国の自治体が新しく発表・開始した�
   {
     "title": "ページタイトルまたは制度名",
     "url": "公式ページまたは根拠ページURL",
-    "snippet": "制度内容が分かる80文字程度の要約"
+    "snippet": "制度内容が分かる80文字程度の要約",
+    "prefecture": "正式な都道府県名",
+    "municipality": "正式な市区町村名（都道府県名を含めない）"
   }
 ]
 候補がなければ [] を返してください。
@@ -208,8 +212,8 @@ function toCandidate(result, approvedText, detectedItems) {
   if (approvedText.includes(url)) return null;
   if (detectedItems.some((item) => item.officialUrl === url || item.sourceUrl === url)) return null;
 
-  const municipality = detectMunicipality(combined);
-  const prefecture = detectPrefecture(combined);
+  const prefecture = prefectures.includes(result.prefecture) ? result.prefecture : detectPrefecture(combined);
+  const municipality = normalizeText(result.municipality || detectMunicipality(combined)).replace(prefecture, "");
   const type = detectType(combined);
   const today = new Date().toISOString().slice(0, 10);
   const officialLike = isOfficialLikeUrl(url);
@@ -217,9 +221,10 @@ function toCandidate(result, approvedText, detectedItems) {
   const idBase = `${municipality}-${prefecture}-${type}`;
   const slugBase = municipality === "要確認" ? `detected-${today}` : slugifyJapanese(idBase);
 
+  const suffix = createHash("sha256").update(url).digest("hex").slice(0, 10);
   return {
-    id: `${slugBase}-${today}`.replace(/--+/g, "-"),
-    slug: `${slugBase}-${today}`.replace(/--+/g, "-"),
+    id: `${slugBase}-${suffix}`.replace(/--+/g, "-"),
+    slug: `${slugBase}-${suffix}`.replace(/--+/g, "-"),
     prefecture,
     municipality,
     programName: title || `${municipality} ${type}`,
@@ -300,7 +305,9 @@ async function searchWithGeminiGoogleSearch() {
     },
     body: JSON.stringify({
       model,
-      input: geminiSearchPrompt,
+      input: geminiSearchPrompt + "\n掲載済み自治体（同じ自治体の旧ページは除外）:\n" +
+        (await readPublishedMunicipalities()).map(p => `${p.prefecture}${p.municipality}`).join("、") +
+        "\n検索で実際に開けた自治体公式の制度個別ページのみ返してください。URLは推測・作成しないでください。",
       tools: [{ type: "google_search" }],
     }),
   });
@@ -350,6 +357,8 @@ async function searchWithGeminiGoogleSearch() {
       title: item.title,
       url: item.url,
       snippet: item.snippet,
+      prefecture: item.prefecture,
+      municipality: item.municipality,
     }));
 }
 

@@ -43,11 +43,19 @@ jobs:
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
 
-      - name: Save review candidates and search status
+      - name: Validate candidates and publish verified new municipalities
+        run: npm run publish:programs
+
+      - name: Test publication and build changed public data
+        run: |
+          npm run test:updates
+          if ! git diff --quiet -- src/data/autoMunicipalities.json; then npm run build; fi
+
+      - name: Save verified publications and search status
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/data/detectedMunicipalities.json public/data/discovery-status.json
+          git add src/data/detectedMunicipalities.json src/data/autoMunicipalities.json public/data/discovery-status.json public/data/publication-status.json
           if ! git diff --cached --quiet; then
             git commit -m 'chore: update discovery candidates and search status'
             git pull --rebase origin main

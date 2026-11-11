@@ -18,6 +18,9 @@ type DetectedMunicipality = {
   riskFlags: string[];
   reviewStatus: string;
   reviewNotes: string;
+  linkValid?: boolean;
+  linkCheckedAt?: string;
+  publishedSlug?: string;
 };
 
 export const dynamic = "force-dynamic";
@@ -34,13 +37,16 @@ export const metadata: Metadata = {
 export default async function DetectedMunicipalitiesPage() {
   let candidates = detectedMunicipalities as DetectedMunicipality[];
   let discovery: { completedAt?: string; result?: string; resultsCount?: number } = {};
+  let publication: { completedAt?: string; added?: number; held?: number; publishedTotal?: number } = {};
   try {
-    const [items, status] = await Promise.all([
+    const [items, status, published] = await Promise.all([
       fetch("https://raw.githubusercontent.com/nicehisa/degi-juu/main/src/data/detectedMunicipalities.json", { cache: "no-store" }),
       fetch("https://raw.githubusercontent.com/nicehisa/degi-juu/main/public/data/discovery-status.json", { cache: "no-store" }),
+      fetch("https://raw.githubusercontent.com/nicehisa/degi-juu/main/public/data/publication-status.json", { cache: "no-store" }),
     ]);
     if (items.ok) candidates = await items.json();
     if (status.ok) discovery = await status.json();
+    if (published.ok) publication = await published.json();
   } catch { /* Keep the bundled candidates when GitHub is unavailable. */ }
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
@@ -58,17 +64,18 @@ export default async function DetectedMunicipalitiesPage() {
           新しいデジタル住民制度の自動検知候補
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-gray-600">
-          検索APIで見つかった候補を表示しています。掲載前に、自治体公式ページ・制度名・特典・価格・販売状況を確認してください。
+          公式ページの実在と本文を検証し、新しい自治体の制度を自動掲載します。重複候補や検証を完了できない候補は、こちらで確認できます。
         </p>
       </div>
 
       <LegalNoticeBox
         className="mb-6"
-        text="このページは管理者確認用です。ここに表示された候補は未確認情報であり、法的な住民票、住民登録、ふるさと納税、税控除とは関係があるとは限りません。公開ページへ移す前に必ず公式情報を確認してください。"
+        text="自動掲載は自治体公式の個別ページで制度名・自治体名を確認できたものが対象です。募集状況、費用、特典が未確定の場合は、公式ページでの確認を案内します。"
       />
       <div className="mb-6 border border-gray-200 bg-gray-50 p-4 text-sm">
         <p>検索最終実行: {discovery.completedAt || "未実施"}</p>
         <p>検索状況: {discovery.result === "ok" ? `成功（検索結果${discovery.resultsCount ?? 0}件）` : discovery.result === "failed" ? "失敗・実行ログを確認してください" : "未確認"}</p>
+        <p>直近の自動掲載: {publication.added ?? 0}件 / 保留: {publication.held ?? 0}件 / 掲載総数: {publication.publishedTotal ?? "未確認"}</p>
         <a href="https://github.com/nicehisa/degi-juu/actions/workflows/detect-new-programs.yml" target="_blank" rel="noopener noreferrer" className="mt-2 block text-blue-700 underline">検索の実行ログを確認</a>
       </div>
 
@@ -117,16 +124,18 @@ export default async function DetectedMunicipalitiesPage() {
                     {candidate.detectedAt}
                   </p>
                 </div>
-                <a
+                {candidate.linkValid !== false ? <a
                   href={candidate.officialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
                 >
-                  候補ページを確認
-                </a>
+                  公式ページを確認
+                </a> : <span className="text-sm font-semibold text-red-700">リンク検証未完了・公開対象外</span>}
               </div>
 
+              {candidate.publishedSlug && candidate.linkValid && <Link href={`/municipalities/${candidate.publishedSlug}`} className="mt-3 block text-sm text-blue-700 underline">デジじゅうの掲載ページを見る</Link>}
+              {candidate.linkCheckedAt && <p className="mt-2 text-xs text-gray-500">リンク検証: {new Date(candidate.linkCheckedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}</p>}
               <p className="mt-4 text-sm leading-relaxed text-gray-700">
                 {candidate.sourceSnippet || "説明文は取得できませんでした。リンク先で内容を確認してください。"}
               </p>

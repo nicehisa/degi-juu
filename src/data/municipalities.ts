@@ -1,3 +1,5 @@
+import autoMunicipalities from "./autoMunicipalities.json";
+
 export type MunicipalityType =
   | "デジタル住民票"
   | "デジタル住民票NFT"
@@ -42,7 +44,7 @@ export type Municipality = {
   updatedAt: string;
 };
 
-export const municipalities: Municipality[] = [
+const baseMunicipalities: Municipality[] = [
   {
     id: "nishikawa-yamagata",
     slug: "nishikawa-yamagata",
@@ -600,4 +602,9 @@ export const municipalities: Municipality[] = [
     createdAt: "2026-06-01",
     updatedAt: "2026-09-10",
   },
+];
+
+export const municipalities: Municipality[] = [
+  ...baseMunicipalities,
+  ...(autoMunicipalities as Municipality[]).filter(a => !baseMunicipalities.some(b => b.prefecture === a.prefecture && b.municipality === a.municipality)),
 ];
