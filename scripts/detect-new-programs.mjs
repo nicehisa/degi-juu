@@ -309,7 +309,7 @@ async function searchWithGeminiGoogleSearch() {
       generation_config: { thinking_level: "low", max_output_tokens: 4096 },
       input: geminiSearchPrompt + "\n掲載済み自治体（同じ自治体の旧ページは除外）:\n" +
         (await readPublishedMunicipalities()).map(p => `${p.prefecture}${p.municipality}`).join("、") +
-        "\n今回は最大5件まで。見つからない場合は網羅的な再検索を続けず [] を返してください。検索で実際に開けた自治体公式の制度個別ページのみ返してください。URLは推測・作成しないでください。",
+        "\nGoogle検索は最大2回、出力は最大5件まで。見つからない場合は [] を返してください。検索結果にある自治体公式の制度個別ページのURLをそのまま返し、URLを推測・作成しないでください。ページの到達性と本文の検証は後段システムが行います。ここでページの到達確認や網羅的な再検索をする必要はありません。",
       tools: [{ type: "google_search" }],
     }),
   });
