@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ProgramCheckDate from "./ProgramCheckDate";
 import Image from "next/image";
 import { Municipality } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
@@ -78,7 +79,7 @@ export default function MunicipalityCard({ municipality: m }: Props) {
           )}
         </div>
 
-        <p className="text-xs text-gray-600">情報確認日: {m.lastChecked}</p>
+        <ProgramCheckDate id={m.id} officialUrl={m.officialUrl} informationDate={m.lastChecked} />
 
         {m.status === "終了" && <p className="text-sm leading-6 text-gray-600">掲載している募集は終了しています。再募集などの最新情報は募集元でご確認ください。</p>}
         {m.status === "要確認" && <p className="text-sm leading-6 text-amber-800">現在の受付状況は募集元でご確認ください。</p>}

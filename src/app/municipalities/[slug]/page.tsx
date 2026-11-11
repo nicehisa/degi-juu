@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ProgramCheckDate from "@/components/ProgramCheckDate";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -86,7 +87,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
               { label: "受付状況", value: <StatusBadge status={m.status} /> },
               { label: m.status === "終了" ? "募集時の費用" : "参加費用", value: m.price },
               { label: "対象者", value: m.target },
-              { label: "情報確認日", value: m.lastChecked },
+              { label: "調査・確認日", value: <ProgramCheckDate id={m.id} officialUrl={m.officialUrl} informationDate={m.lastChecked} /> },
             ].map((row, i) => (
               <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                 <th className="px-4 py-3 text-left text-gray-600 font-medium w-28 md:w-40 border-r border-gray-100">

@@ -36,7 +36,7 @@ export default function AdminClient() {
       if (res.ok) {
         const data = await res.json();
         setStatus("success");
-        setMessage(`更新完了：${new Date(data.timestamp).toLocaleString("ja-JP")}`);
+        setMessage(`表示を更新しました。公式ページ調査: ${data.checkedAt ? new Date(data.checkedAt).toLocaleString("ja-JP") : "未実施"}`);
       } else {
         setStatus("error");
         setMessage("更新に失敗しました（認証エラーの可能性があります）");
@@ -77,7 +77,7 @@ export default function AdminClient() {
       <div className="bg-white border border-gray-200 rounded-xl p-6">
         <h2 className="font-bold text-gray-800 mb-1">データを今すぐ更新</h2>
         <p className="text-sm text-gray-500 mb-4">
-          キャッシュをクリアし、データソースから最新情報を取得します。
+          最新の調査結果を読み込み、表示を更新します。
         </p>
         <button
           onClick={handleRevalidate}
@@ -110,7 +110,7 @@ export default function AdminClient() {
         <dl className="space-y-2 text-sm">
           <div className="flex gap-3">
             <dt className="text-gray-500 w-32 shrink-0">実行スケジュール</dt>
-            <dd className="font-medium text-gray-800">毎日 9:00 AM（日本時間）</dd>
+            <dd className="font-medium text-gray-800">公式ページ調査: 毎日6:17頃 / 結果通知: 9:00頃（日本時間）</dd>
           </div>
           <div className="flex gap-3">
             <dt className="text-gray-500 w-32 shrink-0">通知先メール</dt>

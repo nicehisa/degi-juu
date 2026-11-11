@@ -195,7 +195,7 @@ function extractJsonArray(text) {
     return JSON.parse(trimmed.slice(start, end + 1));
   }
 
-  return [];
+  throw new Error("Search response did not contain a JSON array");
 }
 
 function toCandidate(result, approvedText, detectedItems) {
@@ -286,8 +286,8 @@ async function searchWithGoogle(query) {
 }
 
 async function searchWithGeminiGoogleSearch() {
-  const key = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_SEARCH_API_KEY;
-  if (!key) return [];
+  const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_SEARCH_API_KEY;
+  if (!key) throw new Error("GEMINI_API_KEY or GOOGLE_SEARCH_API_KEY is required");
 
   const model = process.env.GEMINI_SEARCH_MODEL ?? "gemini-2.5-flash";
   const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
@@ -295,6 +295,7 @@ async function searchWithGeminiGoogleSearch() {
     headers: {
       "Content-Type": "application/json",
       "x-goog-api-key": key,
+      "Api-Revision": "2026-05-20",
     },
     body: JSON.stringify({
       model,
@@ -325,7 +326,11 @@ async function searchWithGeminiGoogleSearch() {
     outputTexts.push(data.output_text);
   }
 
-  for (const step of data.steps ?? []) {
+  for (const output of data.output_text ? [] : data.outputs ?? []) {
+    if (output.type === "text" && output.text) outputTexts.push(output.text);
+  }
+
+  for (const step of outputTexts.length ? [] : data.steps ?? []) {
     if (step.type !== "model_output") continue;
     for (const block of step.content ?? []) {
       if (block.type === "text" && block.text) {
@@ -334,13 +339,9 @@ async function searchWithGeminiGoogleSearch() {
     }
   }
 
-  const parsedItems = outputTexts.flatMap((text) => {
-    try {
-      return extractJsonArray(text);
-    } catch {
-      return [];
-    }
-  });
+  if (!outputTexts.length) throw new Error("Gemini returned no readable text; search was not completed");
+  const parsedItems = extractJsonArray(outputTexts.join("\n"));
+  if (!Array.isArray(parsedItems)) throw new Error("Gemini result is not an array");
 
   return parsedItems
     .filter((item) => item && item.url)
@@ -408,6 +409,10 @@ async function main() {
   }
 
   const newCandidates = [...byUrl.values()];
+  await writeFile(path.join(rootDir, "public/data/discovery-status.json"), JSON.stringify({
+    completedAt: new Date().toISOString(), result: "ok", resultsCount: rawResults.length,
+    newCandidatesCount: newCandidates.length,
+  }, null, 2) + "\n");
   if (newCandidates.length === 0) {
     console.log("No new digital resident program candidates found.");
     return;
@@ -424,7 +429,10 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
+  await writeFile(path.join(rootDir, "public/data/discovery-status.json"), JSON.stringify({
+    completedAt: new Date().toISOString(), result: "failed",
+  }, null, 2) + "\n");
   console.error(error);
   process.exitCode = 1;
 });

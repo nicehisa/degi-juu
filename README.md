@@ -81,6 +81,17 @@ npm run dev
 
 ## 新規制度の自動検知
 
+### 毎日の公式ページ調査
+
+- `.github/workflows/check-published-programs.yml` が毎日6:17頃（日本時間）に掲載済み自治体の公式ページを取得します。GitHub側の混雑により遅延する場合があります。
+- 結果は `public/data/program-checks.json` に保存してmainへコミットします。本番ページは `/api/program-checks` 経由で結果を読み込み、最大約1時間で反映します。毎日の再デプロイは不要です。
+- カード・比較表・詳細ページの「公式ページ自動調査日」は取得成功時だけ進みます。HTTPエラー、ブロック、無関係なページの場合は進みません。
+- 「情報確認日」は価格・募集状況等の編集確認日です。自動取得だけでは更新しません。本文のハッシュが初回から変わった場合は要確認を表示し、管理画面に取得失敗・変更・48時間以上の停止を表示します。
+- 内容確認後は該当レコードの `lastChecked` を更新し、チェックJSONの `baselineFingerprint` を確認済みの `fingerprint` に合わせてください。
+- 新規候補はmainの `src/data/detectedMunicipalities.json` に保存され、管理者候補ページが最新データを読み込みます。公開一覧への追加には編集確認が必要です。
+- 検索処理の失敗と「新規候補なし」は `public/data/discovery-status.json` で区別します。
+- 手動調査: GitHub Actionsの `Check published digital resident programs` → `Run workflow`。管理画面の更新ボタンは最新結果の再読み込みです。
+
 1日1回、GitHub Actionsで新しいデジタル住民制度の候補を検知できます。
 現在は Google の `Gemini API + Google検索グラウンディング` を優先して使います。`Custom Search JSON API` は新規利用が制限されているため、既存利用権限がある場合のみ `SEARCH_PROVIDER=google` で使います。
 

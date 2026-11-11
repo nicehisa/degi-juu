@@ -2,7 +2,7 @@ name: Detect new digital resident programs
 
 on:
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "43 18 * * *"
   workflow_dispatch:
 
 permissions:
@@ -26,6 +26,8 @@ jobs:
         run: npm ci
 
       - name: Detect candidates
+        id: detect
+        continue-on-error: true
         run: npm run detect:programs
         env:
           SEARCH_PROVIDER: gemini
@@ -33,24 +35,16 @@ jobs:
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
 
-      - name: Create pull request when candidates changed
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: bot/detect-new-programs
-          delete-branch: true
-          title: "chore: 新しいデジタル住民制度候補を追加"
-          commit-message: "chore: add detected digital resident program candidates"
-          assignees: nicehisa
-          body: |
-            1日1回の自動検知で、新しいデジタル住民制度の候補が見つかりました。
-
-            確認ポイント:
-            - 自治体公式ページ、または制度運営主体の公式情報か
-            - 法律上の住民票、住民登録、転入手続きと誤認されないか
-            - ふるさと納税、税控除、NFT投資性を示す表現が混ざっていないか
-            - 価格、販売状況、特典、公式URLが最新か
-
-            確認後、必要な候補だけ `src/data/municipalities.ts` に移してください。
-          labels: |
-            automated
-            review-needed
+      - name: Save private review candidates and search status
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/data/detectedMunicipalities.json public/data/discovery-status.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: update discovery candidates and search status'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Report failed search
+        if: steps.detect.outcome == 'failure'
+        run: exit 1

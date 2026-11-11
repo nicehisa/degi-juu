@@ -6,6 +6,7 @@ export type NotificationPayload = {
   newMunicipalities: string[];
   checkedAt: string;
   triggeredBy: "cron" | "manual";
+  reportSummary?: string;
 };
 
 export async function sendNotificationEmail(payload: NotificationPayload) {
@@ -18,12 +19,12 @@ export async function sendNotificationEmail(payload: NotificationPayload) {
     payload.newMunicipalities.length > 0
       ? `<h2 style="color:#1e40af;">新しく確認された自治体（${payload.newMunicipalities.length}件）</h2>
          <ul>${payload.newMunicipalities.map((n) => `<li>${n}</li>`).join("")}</ul>`
-      : `<p style="color:#6b7280;">前回から新しい自治体の追加はありませんでした。</p>`;
+      : `<p style="color:#6b7280;">新規制度の検索結果は管理画面でご確認ください。</p>`;
 
   const trigger = payload.triggeredBy === "manual" ? "手動（今すぐ更新）" : "自動（定期チェック）";
 
   await resend.emails.send({
-    from: "デジじゅう <onboarding@resend.dev>",
+    from: process.env.CONTACT_FROM_EMAIL || "デジじゅう <onboarding@resend.dev>",
     to,
     subject: payload.subject,
     html: `
@@ -32,6 +33,7 @@ export async function sendNotificationEmail(payload: NotificationPayload) {
           デジじゅう｜データ確認レポート
         </h1>
         <p style="color:#374151;">確認日時：${payload.checkedAt}</p>
+        <p>${payload.reportSummary || ""}</p>
         <p style="color:#374151;">実行方法：${trigger}</p>
 
         <div style="background:#eff6ff;border-left:4px solid #3b82f6;padding:12px 16px;margin:16px 0;">

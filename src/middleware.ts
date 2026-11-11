@@ -104,6 +104,8 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  if (!pathname.startsWith("/admin")) return NextResponse.next();
+
   const password = process.env.ADMIN_PASSWORD;
 
   if (!password) {

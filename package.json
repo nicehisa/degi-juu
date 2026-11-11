@@ -9,6 +9,8 @@
     "lint": "next lint",
     "preflight": "node scripts/preflight.mjs",
     "detect:programs": "node scripts/detect-new-programs.mjs",
+    "check:programs": "node scripts/check-published-programs.mjs",
+    "test:updates": "node --test scripts/tests/*.test.mjs",
     "draft:program": "node scripts/create-municipality-draft.mjs"
   },
   "dependencies": {

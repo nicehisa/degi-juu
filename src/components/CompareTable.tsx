@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ProgramCheckDate from "./ProgramCheckDate";
 import { Municipality } from "@/data/municipalities";
 import { StatusBadge, TypeBadge } from "./Badge";
 
@@ -51,7 +52,7 @@ export default function CompareTable({ municipalities }: Props) {
                   ))}
                 </ul>
               </td>
-              <td className="px-4 py-3 text-xs text-gray-500">{m.lastChecked}</td>
+              <td className="px-4 py-3 text-xs text-gray-500"><ProgramCheckDate id={m.id} officialUrl={m.officialUrl} informationDate={m.lastChecked} /></td>
               <td className="px-4 py-3">
                 <a
                   href={m.officialUrl}

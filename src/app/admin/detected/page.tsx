@@ -31,9 +31,17 @@ export const metadata: Metadata = {
   },
 };
 
-const candidates = detectedMunicipalities as DetectedMunicipality[];
-
-export default function DetectedMunicipalitiesPage() {
+export default async function DetectedMunicipalitiesPage() {
+  let candidates = detectedMunicipalities as DetectedMunicipality[];
+  let discovery: { completedAt?: string; result?: string; resultsCount?: number } = {};
+  try {
+    const [items, status] = await Promise.all([
+      fetch("https://raw.githubusercontent.com/nicehisa/degi-juu/main/src/data/detectedMunicipalities.json", { cache: "no-store" }),
+      fetch("https://raw.githubusercontent.com/nicehisa/degi-juu/main/public/data/discovery-status.json", { cache: "no-store" }),
+    ]);
+    if (items.ok) candidates = await items.json();
+    if (status.ok) discovery = await status.json();
+  } catch { /* Keep the bundled candidates when GitHub is unavailable. */ }
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <nav className="mb-4 flex items-center gap-1.5 text-sm text-gray-500">
@@ -58,6 +66,11 @@ export default function DetectedMunicipalitiesPage() {
         className="mb-6"
         text="このページは管理者確認用です。ここに表示された候補は未確認情報であり、法的な住民票、住民登録、ふるさと納税、税控除とは関係があるとは限りません。公開ページへ移す前に必ず公式情報を確認してください。"
       />
+      <div className="mb-6 border border-gray-200 bg-gray-50 p-4 text-sm">
+        <p>検索最終実行: {discovery.completedAt || "未実施"}</p>
+        <p>検索状況: {discovery.result === "ok" ? `成功（検索結果${discovery.resultsCount ?? 0}件）` : discovery.result === "failed" ? "失敗・実行ログを確認してください" : "未確認"}</p>
+        <a href="https://github.com/nicehisa/degi-juu/actions/workflows/detect-new-programs.yml" target="_blank" rel="noopener noreferrer" className="mt-2 block text-blue-700 underline">検索の実行ログを確認</a>
+      </div>
 
       <section className="mb-6 rounded-xl border border-blue-100 bg-blue-50 p-5">
         <h2 className="text-base font-bold text-navy">掲載前チェック</h2>
