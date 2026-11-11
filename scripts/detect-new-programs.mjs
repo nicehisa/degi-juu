@@ -389,6 +389,11 @@ async function searchWeb() {
       return await searchWithGeminiGoogleSearch();
     } catch (error) {
       if (!process.env.GOOGLE_SEARCH_ENGINE_ID) throw error;
+      let reason = error instanceof Error ? error.message : "Unknown Gemini error";
+      for (const key of [process.env.GEMINI_API_KEY, process.env.GOOGLE_SEARCH_API_KEY]) {
+        if (key) reason = reason.split(key).join("[redacted]");
+      }
+      console.warn(reason);
       console.warn("Gemini search unavailable; trying Google Custom Search with the configured engine.");
       for (const query of searchQueries) results.push(...await searchWithGoogle(query));
       return results;
