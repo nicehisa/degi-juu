@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublishedMunicipalities } from "./lib/published-data.mjs";
 import { createHash } from "node:crypto";
+import { japanDate } from "./lib/check-program.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -215,7 +216,7 @@ function toCandidate(result, approvedText, detectedItems) {
   const prefecture = prefectures.includes(result.prefecture) ? result.prefecture : detectPrefecture(combined);
   const municipality = normalizeText(result.municipality || detectMunicipality(combined)).replace(prefecture, "");
   const type = detectType(combined);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = japanDate();
   const officialLike = isOfficialLikeUrl(url);
   const riskFlags = collectRiskFlags(combined);
   const idBase = `${municipality}-${prefecture}-${type}`;
