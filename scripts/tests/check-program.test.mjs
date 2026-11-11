@@ -14,10 +14,14 @@ test("successful checks record Japanese date and compare content without advanci
   assert.equal(next.baselineFingerprint, first.fingerprint);
 });
 test("failed checks preserve last successful check date", async () => {
-  const old = { checkedDate: "2026-08-31", lastSucceededAt: "2026-08-31T00:00:00Z" };
+  const old = { sourceUrl: program.officialUrl, checkedDate: "2026-08-31", lastSucceededAt: "2026-08-31T00:00:00Z" };
   const result = await checkProgram(program, old, async () => new Response("", { status: 404 }));
   assert.equal(result.checkedDate, old.checkedDate);
   assert.equal(result.result, "failed");
+});
+test("a replacement URL cannot inherit a successful check from the previous URL", async () => {
+  const result = await checkProgram(program, { sourceUrl: "https://example.com/old", checkedDate: "2026-11-11" }, async () => new Response("", { status: 404 }));
+  assert.equal(result.checkedDate, undefined);
 });
 test("unrelated pages and anti-bot pages do not count as successful research", async () => {
   for (const text of ["Welcome", "Just a moment captcha"] ) {

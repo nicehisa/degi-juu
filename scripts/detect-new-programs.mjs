@@ -250,7 +250,7 @@ async function searchWithFixture() {
 async function searchWithGoogle(query) {
   const key = process.env.GOOGLE_SEARCH_API_KEY;
   const cx = process.env.GOOGLE_SEARCH_ENGINE_ID;
-  if (!key || !cx) return [];
+  if (!key || !cx) throw new Error("GOOGLE_SEARCH_API_KEY and GOOGLE_SEARCH_ENGINE_ID are required");
 
   const url = new URL("https://www.googleapis.com/customsearch/v1");
   url.searchParams.set("key", key);
@@ -259,7 +259,7 @@ async function searchWithGoogle(query) {
   url.searchParams.set("lr", "lang_ja");
   url.searchParams.set("num", "10");
 
-  const response = await fetch(url);
+  const response = await fetch(url, { signal: AbortSignal.timeout(60000) });
   if (!response.ok) {
     const body = await response.text();
     throw new Error(
@@ -292,6 +292,7 @@ async function searchWithGeminiGoogleSearch() {
   const model = process.env.GEMINI_SEARCH_MODEL ?? "gemini-2.5-flash";
   const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
     method: "POST",
+    signal: AbortSignal.timeout(120000),
     headers: {
       "Content-Type": "application/json",
       "x-goog-api-key": key,
@@ -384,7 +385,14 @@ async function searchWeb() {
   const results = [];
 
   if (provider === "gemini") {
-    return searchWithGeminiGoogleSearch();
+    try {
+      return await searchWithGeminiGoogleSearch();
+    } catch (error) {
+      if (!process.env.GOOGLE_SEARCH_ENGINE_ID) throw error;
+      console.warn("Gemini search unavailable; trying Google Custom Search with the configured engine.");
+      for (const query of searchQueries) results.push(...await searchWithGoogle(query));
+      return results;
+    }
   }
 
   for (const query of searchQueries) {

@@ -5,6 +5,7 @@ export function japanDate(date = new Date()) {
 }
 
 export async function checkProgram(program, previous, fetcher = fetch) {
+  if (previous?.sourceUrl !== program.officialUrl) previous = undefined;
   const attemptedAt = new Date().toISOString();
   const base = { ...previous, sourceUrl: program.officialUrl, attemptedAt };
   try {
