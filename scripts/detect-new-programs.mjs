@@ -306,6 +306,7 @@ async function searchWithGeminiGoogleSearch() {
     },
     body: JSON.stringify({
       model,
+      generation_config: { thinking_level: "low", max_output_tokens: 4096 },
       input: geminiSearchPrompt + "\n掲載済み自治体（同じ自治体の旧ページは除外）:\n" +
         (await readPublishedMunicipalities()).map(p => `${p.prefecture}${p.municipality}`).join("、") +
         "\n今回は最大5件まで。見つからない場合は網羅的な再検索を続けず [] を返してください。検索で実際に開けた自治体公式の制度個別ページのみ返してください。URLは推測・作成しないでください。",
