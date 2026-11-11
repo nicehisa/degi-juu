@@ -289,7 +289,7 @@ async function searchWithGeminiGoogleSearch() {
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_SEARCH_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY or GOOGLE_SEARCH_API_KEY is required");
 
-  const model = process.env.GEMINI_SEARCH_MODEL ?? "gemini-2.5-flash";
+  const model = process.env.GEMINI_SEARCH_MODEL || "gemini-3.8-flash";
   const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
     method: "POST",
     signal: AbortSignal.timeout(120000),

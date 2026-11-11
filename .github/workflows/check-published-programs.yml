@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: published-program-checks
+  group: daily-program-data
   cancel-in-progress: false
 jobs:
   check:

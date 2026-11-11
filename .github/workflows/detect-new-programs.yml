@@ -9,12 +9,19 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: daily-program-data
+  cancel-in-progress: false
+
 jobs:
   detect:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,6 +38,7 @@ jobs:
         run: npm run detect:programs
         env:
           SEARCH_PROVIDER: gemini
+          GEMINI_SEARCH_MODEL: ${{ vars.GEMINI_SEARCH_MODEL }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
