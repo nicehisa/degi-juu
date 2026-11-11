@@ -1,32 +1,10 @@
 {
-  "completedAt": "2026-11-11T01:30:48.582Z",
+  "completedAt": "2026-11-11T01:35:23.782Z",
   "checks": {
-    "nishikawa-yamagata": {
-      "sourceUrl": "https://www.town.nishikawa.yamagata.jp/soshiki/kasegu/4554.html",
-      "attemptedAt": "2026-11-11T01:30:40.555Z",
-      "lastSucceededAt": "2026-11-11T01:30:40.555Z",
-      "checkedDate": "2026-11-11",
-      "result": "ok",
-      "fingerprint": "54f0f2081f5dd3b11cdb7c7d9a0add9bcabf84eaac6de2f994c7e22437600a59",
-      "baselineFingerprint": "54f0f2081f5dd3b11cdb7c7d9a0add9bcabf84eaac6de2f994c7e22437600a59",
-      "changed": false,
-      "error": null
-    },
-    "sosa-chiba": {
-      "sourceUrl": "https://www.city.sosa.lg.jp/page/page005240.html",
-      "attemptedAt": "2026-11-11T01:30:40.598Z",
-      "lastSucceededAt": "2026-11-11T01:30:40.598Z",
-      "checkedDate": "2026-11-11",
-      "result": "ok",
-      "fingerprint": "796d7572120739238390bbbc34b9aaa05cb2cd5bf81a2ebab64ad456c0a0fdc8",
-      "baselineFingerprint": "796d7572120739238390bbbc34b9aaa05cb2cd5bf81a2ebab64ad456c0a0fdc8",
-      "changed": false,
-      "error": null
-    },
     "mine-yamaguchi": {
       "sourceUrl": "https://nft.hexanft.com/nftmaticmulti/2",
-      "attemptedAt": "2026-11-11T01:30:40.597Z",
-      "lastSucceededAt": "2026-11-11T01:30:40.597Z",
+      "attemptedAt": "2026-11-11T01:35:15.906Z",
+      "lastSucceededAt": "2026-11-11T01:35:15.906Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "2997821520ea037bb60edb9ec812088c41ce08db5aef3d695e41630480d7cbec",
@@ -34,21 +12,32 @@
       "changed": false,
       "error": null
     },
-    "yachiyo-ibaraki": {
-      "sourceUrl": "https://www.town.ibaraki-yachiyo.lg.jp/sp/page/page011204.html",
-      "attemptedAt": "2026-11-11T01:30:42.738Z",
-      "lastSucceededAt": "2026-11-11T01:30:42.738Z",
+    "sosa-chiba": {
+      "sourceUrl": "https://www.city.sosa.lg.jp/page/page005240.html",
+      "attemptedAt": "2026-11-11T01:35:15.907Z",
+      "lastSucceededAt": "2026-11-11T01:35:15.907Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
-      "fingerprint": "f2ec938405d9d7769e4ed3b4481d97e08875ac7e1e3802fe2a00e1c6621ef04d",
-      "baselineFingerprint": "f2ec938405d9d7769e4ed3b4481d97e08875ac7e1e3802fe2a00e1c6621ef04d",
+      "fingerprint": "796d7572120739238390bbbc34b9aaa05cb2cd5bf81a2ebab64ad456c0a0fdc8",
+      "baselineFingerprint": "796d7572120739238390bbbc34b9aaa05cb2cd5bf81a2ebab64ad456c0a0fdc8",
+      "changed": false,
+      "error": null
+    },
+    "nishikawa-yamagata": {
+      "sourceUrl": "https://www.town.nishikawa.yamagata.jp/soshiki/kasegu/4554.html",
+      "attemptedAt": "2026-11-11T01:35:15.862Z",
+      "lastSucceededAt": "2026-11-11T01:35:15.862Z",
+      "checkedDate": "2026-11-11",
+      "result": "ok",
+      "fingerprint": "54f0f2081f5dd3b11cdb7c7d9a0add9bcabf84eaac6de2f994c7e22437600a59",
+      "baselineFingerprint": "54f0f2081f5dd3b11cdb7c7d9a0add9bcabf84eaac6de2f994c7e22437600a59",
       "changed": false,
       "error": null
     },
     "akitakata-hiroshima": {
       "sourceUrl": "https://www.akitakata.jp/akitakata-media/filer_public/bd/39/bd399e08-5616-4764-828c-ea5b219aa8cb/shiryou-11_aki-takadashi-dejitaru-juuminhyou-no-hakkou.pdf",
-      "attemptedAt": "2026-11-11T01:30:42.734Z",
-      "lastSucceededAt": "2026-11-11T01:30:42.734Z",
+      "attemptedAt": "2026-11-11T01:35:16.759Z",
+      "lastSucceededAt": "2026-11-11T01:35:16.759Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "f4682b889ab987fe52d4190f19d7054d6a663c4f2f16e988280c45100df36477",
@@ -56,10 +45,21 @@
       "changed": false,
       "error": null
     },
+    "yachiyo-ibaraki": {
+      "sourceUrl": "https://www.town.ibaraki-yachiyo.lg.jp/sp/page/page011204.html",
+      "attemptedAt": "2026-11-11T01:35:16.762Z",
+      "lastSucceededAt": "2026-11-11T01:35:16.762Z",
+      "checkedDate": "2026-11-11",
+      "result": "ok",
+      "fingerprint": "f2ec938405d9d7769e4ed3b4481d97e08875ac7e1e3802fe2a00e1c6621ef04d",
+      "baselineFingerprint": "f2ec938405d9d7769e4ed3b4481d97e08875ac7e1e3802fe2a00e1c6621ef04d",
+      "changed": false,
+      "error": null
+    },
     "habikino-osaka": {
       "sourceUrl": "https://www.city.habikino.lg.jp/soshiki/toshimiryoku/miryoku/news/15890.html",
-      "attemptedAt": "2026-11-11T01:30:42.736Z",
-      "lastSucceededAt": "2026-11-11T01:30:42.736Z",
+      "attemptedAt": "2026-11-11T01:35:16.761Z",
+      "lastSucceededAt": "2026-11-11T01:35:16.761Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "3aee4e0a19b31c7ce20fe5a1f76c17abaadacc0396033214cc4a170148b74aa5",
@@ -69,8 +69,8 @@
     },
     "bandai-fukushima": {
       "sourceUrl": "https://www.town.bandai.fukushima.jp/site/shiawase-redesign/bandai_furusato_residents.html",
-      "attemptedAt": "2026-11-11T01:30:43.035Z",
-      "lastSucceededAt": "2026-11-11T01:30:43.035Z",
+      "attemptedAt": "2026-11-11T01:35:18.013Z",
+      "lastSucceededAt": "2026-11-11T01:35:18.013Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "c288451cb08974d6a22247eefd87e4ef9f90503e42b32c6fc7a1ebcb4ae51fa6",
@@ -78,21 +78,10 @@
       "changed": false,
       "error": null
     },
-    "kumakogen-ehime": {
-      "sourceUrl": "https://www.kumakogen.jp/soshiki/17/24272.html",
-      "attemptedAt": "2026-11-11T01:30:43.034Z",
-      "lastSucceededAt": "2026-11-11T01:30:43.034Z",
-      "checkedDate": "2026-11-11",
-      "result": "ok",
-      "fingerprint": "0961f8ea10203bb15f1b3aaa5fffb3439fdf93586c11c1d2c50e7701a580a935",
-      "baselineFingerprint": "0961f8ea10203bb15f1b3aaa5fffb3439fdf93586c11c1d2c50e7701a580a935",
-      "changed": false,
-      "error": null
-    },
     "kashima-saga": {
       "sourceUrl": "https://www.kashimacity.com/information/4134/",
-      "attemptedAt": "2026-11-11T01:30:43.036Z",
-      "lastSucceededAt": "2026-11-11T01:30:43.036Z",
+      "attemptedAt": "2026-11-11T01:35:18.015Z",
+      "lastSucceededAt": "2026-11-11T01:35:18.015Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "812ed7e4c141c6635e0efd37362e2942f1b51efc2220636bf772dc7a2feb1e0f",
@@ -100,21 +89,21 @@
       "changed": false,
       "error": null
     },
-    "uda-nara": {
-      "sourceUrl": "https://www.city.uda.lg.jp/soshiki/23/15322.html",
-      "attemptedAt": "2026-11-11T01:30:45.603Z",
-      "lastSucceededAt": "2026-11-11T01:30:45.603Z",
+    "kumakogen-ehime": {
+      "sourceUrl": "https://www.kumakogen.jp/soshiki/17/24272.html",
+      "attemptedAt": "2026-11-11T01:35:18.012Z",
+      "lastSucceededAt": "2026-11-11T01:35:18.012Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
-      "fingerprint": "b471cadb58bec0440b3af490533ba2518e4b4770d60041583fd4753f8e903b4d",
-      "baselineFingerprint": "b471cadb58bec0440b3af490533ba2518e4b4770d60041583fd4753f8e903b4d",
+      "fingerprint": "0961f8ea10203bb15f1b3aaa5fffb3439fdf93586c11c1d2c50e7701a580a935",
+      "baselineFingerprint": "0961f8ea10203bb15f1b3aaa5fffb3439fdf93586c11c1d2c50e7701a580a935",
       "changed": false,
       "error": null
     },
     "joyo-kyoto": {
       "sourceUrl": "https://nft.hexanft.com/users/KR5quhMloDiBhY/issued/%E4%BA%AC%E9%83%BD%E5%BA%9C%E5%9F%8E%E9%99%BD%E5%B8%82",
-      "attemptedAt": "2026-11-11T01:30:45.603Z",
-      "lastSucceededAt": "2026-11-11T01:30:45.603Z",
+      "attemptedAt": "2026-11-11T01:35:19.271Z",
+      "lastSucceededAt": "2026-11-11T01:35:19.271Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "e8b968019d5aaa06fa3f4a6d87224c3bf4781a2471affc354f60504832389173",
@@ -124,8 +113,8 @@
     },
     "nachikatsuura-wakayama": {
       "sourceUrl": "https://www.town.nachikatsuura.wakayama.jp/info/1608",
-      "attemptedAt": "2026-11-11T01:30:45.601Z",
-      "lastSucceededAt": "2026-11-11T01:30:45.601Z",
+      "attemptedAt": "2026-11-11T01:35:19.269Z",
+      "lastSucceededAt": "2026-11-11T01:35:19.269Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "960df16f88f8365c78d40607ba7ec2f2244c108c4f70afd7fe796044e76ab565",
@@ -133,10 +122,21 @@
       "changed": false,
       "error": null
     },
+    "uda-nara": {
+      "sourceUrl": "https://www.city.uda.lg.jp/soshiki/23/15322.html",
+      "attemptedAt": "2026-11-11T01:35:19.270Z",
+      "lastSucceededAt": "2026-11-11T01:35:19.270Z",
+      "checkedDate": "2026-11-11",
+      "result": "ok",
+      "fingerprint": "b471cadb58bec0440b3af490533ba2518e4b4770d60041583fd4753f8e903b4d",
+      "baselineFingerprint": "b471cadb58bec0440b3af490533ba2518e4b4770d60041583fd4753f8e903b4d",
+      "changed": false,
+      "error": null
+    },
     "kamigori-hyogo": {
       "sourceUrl": "https://nft.hexanft.com/users/KR5quhMloDiBhY/issued/%E5%85%B5%E5%BA%AB%E7%9C%8C%E4%B8%8A%E9%83%A1%E7%94%BA",
-      "attemptedAt": "2026-11-11T01:30:47.383Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.383Z",
+      "attemptedAt": "2026-11-11T01:35:20.880Z",
+      "lastSucceededAt": "2026-11-11T01:35:20.880Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "8f2900a8e7205afd018e8df9c8e03614768211ff6735b8653c28695e6e27977d",
@@ -144,21 +144,10 @@
       "changed": false,
       "error": null
     },
-    "otsuki-yamanashi": {
-      "sourceUrl": "https://nft.hexanft.com/users/KR5quhMloDiBhY/issued/%E5%B1%B1%E6%A2%A8%E7%9C%8C%E5%A4%A7%E6%9C%88%E5%B8%82",
-      "attemptedAt": "2026-11-11T01:30:47.386Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.386Z",
-      "checkedDate": "2026-11-11",
-      "result": "ok",
-      "fingerprint": "a6f280b7a6540dc8180243c7fbc71361eef665698345f7872d5d31767a088827",
-      "baselineFingerprint": "a6f280b7a6540dc8180243c7fbc71361eef665698345f7872d5d31767a088827",
-      "changed": false,
-      "error": null
-    },
     "mashiko-tochigi": {
       "sourceUrl": "https://nft.hexanft.com/users/KR5quhMloDiBhY/issued/%E6%A0%83%E6%9C%A8%E7%9C%8C%E7%9B%8A%E5%AD%90%E7%94%BA",
-      "attemptedAt": "2026-11-11T01:30:47.384Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.384Z",
+      "attemptedAt": "2026-11-11T01:35:20.880Z",
+      "lastSucceededAt": "2026-11-11T01:35:20.880Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "9e94f184b7107503520026b841a9962aca9acb5393883fd3bda5fbe9b85f5482",
@@ -166,21 +155,21 @@
       "changed": false,
       "error": null
     },
-    "fujikawa-yamanashi": {
-      "sourceUrl": "https://www.town.fujikawa.yamanashi.jp/docs/2024120600047/",
-      "attemptedAt": "2026-11-11T01:30:47.927Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.927Z",
+    "otsuki-yamanashi": {
+      "sourceUrl": "https://nft.hexanft.com/users/KR5quhMloDiBhY/issued/%E5%B1%B1%E6%A2%A8%E7%9C%8C%E5%A4%A7%E6%9C%88%E5%B8%82",
+      "attemptedAt": "2026-11-11T01:35:20.881Z",
+      "lastSucceededAt": "2026-11-11T01:35:20.881Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
-      "fingerprint": "afa418d9ff6f97d3189050be7218a9addae696cf84d45932a99d4087cf46545f",
-      "baselineFingerprint": "afa418d9ff6f97d3189050be7218a9addae696cf84d45932a99d4087cf46545f",
+      "fingerprint": "a6f280b7a6540dc8180243c7fbc71361eef665698345f7872d5d31767a088827",
+      "baselineFingerprint": "a6f280b7a6540dc8180243c7fbc71361eef665698345f7872d5d31767a088827",
       "changed": false,
       "error": null
     },
     "toyama-toyama": {
       "sourceUrl": "https://www.city.toyama.lg.jp/shisei/seisaku/1010755/1018213.html",
-      "attemptedAt": "2026-11-11T01:30:47.928Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.928Z",
+      "attemptedAt": "2026-11-11T01:35:21.254Z",
+      "lastSucceededAt": "2026-11-11T01:35:21.254Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "eff5988970632a4c14ca825be04f4abf387f4ddf8979fc6031ac064181883097",
@@ -188,10 +177,21 @@
       "changed": false,
       "error": null
     },
+    "fujikawa-yamanashi": {
+      "sourceUrl": "https://www.town.fujikawa.yamanashi.jp/docs/2024120600047/",
+      "attemptedAt": "2026-11-11T01:35:21.253Z",
+      "lastSucceededAt": "2026-11-11T01:35:21.253Z",
+      "checkedDate": "2026-11-11",
+      "result": "ok",
+      "fingerprint": "afa418d9ff6f97d3189050be7218a9addae696cf84d45932a99d4087cf46545f",
+      "baselineFingerprint": "afa418d9ff6f97d3189050be7218a9addae696cf84d45932a99d4087cf46545f",
+      "changed": false,
+      "error": null
+    },
     "ishioka-ibaraki": {
       "sourceUrl": "https://www.ishioka-kankou.com/ishioka-fanclub/",
-      "attemptedAt": "2026-11-11T01:30:47.929Z",
-      "lastSucceededAt": "2026-11-11T01:30:47.929Z",
+      "attemptedAt": "2026-11-11T01:35:21.254Z",
+      "lastSucceededAt": "2026-11-11T01:35:21.254Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "5249b7004e6645df596d757a78bddaad505331aa6b599ba0e7e55d575b92924e",
@@ -201,8 +201,8 @@
     },
     "ogawa-saitama": {
       "sourceUrl": "https://www.kankou-ogawa.com/topic?_anch_=427&id=1",
-      "attemptedAt": "2026-11-11T01:30:48.268Z",
-      "lastSucceededAt": "2026-11-11T01:30:48.268Z",
+      "attemptedAt": "2026-11-11T01:35:22.777Z",
+      "lastSucceededAt": "2026-11-11T01:35:22.777Z",
       "checkedDate": "2026-11-11",
       "result": "ok",
       "fingerprint": "38ea204ffb213af61ed1a9cfb22b1f8de0f7ea77960c4fcc4a9dc7704f31a917",
