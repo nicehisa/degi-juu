@@ -297,7 +297,7 @@ async function searchWithGeminiGoogleSearch() {
   const model = process.env.GEMINI_SEARCH_MODEL || "gemini-3.8-flash";
   const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
     method: "POST",
-    signal: AbortSignal.timeout(120000),
+    signal: AbortSignal.timeout(240000),
     headers: {
       "Content-Type": "application/json",
       "x-goog-api-key": key,
@@ -307,7 +307,7 @@ async function searchWithGeminiGoogleSearch() {
       model,
       input: geminiSearchPrompt + "\n掲載済み自治体（同じ自治体の旧ページは除外）:\n" +
         (await readPublishedMunicipalities()).map(p => `${p.prefecture}${p.municipality}`).join("、") +
-        "\n検索で実際に開けた自治体公式の制度個別ページのみ返してください。URLは推測・作成しないでください。",
+        "\n今回は最大5件まで。見つからない場合は網羅的な再検索を続けず [] を返してください。検索で実際に開けた自治体公式の制度個別ページのみ返してください。URLは推測・作成しないでください。",
       tools: [{ type: "google_search" }],
     }),
   });

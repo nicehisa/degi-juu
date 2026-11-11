@@ -39,12 +39,14 @@ export async function fetchOfficialPage(url, knownHosts = [], fetcher = fetch) {
     const $ = load(new TextDecoder(charset).decode(bytes));
     const titles = [$("h1").first().text(), $("title").text(), $("h2").first().text()].map(normalize);
     const title = titles.find(t => programTerms.test(t)) || titles.find(Boolean) || "";
-    $("script,style,nav,header,footer,noscript").remove();
+    $("script,style,noscript").remove();
+    const identityText = normalize($("body").text());
+    $("nav,header,footer").remove();
     const content = $("main,article,#main,#contents,.contents").first();
     const text = normalize(content.length ? content.text() : $("body").text());
-    if (/404|not found|ページ.{0,12}(見つかりません|存在しません|見つかりませんでした)|お探しのページ|アクセスできません|Just a moment|Access Denied|captcha/i.test(`${title} ${text}`)) throw new Error("エラーページまたはアクセス制限を検出しました");
+    if (/^404\b/i.test(title) || /not found|ページ.{0,12}(見つかりません|存在しません|見つかりませんでした)|お探しのページ|アクセスできません|Just a moment|Access Denied|captcha/i.test(`${title} ${text}`)) throw new Error("エラーページまたはアクセス制限を検出しました");
     if (!programTerms.test(title) || !programTerms.test(text)) throw new Error("制度の個別ページではありません");
-    return { url: current, title, text };
+    return { url: current, title, text, identityText };
   }
   throw new Error("リダイレクトが多すぎます");
 }
@@ -60,7 +62,7 @@ export function buildAutoMunicipality(candidate, page, published, regions) {
   const municipality = normalizeMunicipality(candidate.municipality, prefecture);
   const region = regions.find(r => r.prefectures.includes(prefecture));
   if (!region || !/^[一-龠々ぁ-んァ-ヶー]{1,14}[市区町村]$/.test(municipality)) throw new Error("都道府県・自治体名を確定できません");
-  if (!page.text.includes(municipality) || !`${page.title} ${page.text}`.includes(prefecture)) throw new Error("本文で自治体名・都道府県を照合できません");
+  if (!page.text.includes(municipality) || !`${page.title} ${page.identityText || page.text}`.includes(prefecture)) throw new Error("本文で自治体名・都道府県を照合できません");
   if (published.some(p => p.prefecture === prefecture && normalizeMunicipality(p.municipality, prefecture) === municipality)) return null;
   if (!programTerms.test(page.title)) throw new Error("制度名を確認できません");
   const title = page.title.split(/[|｜]/)[0].trim().slice(0, 180);
