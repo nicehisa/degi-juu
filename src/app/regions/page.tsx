@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { regions } from "@/data/regions";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import CommonNotice from "@/components/CommonNotice";
 
 export const metadata: Metadata = {
@@ -26,9 +27,11 @@ export default function RegionsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {regions.map((region) => {
-          const count = municipalities.filter((m) => m.region === region.name).length;
+          const inRegion = municipalities.filter(m => m.region === region.name);
+          const count = inRegion.filter(isCurrentMunicipality).length;
+          const archivedCount = inRegion.length - count;
           const samples = municipalities
-            .filter((m) => m.region === region.name)
+            .filter((m) => isCurrentMunicipality(m) && m.region === region.name)
             .slice(0, 3)
             .map((m) => m.municipality);
 
@@ -45,7 +48,7 @@ export default function RegionsPage() {
                 <p className="text-sm text-gray-600 leading-relaxed">{region.description}</p>
 
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">掲載制度数</p>
+                  <p className="text-xs text-gray-500 mb-1">掲載制度数（受付終了を除く）</p>
                   <p className="text-2xl font-bold text-blue-700">{count}<span className="text-sm font-normal text-gray-500 ml-1">件</span></p>
                 </div>
 
@@ -57,12 +60,12 @@ export default function RegionsPage() {
                 )}
 
                 <div className="mt-auto">
-                  {count > 0 ? (
+                  {count > 0 || archivedCount > 0 ? (
                     <Link
                       href={`/regions/${region.slug}`}
                       className="block w-full text-center text-sm font-semibold bg-blue-600 text-white rounded-lg px-4 py-2.5 hover:bg-blue-700 transition-colors"
                     >
-                      この地域を見る
+                      {count > 0 ? "この地域を見る" : "過去の実施制度を見る"}
                     </Link>
                   ) : (
                     <p className="text-center text-xs text-gray-400 py-2">

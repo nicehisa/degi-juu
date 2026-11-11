@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { municipalities } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
 import { sortByDisplayPriority } from "@/data/municipalitySort";
-import MunicipalityCard from "@/components/MunicipalityCard";
+import MunicipalityResults from "@/components/MunicipalityResults";
+import { partitionMunicipalities } from "@/data/municipalityVisibility";
 import MunicipalityFilter, { FilterState, DEFAULT_FILTERS } from "@/components/MunicipalityFilter";
 
 const PREFECTURES = Array.from(
@@ -82,6 +83,9 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
     return result;
   }, [filters]);
 
+  const { current, archived } = partitionMunicipalities(filtered);
+  const archivedOnly = filters.status === "終了";
+
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       <aside className="lg:w-64 shrink-0">
@@ -95,7 +99,7 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
       <div className="min-w-0 flex-1">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-500">
-            {filtered.length}件の制度が見つかりました
+            {archivedOnly ? `過去に実施した制度 ${archived.length}件` : `${current.length}件の制度を表示（受付終了を除く）`}
           </p>
           <p className="text-xs text-gray-500">
             価格帯は掲載された基本・最低費用が目安です。追加費用などは公式ページで確認してください。
@@ -113,11 +117,7 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-            {filtered.map((m) => (
-              <MunicipalityCard key={m.id} municipality={m} />
-            ))}
-          </div>
+          <MunicipalityResults municipalities={filtered} archivedOnly={archivedOnly} />
         )}
       </div>
     </div>

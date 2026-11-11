@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import MunicipalityCard from "@/components/MunicipalityCard";
+import MunicipalityResults from "@/components/MunicipalityResults";
 import { municipalities } from "@/data/municipalities";
 
 export const metadata: Metadata = {
@@ -39,16 +39,7 @@ export default function RankingPage() {
         参加前には必ず各制度の公式ページをご確認ください。
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {ranked.map((item) => (
-          <div key={item.id} className="relative">
-            <span className="absolute left-3 top-3 z-10 rounded bg-white/95 px-2 py-1 text-xs font-bold text-navy shadow-sm">
-              情報確認しやすい
-            </span>
-            <MunicipalityCard municipality={item} />
-          </div>
-        ))}
-      </div>
+      <MunicipalityResults municipalities={ranked} />
 
       <div className="mt-8 text-center">
         <Link href="/editorial-policy" className="text-sm font-semibold text-blue-600 hover:underline">

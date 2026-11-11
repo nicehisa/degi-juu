@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { benefitCategories } from "@/data/benefitCategories";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import CommonNotice from "@/components/CommonNotice";
 import LegalNoticeBox from "@/components/LegalNoticeBox";
 
@@ -29,9 +30,10 @@ export default function BenefitsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {benefitCategories.map((cat) => {
           const matched = municipalities.filter((m) =>
-            m.benefitCategories.includes(cat.id)
+            isCurrentMunicipality(m) && m.benefitCategories.includes(cat.id)
           );
           const samples = matched.slice(0, 2).map((m) => m.municipality);
+          const archivedCount = municipalities.filter(m => !isCurrentMunicipality(m) && m.benefitCategories.includes(cat.id)).length;
 
           return (
             <div
@@ -47,7 +49,7 @@ export default function BenefitsPage() {
 
                 <div className="flex items-center gap-4 text-sm">
                   <div>
-                    <span className="text-xs text-gray-500">該当制度数</span>
+                    <span className="text-xs text-gray-500">該当制度数（受付終了を除く）</span>
                     <p className="font-bold text-blue-700 text-xl">
                       {matched.length}<span className="text-xs font-normal text-gray-500 ml-1">件</span>
                     </p>
@@ -61,12 +63,12 @@ export default function BenefitsPage() {
                 )}
 
                 <div className="mt-auto">
-                  {matched.length > 0 ? (
+                  {matched.length > 0 || archivedCount > 0 ? (
                     <Link
                       href={`/benefits/${cat.slug}`}
                       className="block w-full text-center text-sm font-semibold bg-blue-600 text-white rounded-lg px-4 py-2.5 hover:bg-blue-700 transition-colors"
                     >
-                      この特典で探す
+                      {matched.length > 0 ? "この特典で探す" : "過去の実施制度を見る"}
                     </Link>
                   ) : (
                     <p className="text-center text-xs text-gray-400 py-2">

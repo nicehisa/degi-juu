@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import { StatusBadge, TypeBadge } from "@/components/Badge";
 import CTAButton from "@/components/CTAButton";
 import LegalNoticeBox from "@/components/LegalNoticeBox";
@@ -34,7 +35,7 @@ export default async function MunicipalityDetailPage({ params }: Props) {
   if (!m) notFound();
 
   const related = municipalities
-    .filter((x) => x.slug !== m.slug && (x.type === m.type || x.prefecture === m.prefecture))
+    .filter((x) => isCurrentMunicipality(x) && x.slug !== m.slug && (x.type === m.type || x.prefecture === m.prefecture))
     .slice(0, 3);
   const promotions = getActivePromotions("municipality-detail");
   const image = getMunicipalityImage(m);

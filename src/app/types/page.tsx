@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { municipalities, MunicipalityType } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import { TypeBadge } from "@/components/Badge";
 import CommonNotice from "@/components/CommonNotice";
 
@@ -92,17 +93,18 @@ export default function TypesPage() {
 
       <div className="space-y-6">
         {TYPE_INFO.map((info) => {
-          const matched = municipalities.filter((m) => m.type === info.type);
+          const matched = municipalities.filter((m) => isCurrentMunicipality(m) && m.type === info.type);
+          const archivedCount = municipalities.filter(m => !isCurrentMunicipality(m) && m.type === info.type).length;
           return (
             <div
               key={info.type}
               className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
             >
-              <div className="p-5 border-b border-gray-100 flex items-center gap-3">
+              <div className="p-5 border-b border-gray-100 flex flex-wrap items-center gap-3">
                 <TypeBadge type={info.type} />
                 <span className="font-bold text-gray-800">{info.type}</span>
                 <span className="ml-auto text-sm text-blue-700 font-semibold">
-                  {matched.length}件
+                  {matched.length}件（終了除く）
                 </span>
               </div>
               <div className="p-5 grid md:grid-cols-3 gap-4 text-sm">
@@ -144,6 +146,11 @@ export default function TypesPage() {
                   </Link>
                 </div>
               )}
+              {archivedCount > 0 && <div className="px-5 pb-5">
+                <Link href={`/municipalities?status=終了&type=${encodeURIComponent(info.type)}`} className="text-sm text-blue-700 underline">
+                  過去に実施した自治体を見る（{archivedCount}件）
+                </Link>
+              </div>}
             </div>
           );
         })}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import { regions } from "@/data/regions";
 import { benefitCategories } from "@/data/benefitCategories";
 import { newsItems } from "@/data/news";
@@ -28,8 +29,10 @@ export const metadata: Metadata = {
   },
 };
 
-const FEATURED = sortByDisplayPriority(municipalities.filter((m) => m.isFeatured)).slice(0, 6);
-const RECENTLY_ADDED = municipalities.filter(m => m.id.startsWith("auto-")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
+const currentMunicipalities = municipalities.filter(isCurrentMunicipality);
+const archivedCount = municipalities.length - currentMunicipalities.length;
+const FEATURED = sortByDisplayPriority(currentMunicipalities.filter((m) => m.isFeatured)).slice(0, 6);
+const RECENTLY_ADDED = currentMunicipalities.filter(m => m.id.startsWith("auto-")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
 
 const COMPARISON_ROWS = [
   { item: "主な目的", digital: "地域との継続的なつながり", furusato: "自治体への寄付" },
@@ -113,8 +116,8 @@ export default function HomePage() {
               </div>
               <div className="mt-6 grid grid-cols-3 gap-3 text-center">
                 <div className="rounded-lg bg-white border border-orange-100 px-3 py-3">
-                  <p className="text-2xl font-bold text-navy">{municipalities.length}</p>
-                  <p className="text-xs text-gray-500">掲載制度</p>
+                  <p className="text-2xl font-bold text-navy">{currentMunicipalities.length}</p>
+                  <p className="text-xs text-gray-500">掲載制度（終了除く）</p>
                 </div>
                 <div className="rounded-lg bg-white border border-orange-100 px-3 py-3">
                   <p className="text-2xl font-bold text-navy">{regions.length}</p>
@@ -193,8 +196,8 @@ export default function HomePage() {
           <SectionTitle title="地方から探す" subtitle="ふるさとや旅先など、気になる地域から制度を探してみましょう。" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {regions.map((r) => {
-              const count = municipalities.filter((m) => m.region === r.name).length;
-              const examples = municipalities
+              const count = currentMunicipalities.filter((m) => m.region === r.name).length;
+              const examples = currentMunicipalities
                 .filter((m) => m.region === r.name)
                 .slice(0, 2)
                 .map((m) => m.municipality)
@@ -220,7 +223,7 @@ export default function HomePage() {
           <SectionTitle title="特典から探す" subtitle="特典は保証ではありません。利用条件は各公式ページで確認してください。" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {benefitCategories.map((cat) => {
-              const count = municipalities.filter((m) => m.benefitCategories.includes(cat.id)).length;
+              const count = currentMunicipalities.filter((m) => m.benefitCategories.includes(cat.id)).length;
               return (
                 <Link
                   key={cat.id}
@@ -236,7 +239,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-14 bg-[#edf3fa] border-b border-slate-200">
+      {FEATURED.length > 0 && <section className="py-14 bg-[#edf3fa] border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4">
           <SectionTitle
             title="注目の制度"
@@ -249,11 +252,11 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-8">
             <CTAButton href="/municipalities" variant="primary" className="px-10 py-3 text-base">
-              すべての自治体を見る（{municipalities.length}件）
+              自治体一覧を見る（{currentMunicipalities.length}件・受付終了を除く）
             </CTAButton>
           </div>
         </div>
-      </section>
+      </section>}
 
       {RECENTLY_ADDED.length > 0 && <section className="border-b border-gray-200 bg-white py-12">
         <div className="mx-auto max-w-6xl px-4">
@@ -263,6 +266,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>}
+
+      {archivedCount > 0 && <div className="border-b border-gray-200 px-4 py-8 text-center">
+        <Link href="/municipalities?status=終了" className="text-sm font-semibold text-blue-700 underline underline-offset-4">
+          過去に実施した自治体を見る（{archivedCount}件）
+        </Link>
+      </div>}
 
       <HomeParticipationSteps />
 

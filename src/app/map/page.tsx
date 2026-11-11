@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import { regions } from "@/data/regions";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function MapPage() {
         <p className="text-sm font-semibold text-orange-700">地図検索</p>
         <h1 className="mt-2 text-2xl font-bold text-navy md:text-3xl">都道府県マップから探す</h1>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-gray-600">
-          地方ごとに都道府県を整理しています。掲載制度がある都道府県は件数を表示します。
+          地方ごとに、受付終了を除く掲載制度の件数を表示しています。過去に実施した制度も都道府県のページから確認できます。
         </p>
       </div>
 
@@ -34,7 +35,9 @@ export default function MapPage() {
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {region.prefectures.map((prefecture) => {
-                const count = municipalities.filter((item) => item.prefecture === prefecture).length;
+                const inPrefecture = municipalities.filter(item => item.prefecture === prefecture);
+                const count = inPrefecture.filter(isCurrentMunicipality).length;
+                const archivedCount = inPrefecture.length - count;
                 return (
                   <Link
                     key={prefecture}
@@ -46,7 +49,7 @@ export default function MapPage() {
                     }`}
                   >
                     <span className="font-semibold">{prefecture}</span>
-                    <span className="mt-1 block text-xs">{count}件</span>
+                    <span className="mt-1 block text-xs">{count}件{archivedCount > 0 ? `（過去${archivedCount}件）` : ""}</span>
                   </Link>
                 );
               })}

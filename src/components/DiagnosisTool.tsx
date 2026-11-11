@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { municipalities } from "@/data/municipalities";
+import { isCurrentMunicipality } from "@/data/municipalityVisibility";
 import { sortByDisplayPriority } from "@/data/municipalitySort";
 
 const regionOptions = ["指定なし", "北海道", "東北", "関東", "中部", "近畿", "中国", "四国", "九州・沖縄"];
@@ -22,7 +23,7 @@ export default function DiagnosisTool() {
   const [lowPrice, setLowPrice] = useState(false);
 
   const results = useMemo(() => {
-    return sortByDisplayPriority([...municipalities])
+    return sortByDisplayPriority(municipalities.filter(isCurrentMunicipality))
       .map((item) => {
         const points = [
           region === "指定なし" || item.region === region ? 3 : 0,
@@ -104,6 +105,7 @@ export default function DiagnosisTool() {
           条件に近い制度を表示しています。おすすめ順位や特典の確実性を示すものではありません。
         </p>
         <div className="mt-5 space-y-3">
+          {results.length === 0 && <p className="py-6 text-sm text-gray-600">現在、条件に近い制度はありません。</p>}
           {results.map(({ item, points }) => (
             <article key={item.id} className="rounded-lg border border-gray-200 p-4">
               <div className="flex flex-wrap items-center gap-2">
@@ -134,6 +136,7 @@ export default function DiagnosisTool() {
             </article>
           ))}
         </div>
+        <Link href="/municipalities?status=終了" className="mt-6 block text-sm text-blue-700 underline">過去に実施した自治体を見る</Link>
       </section>
     </div>
   );

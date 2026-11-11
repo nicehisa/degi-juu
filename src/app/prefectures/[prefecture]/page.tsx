@@ -4,7 +4,7 @@ import Link from "next/link";
 import { municipalities } from "@/data/municipalities";
 import { regions } from "@/data/regions";
 import { sortByDisplayPriority } from "@/data/municipalitySort";
-import MunicipalityCard from "@/components/MunicipalityCard";
+import MunicipalityResults from "@/components/MunicipalityResults";
 import LegalNoticeBox from "@/components/LegalNoticeBox";
 
 type Props = { params: Promise<{ prefecture: string }> };
@@ -63,11 +63,7 @@ export default async function PrefecturePage({ params }: Props) {
       </div>
 
       {matched.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {matched.map((municipality) => (
-            <MunicipalityCard key={municipality.id} municipality={municipality} />
-          ))}
-        </div>
+        <MunicipalityResults municipalities={matched} />
       ) : (
         <div className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
           現在、この都道府県で掲載中の制度はありません。

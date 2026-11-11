@@ -160,16 +160,16 @@ export default function MunicipalityFilter({ filters, onChange, prefectures }: P
 
       {/* Status */}
       <div>
-        <label htmlFor="filter-status" className="block text-xs text-gray-500 mb-1">販売状況</label>
+        <label htmlFor="filter-status" className="block text-xs text-gray-500 mb-1">受付状況</label>
         <select
           id="filter-status"
           value={filters.status}
           onChange={(e) => update("status", e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option value="">すべての状況</option>
+          <option value="">受付終了を除く</option>
           {STATUSES.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>{s === "終了" ? "過去実施（受付終了）" : s === "要確認" ? "受付状況を要確認" : s}</option>
           ))}
         </select>
       </div>
