@@ -64,3 +64,32 @@ test("researched additions keep canonical municipalities, reception caveats and 
   assert.ok(recent.every(record => record.status !== "終了"));
   assert.ok(recent.every(record => !records.some(other => other.status !== "終了" && other.createdAt > recent[0].createdAt)));
 });
+
+test("reviewed statuses distinguish current paid plans, ended primary sales and uncertain fees", async () => {
+  const records = await readPublishedMunicipalities();
+  const find = id => records.find(record => record.id === id);
+  for (const id of ["toyama-toyama", "ishioka-ibaraki"]) {
+    const item = find(id);
+    assert.equal(item.status, "販売中");
+    assert.ok(item.notes.includes("本掲載は"));
+    assert.equal(item.lastChecked, "2026-11-13");
+  }
+  const akitakata = find("akitakata-hiroshima");
+  assert.equal(akitakata.status, "終了");
+  assert.equal(akitakata.relatedUrl, "https://nft.hexanft.com/nftmaticmulti/61");
+  assert.ok(akitakata.notes.includes("一次販売"));
+  const { getParticipationFeatures } = await importTypeScript("../../src/lib/participationFeatures.ts");
+  const shiiba = find("shiiba-miyazaki");
+  assert.equal(shiiba.status, "販売中");
+  assert.ok(shiiba.price.includes("0.015 ETH"));
+  assert.equal(shiiba.priceNumber, undefined);
+  assert.equal(getParticipationFeatures(shiiba).priceTag, undefined);
+  assert.equal(shiiba.relatedUrl, "https://app.nishikigoinft.com/shiiba");
+  const bandai = find("bandai-fukushima");
+  assert.equal(bandai.status, "受付中");
+  assert.equal(bandai.price, "要確認");
+  assert.equal(bandai.priceNumber, undefined);
+  assert.equal(getParticipationFeatures(bandai).priceTag, undefined);
+  assert.ok(bandai.benefitConditions.includes("本人確認"));
+  for (const id of ["higashikawa-hokkaido", "kotohira-kagawa"]) assert.equal(find(id).status, "要確認");
+});
