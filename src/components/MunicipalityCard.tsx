@@ -111,14 +111,13 @@ export default function MunicipalityCard({ municipality: m, showCompareLink = fa
           </a>
         </div>
         {showCompareLink && (
-          // A document navigation ensures the hash target is highlighted on arrival.
-          <a
-            href={`/compare#compare-${m.slug}`}
+          <Link
+            href={`/compare?ids=${encodeURIComponent(m.slug)}`}
             aria-label={`この制度を比較する：${m.municipality}の${m.programName}`}
             className="inline-flex min-h-11 items-center justify-center border-t border-gray-200 pt-2 text-sm font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-900"
           >
             この制度を比較する →
-          </a>
+          </Link>
         )}
       </div>
     </div>

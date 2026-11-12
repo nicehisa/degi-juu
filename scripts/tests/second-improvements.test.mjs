@@ -62,3 +62,24 @@ test("FAQ JSON-LD uses the same exact questions and answers as page data", async
   assert.deepEqual(crumbs.itemListElement.map(item => item.position), [1, 2]);
   assert.equal(getOrganizationJsonLd("https://digijuu.jp")["@id"], "https://digijuu.jp/#organization");
 });
+
+test("comparison query selects known slugs first and handles repeats, unknown and archived records", async () => {
+  const { getComparisonSelection } = await importTypeScript("../../src/lib/comparisonSelection.ts");
+  const records = await readPublishedMunicipalities();
+  const untouched = structuredClone(records);
+  const single = getComparisonSelection(records, "ishioka-ibaraki");
+  assert.deepEqual(single.selectedSlugs, ["ishioka-ibaraki"]);
+  assert.equal(single.ordered[0].slug, "ishioka-ibaraki");
+  assert.equal(single.ordered.length, records.length);
+  const multiple = getComparisonSelection(records, ["toyama-toyama,ishioka-ibaraki", "toyama-toyama", "", "missing"]);
+  assert.deepEqual(multiple.selectedSlugs, ["toyama-toyama", "ishioka-ibaraki"]);
+  assert.equal(multiple.hasUnknownIds, true);
+  assert.deepEqual(multiple.ordered.slice(0, 2).map(m => m.slug), multiple.selectedSlugs);
+  const archived = records.find(m => m.status === "終了");
+  assert.equal(getComparisonSelection(records, archived.slug).selected[0].status, "終了");
+  assert.deepEqual(getComparisonSelection(records, undefined).ordered, records);
+  assert.deepEqual(getComparisonSelection(records, "").selected, []);
+  assert.deepEqual(getComparisonSelection(records, "<script>").selected, []);
+  assert.deepEqual(getComparisonSelection(records, "missing").ordered, records);
+  assert.deepEqual(records, untouched);
+});

@@ -5,9 +5,10 @@ import { StatusBadge, TypeBadge } from "./Badge";
 
 type Props = {
   municipalities: Municipality[];
+  selectedSlugs?: readonly string[];
 };
 
-export default function CompareTable({ municipalities }: Props) {
+export default function CompareTable({ municipalities, selectedSlugs = [] }: Props) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border-collapse text-sm">
@@ -31,11 +32,12 @@ export default function CompareTable({ municipalities }: Props) {
               key={m.id}
               id={`compare-${m.slug}`}
               tabIndex={-1}
-              className={`scroll-mt-40 target:bg-amber-50 target:outline target:outline-2 target:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+              className={`scroll-mt-40 target:bg-amber-50 target:outline target:outline-2 target:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 ${selectedSlugs.includes(m.slug) ? "bg-amber-50 outline outline-2 outline-blue-600" : i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
               <td className="sticky left-0 bg-inherit px-4 py-3 font-medium border-r border-gray-200">
                 <div className="text-xs text-gray-500">{m.prefecture}</div>
                 <div className="font-bold text-gray-800">{m.municipality}</div>
+                {selectedSlugs.includes(m.slug) && <span className="mt-1 block text-xs font-semibold text-blue-800">比較選択中</span>}
               </td>
               <td className="px-4 py-3 text-gray-700"><Link href={`/municipalities/${m.slug}`} className="inline-flex min-h-11 items-center text-blue-700 underline underline-offset-4">{m.programName}</Link></td>
               <td className="px-4 py-3">
