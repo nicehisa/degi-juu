@@ -48,6 +48,7 @@ jobs:
 
       - name: Test publication and build changed public data
         run: |
+          npm run data:validate
           npm run test:updates
           if ! git diff --quiet -- src/data/autoMunicipalities.json; then npm run build; fi
 

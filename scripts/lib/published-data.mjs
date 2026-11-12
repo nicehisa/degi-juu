@@ -18,8 +18,13 @@ export async function readLiteralArray(file, names) {
   if (!declaration?.initializer) throw new Error(`Data not found: ${file}`);
   return literal(declaration.initializer);
 }
-export async function readPublishedMunicipalities() {
+export async function readMunicipalitySources() {
   const base = await readLiteralArray("src/data/municipalities.ts", ["baseMunicipalities", "municipalities"]);
   const automatic = JSON.parse(await readFile(new URL("src/data/autoMunicipalities.json", root), "utf8"));
+  if (!Array.isArray(automatic)) throw new Error("autoMunicipalities.json must be an array");
+  return { base, automatic };
+}
+export async function readPublishedMunicipalities() {
+  const { base, automatic } = await readMunicipalitySources();
   return [...base, ...automatic.filter(a => !base.some(b => b.prefecture === a.prefecture && b.municipality === a.municipality))];
 }

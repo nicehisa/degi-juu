@@ -13,7 +13,11 @@
     "publish:programs": "node scripts/publish-verified-programs.mjs",
     "test:updates": "node --test scripts/tests/*.test.mjs",
     "audit:dates": "node scripts/audit-municipality-dates.mjs",
-    "draft:program": "node scripts/create-municipality-draft.mjs"
+    "draft:program": "node scripts/create-municipality-draft.mjs",
+    "data:discover": "node scripts/discover-candidates.mjs",
+    "data:check": "node scripts/check-municipalities.mjs",
+    "data:scaffold": "node scripts/scaffold-municipality.mjs",
+    "data:validate": "node scripts/validate-data.mjs"
   },
   "dependencies": {
     "next": "15.5.23",
