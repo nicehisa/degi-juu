@@ -1,0 +1,65 @@
+name: Weekly municipality research report
+
+on:
+  schedule:
+    # Monday 09:00 JST (00:00 UTC). GitHub scheduling can be delayed.
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: weekly-municipality-research
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check URLs, discover candidates and generate reports
+        run: npm run data:report -- --output-dir=/tmp/digijuu-research
+      - name: Publish job summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs/promises');
+            try {
+              const markdown = await fs.readFile('/tmp/digijuu-research/research-report.md', 'utf8');
+              const summary = JSON.parse(await fs.readFile('/tmp/digijuu-research/research-summary.json', 'utf8'));
+              const { pathToFileURL } = require('node:url');
+              const { issueBody } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/lib/notify-research-issue.mjs`).href);
+              await core.summary.addRaw(issueBody(markdown, summary.date)).write();
+            } catch (error) {
+              await core.summary.addRaw('巡回レポートを生成できませんでした。前のステップのエラーを確認してください。').write();
+              core.setFailed(error.message);
+            }
+      - name: Create or update research issue
+        id: notify
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs/promises');
+            const { pathToFileURL } = require('node:url');
+            const { notifyResearchIssue } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/lib/notify-research-issue.mjs`).href);
+            const summary = JSON.parse(await fs.readFile('/tmp/digijuu-research/research-summary.json', 'utf8'));
+            const markdown = await fs.readFile('/tmp/digijuu-research/research-report.md', 'utf8');
+            await notifyResearchIssue({ github, context, core, summary, markdown });
+      - name: Save full report and raw results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-research-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/digijuu-research/
+          if-no-files-found: warn
+          retention-days: 30

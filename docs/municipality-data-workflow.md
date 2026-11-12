@@ -105,3 +105,36 @@ npm run build
 - 公開レコードは変更しない。既存日次ジョブと同じ書き込み排他グループを使う。
 
 GitHub側の混雑で時刻は遅れる場合があります。ブランチ保護で直接pushできない場合はArtifactからレポートを取得してPR経由で保存してください。基準ファイルを保存しないと、次回も初回調査になります。
+
+## 週次のIssue通知
+
+```bash
+npm run data:report
+npm run data:report -- --output-dir=/tmp/digijuu-research
+```
+
+既存の `data:check` / `data:discover` と共通の処理を実行します。標準ではOSの一時ディレクトリ（Linux/macOSでは `/tmp` またはその同等ディレクトリ）へ `research-report.md` / `research-summary.json` を出力し、実行ごとに独立した `research-details-*` ディレクトリへ詳細JSONを保存します。`/tmp/research-report.md` が必要な場合は `--output-dir=/tmp` を指定してください。比較基準・候補キューはリポジトリの `data/` から読み、**週次処理はリポジトリや公開データを書き換えません**。日次の保存処理も維持します。
+
+JSONの主な項目:
+
+| 項目 | 意味 |
+| --- | --- |
+| `date` | 実行完了日の日本時間日付 |
+| `checkedCount` / `normalCount` | 実施件数 / HTTP200・HTML本文解析済み・警告なしの件数 |
+| `reviewCount` | リンク異常・終了表現・PDF/JavaScript本文未確認など、目視確認が必要な制度数 |
+| `newCandidateCount` | サイト未掲載の候補記事数。既存キューの未掲載分も再掲（新しい自治体数ではない） |
+| `firstSeenCandidateCount` | 前回保存された候補キューにない、今回初検出の記事数 |
+| `errorCount` / `searchFailureCount` | URL取得・解析・検索・処理のエラー件数 / RSS検索失敗数。要確認数と重複あり |
+| `checksCompleted` / `discoveryCompleted` | 処理完了 / 全検索成功。falseを正常0件と解釈しない |
+| `shouldNotify` | 要確認・未掲載候補・調査エラーのいずれかが存在するか（手動実行はこれがfalseでも通知） |
+
+`Weekly municipality research report`（`.github/workflows/weekly-research.yml`）は**毎週月曜09:00 JST**、またはActionsの **Run workflow** で動きます。日次ジョブとは異なり、権限は `contents: read` / `issues: write` のみです。APIキー・追加Secretsは不要です。GitHub IssuesとActionsを有効にしておいてください。
+
+- 要確認・未掲載候補・調査エラーが1件以上、または手動実行の場合に `automated-report` ラベル付きIssueを作成します。ラベルはなければ作成します。
+- 同日のbot作成レポートは更新し、重複Issueを作りません。閉じたIssueは再オープンしません。同一文面のチェック済み項目は維持し、別の日には新しいIssueを作成します。
+- 定期実行で全件正常かつ未掲載候補0件なら、Issueは作らずJob Summaryのみで確認できます。未掲載のまま残る候補・継続中の警告は週次で再掲します。
+- 一部URLのタイムアウトやRSSの失敗はレポート内で明示し、正常扱いにはせずIssue通知を続けます。両調査の片方が処理失敗してももう片方を実行します。レポートファイル自体の出力失敗やGitHub APIの失敗はジョブ失敗として扱います。
+- Job Summaryにもレポートを表示し、ArtifactにはMarkdown・サマリーJSON・詳細JSONを30日間保存します。Issue・Job Summaryが長すぎる場合は各セクションを省略し、完全版はArtifactから確認できます。
+- 記事タイトル等はMarkdown・HTML・メンションをエスケープします。自治体名候補は記事表記から仮抽出し、不明なら「要目視確認」と表示します。
+
+Issueの通知メール等を受け取りたい担当者は、GitHubの **Watch → Custom → Issues** と個人の通知設定を確認してください。Issue作成だけで全メンバーへのメール配信を保証するものではありません。

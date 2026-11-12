@@ -16,6 +16,7 @@
     "draft:program": "node scripts/create-municipality-draft.mjs",
     "data:discover": "node scripts/discover-candidates.mjs",
     "data:check": "node scripts/check-municipalities.mjs",
+    "data:report": "node scripts/research-report.mjs",
     "data:scaffold": "node scripts/scaffold-municipality.mjs",
     "data:validate": "node scripts/validate-data.mjs"
   },
