@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Municipality } from "@/data/municipalities";
 import { benefitCategories } from "@/data/benefitCategories";
 import { getMunicipalityImage } from "@/lib/municipalityImages";
+import { getParticipationFeatures } from "@/lib/participationFeatures";
 import { StatusBadge, TypeBadge } from "./Badge";
 
 type Props = {
@@ -14,6 +15,7 @@ export default function MunicipalityCard({ municipality: m }: Props) {
     m.benefitCategories.includes(c.id)
   );
   const image = getMunicipalityImage(m);
+  const features = getParticipationFeatures(m);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:border-orange-300 hover:shadow-md transition-all flex flex-col overflow-hidden">
@@ -54,6 +56,11 @@ export default function MunicipalityCard({ municipality: m }: Props) {
           </p>
         </div>
 
+        <div className="flex flex-wrap gap-2">
+          {features.isNft && <span className="rounded border border-purple-200 bg-purple-50 px-2.5 py-1 text-sm font-semibold text-purple-900">NFT型</span>}
+          {features.format && <span className="rounded border border-blue-200 bg-blue-50 px-2.5 py-1 text-sm font-semibold text-blue-900">{features.format}</span>}
+          {features.priceTag && <span className="rounded border border-green-200 bg-green-50 px-2.5 py-1 text-sm font-semibold text-green-900">{features.priceTag}</span>}
+        </div>
         <div className="flex flex-wrap gap-1.5 min-h-6">
           <TypeBadge type={m.type} />
           {benefitCats.slice(0, 2).map((cat) => (
@@ -67,10 +74,11 @@ export default function MunicipalityCard({ municipality: m }: Props) {
         </div>
 
         <div className="mt-auto rounded-lg bg-gray-50 px-3 py-2">
-          <div className="flex items-center justify-between gap-3 text-sm">
+          <div className="flex flex-wrap items-baseline justify-between gap-2 text-sm">
             <span className="text-xs text-gray-500">{m.status === "終了" ? "募集時の費用" : "参加費用"}</span>
-            <span className="font-semibold text-gray-800">{m.price}</span>
+            <span className="text-lg font-bold text-navy">{m.price}</span>
           </div>
+          {features.priceNote && <p className="mt-1 text-xs leading-relaxed text-gray-600">{features.priceNote}</p>}
           {m.benefits[0] && (
             <p className="mt-1 line-clamp-1 text-xs text-gray-600">
               主な特典: {m.benefits[0]}

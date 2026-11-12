@@ -12,6 +12,9 @@ import CTAButton from "@/components/CTAButton";
 import SectionTitle from "@/components/SectionTitle";
 import { HomeIntroduction, HomeParticipationSteps, HomeQuestions } from "@/components/HomeGuide";
 import { getSiteUrl } from "@/lib/siteUrl";
+import JsonLd from "@/components/JsonLd";
+import { homeFaqs } from "@/data/faqs";
+import { buildFaqJsonLd, getOrganizationJsonLd } from "@/lib/structuredData";
 
 export const metadata: Metadata = {
   title: "デジじゅう-好きなまちとつながる、デジタル住民票紹介サイト",
@@ -49,23 +52,25 @@ export default function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd data={[
+          {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "デジじゅう",
             description: "全国のデジタル住民制度を地域・特典・制度タイプから比較できる情報サイト",
             url: siteUrl,
+            "@id": `${siteUrl}/#website`,
+            inLanguage: "ja",
+            publisher: { "@id": `${siteUrl}/#organization` },
             potentialAction: {
               "@type": "SearchAction",
               target: `${siteUrl}/municipalities?keyword={search_term_string}`,
               "query-input": "required name=search_term_string",
             },
-          }),
-        }}
-      />
+          },
+          getOrganizationJsonLd(siteUrl),
+          buildFaqJsonLd(homeFaqs, `${siteUrl}/#home-questions`),
+      ]} />
 
       <section className="relative overflow-hidden border-b border-orange-100">
         <Image

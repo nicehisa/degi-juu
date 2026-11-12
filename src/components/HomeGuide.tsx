@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CTAButton from "./CTAButton";
+import { homeFaqs } from "@/data/faqs";
 
 export function HomeIntroduction() {
   return (
@@ -61,12 +62,7 @@ export function HomeQuestions() {
       <div className="mx-auto max-w-3xl px-4">
         <h2 id="home-questions" className="text-2xl md:text-3xl text-navy">参加前のよくある質問</h2>
         <div className="mt-7 divide-y divide-gray-200 border-y border-gray-200">
-          {[
-            ["その地域に引っ越す必要はありますか？", "地域外の方を対象とした制度も掲載しています。住民登録や移住の手続きとは異なります。年齢・居住地などの対象条件は制度ごとに確認してください。"],
-            ["参加にはいくらかかりますか？", "費用は制度ごとに異なります。掲載価格に加え、更新料や決済手数料などが必要かどうかも公式サイトで確認してください。"],
-            ["NFTや暗号資産に詳しくなくても参加できますか？", "NFTを使わない会員証型などの制度もあります。NFT型でも決済方法や必要なアカウントは異なります。詳しい準備は各発行元の案内をご確認ください。"],
-            ["申し込みはこのサイトでできますか？", "デジじゅうは制度を比較・紹介するサイトです。詳細ページのリンクから公式サイトへ進み、最新の条件を確認してお申し込みください。"],
-          ].map(([q, a]) => (
+          {homeFaqs.map(({ q, a }) => (
             <details key={q} className="py-2">
               <summary className="cursor-pointer py-4 text-base font-semibold leading-7 text-navy">{q}</summary>
               <p className="pb-5 text-base leading-8 text-gray-700">{a}</p>

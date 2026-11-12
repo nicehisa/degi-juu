@@ -12,6 +12,9 @@ import MunicipalityCard from "@/components/MunicipalityCard";
 import PromotionSlot from "@/components/PromotionSlot";
 import { getActivePromotions } from "@/data/promotions";
 import { getMunicipalityImage } from "@/lib/municipalityImages";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd } from "@/lib/structuredData";
+import { getSiteUrl } from "@/lib/siteUrl";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -26,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${m.municipality}（${m.prefecture}）${m.programName}｜デジじゅう`,
     description: m.summary,
+    alternates: { canonical: `/municipalities/${m.slug}` },
   };
 }
 
@@ -39,11 +43,12 @@ export default async function MunicipalityDetailPage({ params }: Props) {
     .slice(0, 3);
   const promotions = getActivePromotions("municipality-detail");
   const image = getMunicipalityImage(m);
+  const siteUrl = getSiteUrl();
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500 mb-4 flex flex-wrap items-center gap-1.5">
+      <nav aria-label="パンくずリスト" className="text-sm text-gray-500 mb-4 flex flex-wrap items-center gap-1.5">
         <Link href="/" className="hover:text-blue-600">トップ</Link>
         <span>/</span>
         <Link href="/municipalities" className="hover:text-blue-600">自治体一覧</Link>
@@ -135,18 +140,21 @@ export default async function MunicipalityDetailPage({ params }: Props) {
       </div>
 
       {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+      <JsonLd data={[
+          {
             "@context": "https://schema.org",
             "@type": "Article",
             name: `${m.municipality} ${m.programName}`,
             description: m.summary,
             dateModified: m.lastChecked,
-          }),
-        }}
-      />
+            url: `${siteUrl}/municipalities/${m.slug}`,
+          },
+          buildBreadcrumbJsonLd([
+            { name: "トップ", url: `${siteUrl}/` },
+            { name: "自治体一覧", url: `${siteUrl}/municipalities` },
+            { name: m.municipality, url: `${siteUrl}/municipalities/${m.slug}` },
+          ]),
+      ]} />
 
       {/* Summary */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">

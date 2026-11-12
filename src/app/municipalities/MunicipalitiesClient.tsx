@@ -24,7 +24,7 @@ export default function MunicipalitiesClient() {
 function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterState }) {
   const [filters, setFilters] = useState<FilterState>(initialFilters);
 
-  const filtered = useMemo(() => {
+  const matching = useMemo(() => {
     let result = [...municipalities];
 
     if (filters.keyword) {
@@ -52,7 +52,6 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
     if (filters.region) result = result.filter((m) => m.region === filters.region);
     if (filters.prefecture) result = result.filter((m) => m.prefecture === filters.prefecture);
     if (filters.type) result = result.filter((m) => m.type === filters.type);
-    if (filters.status) result = result.filter((m) => m.status === filters.status);
     if (filters.benefit) result = result.filter((m) => m.benefitCategories.includes(filters.benefit));
     if (filters.priceRange) {
       result = result.filter((m) => {
@@ -83,8 +82,12 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
     return result;
   }, [filters]);
 
+  const filtered = filters.status ? matching.filter(m => m.status === filters.status) : matching;
   const { current, archived } = partitionMunicipalities(filtered);
   const archivedOnly = filters.status === "終了";
+  const matchingArchive = partitionMunicipalities(matching).archived;
+  const showArchiveFallback = !archivedOnly && current.length === 0 && matchingArchive.length > 0;
+  const displayed = showArchiveFallback ? matchingArchive : filtered;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -99,16 +102,17 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
       <div className="min-w-0 flex-1">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-gray-500">
-            {archivedOnly ? `過去に実施した制度 ${archived.length}件` : `${current.length}件の制度を表示（受付終了を除く）`}
+            {archivedOnly ? `過去に実施した制度 ${archived.length}件` : showArchiveFallback ? `過去に実施した制度 ${matchingArchive.length}件を表示` : `${current.length}件の制度を表示（受付終了を除く）`}
           </p>
           <p className="text-xs text-gray-500">
             価格帯は掲載された基本・最低費用が目安です。追加費用などは公式ページで確認してください。
           </p>
         </div>
-        {filtered.length === 0 ? (
+        {displayed.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
             <p className="text-4xl mb-3">🔍</p>
             <p>条件に一致する制度が見つかりませんでした。</p>
+            <p className="mt-2 text-sm text-gray-600">地域や特典の条件を変えて、ほかの制度も探してみてください。</p>
             <button
               onClick={() => setFilters(DEFAULT_FILTERS)}
               className="mt-4 text-sm text-blue-600 underline"
@@ -117,7 +121,7 @@ function FilteredMunicipalities({ initialFilters }: { initialFilters: FilterStat
             </button>
           </div>
         ) : (
-          <MunicipalityResults municipalities={filtered} archivedOnly={archivedOnly} />
+          <MunicipalityResults municipalities={displayed} archivedOnly={archivedOnly} />
         )}
       </div>
     </div>

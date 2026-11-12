@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import { getOrganizationJsonLd } from "@/lib/structuredData";
+import { getSiteUrl } from "@/lib/siteUrl";
 
 export const metadata: Metadata = {
   title: "運営会社｜デジじゅう",
@@ -20,31 +23,10 @@ const companyRows = [
   { label: "メール", value: "info@digijuu.jp" },
 ];
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "フォーティテュード ジャパン株式会社",
-  founder: "大久保 尚",
-  address: {
-    "@type": "PostalAddress",
-    postalCode: "150-0044",
-    addressRegion: "東京都",
-    addressLocality: "渋谷区",
-    streetAddress: "円山町5-5 Navi渋谷ビル3F",
-    addressCountry: "JP",
-  },
-  telephone: "03-5050-4335",
-  email: "info@digijuu.jp",
-  foundingDate: "2022",
-};
-
 export default function CompanyPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-      />
+      <JsonLd data={getOrganizationJsonLd(getSiteUrl())} />
 
       <div className="mb-8">
         <p className="text-sm font-semibold text-orange-700">運営者情報</p>
