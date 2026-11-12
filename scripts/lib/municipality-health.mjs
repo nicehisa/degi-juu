@@ -24,6 +24,12 @@ export async function checkMunicipality(record, old, options = {}, fetcher = fet
     if (/html/i.test(response.contentType)) {
       const page = parseResearchHtml(response.text);
       result.title = page.title;
+      if (!page.missing && !page.text && page.title && page.clientRendered) {
+        result.analysis = "JavaScript本文未解析";
+        result.warnings.push("JavaScript描画のため本文はブラウザ確認が必要");
+        result.lastSucceededAt = attemptedAt;
+        return result;
+      }
       if (page.missing || !page.text) { result.warnings.push("HTTP 200ですがエラーページ・空本文を検出"); result.alert = true; return result; }
       result.signals = findEndSignals(page.text);
       result.analysis = "HTML本文確認";

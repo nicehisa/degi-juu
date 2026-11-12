@@ -102,9 +102,10 @@ export default function MunicipalityCard({ municipality: m, showCompareLink = fa
             href={m.officialUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`${m.status === "終了" ? "募集元の案内" : "公式で確認"}：${m.municipality}の${m.programName}`}
             className="inline-flex min-h-11 items-center justify-center gap-1 rounded-md bg-orange-500 px-2 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 transition-colors"
           >
-            {m.status === "終了" ? "募集元の案内" : "公式で条件確認"}
+            {m.status === "終了" ? "募集元の案内" : "公式で確認"}
             <svg className="h-3 w-3 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>

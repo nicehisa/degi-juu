@@ -84,6 +84,7 @@ export async function fetchResearchPage(value, options = {}, transport = request
 export const normalizeText = value => String(value || "").normalize("NFKC").replace(/\s+/g, " ").trim();
 export function parseResearchHtml(html) {
   const $ = load(html);
+  const clientRendered = $("script[type='module'][src]").length > 0 && $("#root,#app").length > 0;
   $("script,style,noscript,template").remove();
   const title = normalizeText($("title").text());
   const heading = normalizeText($("h1").first().text());
@@ -96,5 +97,5 @@ export function parseResearchHtml(html) {
   const paragraph = normalizeText(content.find("p").filter((_, p) => normalizeText($(p).text()).length > 30).first().text());
   const summary = (description && !/^.{0,25}公式(?:ウェブサイト|ホームページ|サイト)$/.test(description) ? description : paragraph || text).slice(0, 300);
   const missing = /(?:^404\b|not found|ページ.{0,12}(?:見つかりません|存在しません)|お探しのページ|アクセスが拒否|Access Denied|Just a moment|captcha)/i.test(`${title} ${heading}`) || (text.length < 500 && /ページが見つかりません|お探しのページ|Access Denied|Just a moment|captcha/i.test(text));
-  return { title, heading, text, identityText, summary, missing };
+  return { title, heading, text, identityText, summary, missing, clientRendered };
 }

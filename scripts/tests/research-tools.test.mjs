@@ -71,6 +71,12 @@ test("health checker catches HTTP errors, soft404 and PDFs without claiming cont
   const pdf = await checkMunicipality(record, undefined, {}, async () => ({ status: 200, url: record.officialUrl, redirects: [], contentType: "application/pdf", text: "" }));
   assert.equal(pdf.analysis, "PDF本文未解析");
   assert.ok(pdf.warnings.length);
+  const client = await checkMunicipality(record, undefined, {}, async () => ({ status: 200, url: record.officialUrl, redirects: [], contentType: "text/html", text: '<html><head><title>NFT</title></head><body><div id="root"></div><script type="module" src="/assets/app.js"></script></body></html>' }));
+  assert.equal(client.analysis, "JavaScript本文未解析");
+  assert.ok(client.warnings.length);
+  assert.equal(client.alert, false);
+  const empty = await checkMunicipality(record, undefined, {}, async () => ({ status: 200, url: record.officialUrl, redirects: [], contentType: "text/html", text: "<title>制度</title><body></body>" }));
+  assert.equal(empty.alert, true);
 });
 
 test("research HTTP rejects internal, authenticated and downgraded redirect URLs", async () => {

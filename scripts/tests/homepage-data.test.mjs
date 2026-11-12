@@ -36,3 +36,31 @@ test("featured image assets are distinct and each asset keeps its own attributio
   assert.equal(mashiko.credit, "Pixabay / DeltaWorks");
   assert.equal(mashiko.src, "/images/stock/japan-mountain-clouds.jpg");
 });
+
+test("researched additions keep canonical municipalities, reception caveats and non-NFT certificates", async () => {
+  const records = await readPublishedMunicipalities();
+  const ids = ["higashikawa-hokkaido", "ama-shimane", "kotohira-kagawa", "shiiba-miyazaki", "nagaoka-niigata"];
+  for (const id of ids) {
+    const item = records.find(record => record.id === id);
+    assert.ok(item, id);
+    assert.ok(["free-stock", "permitted"].includes(item.imagePermissionStatus));
+    assert.ok(item.imageCredit && item.imageSourceUrl && item.imageAlt);
+  }
+  const yamakoshi = records.find(record => record.id === "nagaoka-niigata");
+  assert.equal(yamakoshi.municipality, "長岡市");
+  if (yamakoshi.applicationMethod.includes("新規販売を行っていない")) assert.equal(yamakoshi.status, "終了");
+  const { getParticipationFeatures } = await importTypeScript("../../src/lib/participationFeatures.ts");
+  const higashikawa = records.find(record => record.id === "higashikawa-hokkaido");
+  assert.equal(getParticipationFeatures(higashikawa).isNft, false);
+  for (const id of ["higashikawa-hokkaido", "kotohira-kagawa", "shiiba-miyazaki"]) {
+    const item = records.find(record => record.id === id);
+    if (item.price.includes("要確認")) {
+      assert.equal(item.priceNumber, undefined);
+      assert.equal(getParticipationFeatures(item).priceTag, undefined);
+    }
+  }
+  for (const region of ["北海道", "四国", "中国"]) assert.ok(records.some(item => item.region === region), region);
+  const recent = records.filter(record => record.status !== "終了").sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
+  assert.ok(recent.every(record => record.status !== "終了"));
+  assert.ok(recent.every(record => !records.some(other => other.status !== "終了" && other.createdAt > recent[0].createdAt)));
+});

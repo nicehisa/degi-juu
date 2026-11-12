@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 const currentMunicipalities = municipalities.filter(isCurrentMunicipality);
 const archivedCount = municipalities.length - currentMunicipalities.length;
 const FEATURED = sortByDisplayPriority(currentMunicipalities.filter((m) => m.isFeatured)).slice(0, 6);
-const RECENTLY_ADDED = currentMunicipalities.filter(m => m.id.startsWith("auto-")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
+const RECENTLY_ADDED = [...currentMunicipalities].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
 
 const COMPARISON_ROWS = [
   { item: "主な目的", digital: "地域との継続的なつながり", furusato: "自治体への寄付" },
