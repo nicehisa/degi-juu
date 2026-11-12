@@ -29,7 +29,9 @@ export default function CompareTable({ municipalities }: Props) {
           {municipalities.map((m, i) => (
             <tr
               key={m.id}
-              className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
+              id={`compare-${m.slug}`}
+              tabIndex={-1}
+              className={`scroll-mt-40 target:bg-amber-50 target:outline target:outline-2 target:outline-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
               <td className="sticky left-0 bg-inherit px-4 py-3 font-medium border-r border-gray-200">
                 <div className="text-xs text-gray-500">{m.prefecture}</div>

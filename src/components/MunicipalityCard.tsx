@@ -8,9 +8,10 @@ import { StatusBadge, TypeBadge } from "./Badge";
 
 type Props = {
   municipality: Municipality;
+  showCompareLink?: boolean;
 };
 
-export default function MunicipalityCard({ municipality: m }: Props) {
+export default function MunicipalityCard({ municipality: m, showCompareLink = false }: Props) {
   const benefitCats = benefitCategories.filter((c) =>
     m.benefitCategories.includes(c.id)
   );
@@ -109,6 +110,16 @@ export default function MunicipalityCard({ municipality: m }: Props) {
             </svg>
           </a>
         </div>
+        {showCompareLink && (
+          // A document navigation ensures the hash target is highlighted on arrival.
+          <a
+            href={`/compare#compare-${m.slug}`}
+            aria-label={`この制度を比較する：${m.municipality}の${m.programName}`}
+            className="inline-flex min-h-11 items-center justify-center border-t border-gray-200 pt-2 text-sm font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-900"
+          >
+            この制度を比較する →
+          </a>
+        )}
       </div>
     </div>
   );

@@ -268,7 +268,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {FEATURED.length > 0 && <section className="py-14 bg-[#edf3fa] border-b border-slate-200">
+      {FEATURED.length > 0 && <section id="featured-programs" aria-label="注目の制度" className="py-14 bg-[#edf3fa] border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4">
           <SectionTitle
             title="注目の制度"
@@ -276,7 +276,7 @@ export default function HomePage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURED.map((m) => (
-              <MunicipalityCard key={m.id} municipality={m} />
+              <MunicipalityCard key={m.id} municipality={m} showCompareLink />
             ))}
           </div>
           <div className="text-center mt-8">
@@ -331,6 +331,25 @@ export default function HomePage() {
             <Link href="/difference" className="text-sm font-semibold text-blue-600 hover:underline">
               詳しい比較を見る →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-emerald-100 bg-[#edf5f1] py-12 md:py-14" aria-labelledby="home-guides-title">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 id="home-guides-title" className="text-2xl text-navy md:text-3xl">ガイド・読みもの</h2>
+          <div className="mt-7 grid md:grid-cols-3">
+            {[
+              { href: "/ranking", title: "比較しやすい制度", text: "公式ページ・費用・特典など、掲載情報が揃った制度。", action: "制度一覧を見る" },
+              { href: "/articles", title: "記事・コラム", text: "参加前に知っておきたい基礎知識と、NFTの注意点。", action: "記事を読む" },
+              { href: "/about", title: "デジタル住民制度とは", text: "法律上の住民票との違いと、地域との新しいつながり方。", action: "制度について知る" },
+            ].map(({ href, title, text, action }) => (
+              <Link key={href} href={href} className="group flex flex-col gap-3 border-b border-emerald-200 py-6 last:border-b-0 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+                <h3 className="text-lg text-navy underline-offset-4 group-hover:underline">{title}</h3>
+                <p className="text-sm leading-7 text-gray-700">{text}</p>
+                <span className="mt-auto pt-1 text-sm font-semibold text-blue-700">{action} →</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
