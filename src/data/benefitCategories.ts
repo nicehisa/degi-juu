@@ -1,3 +1,11 @@
+import type { Municipality } from "./municipalities";
+
+export function getBenefitCategoryIds(municipality: Pick<Municipality, "type" | "programName" | "benefitCategories">): string[] {
+  const categories = new Set(municipality.benefitCategories);
+  if (municipality.type === "デジタル住民証" || /NFT/i.test(`${municipality.type} ${municipality.programName}`)) categories.add("nft");
+  return [...categories];
+}
+
 export type BenefitCategory = {
   id: string;
   slug: string;

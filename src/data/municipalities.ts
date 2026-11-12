@@ -1,4 +1,5 @@
 import autoMunicipalities from "./autoMunicipalities.json";
+import { getBenefitCategoryIds } from "./benefitCategories";
 
 export type MunicipalityType =
   | "デジタル住民票"
@@ -607,4 +608,4 @@ const baseMunicipalities: Municipality[] = [
 export const municipalities: Municipality[] = [
   ...baseMunicipalities,
   ...(autoMunicipalities as Municipality[]).filter(a => !baseMunicipalities.some(b => b.prefecture === a.prefecture && b.municipality === a.municipality)),
-];
+].map(m => ({ ...m, benefitCategories: getBenefitCategoryIds(m) }));

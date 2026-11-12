@@ -70,7 +70,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden border-b border-orange-100">
         <Image
           src="/images/top-rural-landscape.png"
-          alt=""
+          alt="山々を背景に田んぼと集落が広がる、日本の里山の風景"
           fill
           priority
           sizes="100vw"
@@ -191,6 +191,28 @@ export default function HomePage() {
 
       <HomeIntroduction />
 
+      <section aria-labelledby="explore-tools-title" className="border-b border-gray-200 bg-white py-8">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 id="explore-tools-title" className="mb-4 text-xl font-bold text-navy">探し方を選ぶ</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Link href="/diagnosis" className="flex min-h-28 items-center justify-between gap-4 rounded-lg border border-green-200 bg-green-50 px-5 py-5 transition-colors hover:border-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600">
+              <div>
+                <h3 className="text-lg font-bold text-navy">おすすめ診断</h3>
+                <p className="mt-1 text-sm leading-relaxed text-gray-700">気になる地域や特典から、条件に合う制度を探す</p>
+              </div>
+              <span aria-hidden="true" className="shrink-0 text-xl text-green-800">→</span>
+            </Link>
+            <Link href="/map" className="flex min-h-28 items-center justify-between gap-4 rounded-lg border border-blue-200 bg-blue-50 px-5 py-5 transition-colors hover:border-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600">
+              <div>
+                <h3 className="text-lg font-bold text-navy">都道府県マップ</h3>
+                <p className="mt-1 text-sm leading-relaxed text-gray-700">ふるさとや旅先など、気になる都道府県から探す</p>
+              </div>
+              <span aria-hidden="true" className="shrink-0 text-xl text-blue-800">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-[#eaf4e7] border-y border-green-200">
         <div className="max-w-6xl mx-auto px-4">
           <SectionTitle title="地方から探す" subtitle="ふるさとや旅先など、気になる地域から制度を探してみましょう。" />
@@ -206,10 +228,11 @@ export default function HomePage() {
                 <Link
                   key={r.id}
                   href={`/municipalities?region=${encodeURIComponent(r.name)}`}
-                  className="rounded-lg border border-gray-200 bg-white px-4 py-4 hover:border-orange-300 hover:bg-orange-50 transition-colors"
+                  className={`rounded-lg border border-gray-200 px-4 py-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 ${count === 0 ? "bg-gray-100 opacity-75 hover:border-gray-400" : "bg-white hover:border-orange-300 hover:bg-orange-50"}`}
+                  title={count === 0 ? "受付終了を除く掲載制度は0件です。過去の実施制度は一覧で確認できます。" : undefined}
                 >
                   <p className="font-bold text-navy">{r.name}</p>
-                  <p className="mt-1 text-sm text-orange-600">{count}件</p>
+                  <p className={`mt-1 text-sm ${count === 0 ? "text-gray-700" : "text-orange-600"}`}>{count}件</p>
                   {examples && <p className="mt-2 text-xs text-gray-500 line-clamp-1">{examples}</p>}
                 </Link>
               );
@@ -228,7 +251,8 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   href={`/municipalities?benefit=${cat.id}`}
-                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 hover:border-orange-300 hover:bg-orange-50 transition-colors"
+                  className={`flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 ${count === 0 ? "bg-gray-100 opacity-75 hover:border-gray-400" : "bg-white hover:border-orange-300 hover:bg-orange-50"}`}
+                  title={count === 0 ? "受付終了を除く掲載制度は0件です。過去の実施制度は一覧で確認できます。" : undefined}
                 >
                   <span className="text-sm font-semibold text-gray-800">{cat.name}</span>
                   <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{count}件</span>

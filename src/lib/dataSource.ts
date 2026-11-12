@@ -4,6 +4,7 @@ import {
   type MunicipalityStatus,
   type MunicipalityType,
 } from "@/data/municipalities";
+import { getBenefitCategoryIds } from "@/data/benefitCategories";
 
 export type DataSourceStatus = {
   activeSource: "static" | "google-sheets" | "supabase";
@@ -96,7 +97,11 @@ function normalizeMunicipality(row: unknown): Municipality | null {
     status: normalizeStatus(item.status),
     target: String(item.target || ""),
     benefits: toStringArray(item.benefits),
-    benefitCategories: toStringArray(item.benefitCategories),
+    benefitCategories: getBenefitCategoryIds({
+      type: normalizeType(item.type),
+      programName: String(item.programName),
+      benefitCategories: toStringArray(item.benefitCategories),
+    }),
     benefitConditions: String(item.benefitConditions || "公式ページをご確認ください。"),
     applicationMethod: String(item.applicationMethod || "公式ページよりご確認ください。"),
     officialUrl: String(item.officialUrl || ""),

@@ -82,6 +82,11 @@ const regionFallbacks: Record<string, StockImageKey[]> = {
   沖縄: ["islandRoad", "mountainClouds", "riceRoad"],
 };
 
+const municipalityStockImages: Partial<Record<string, StockImageKey>> = {
+  "ishioka-ibaraki": "riceRoad",
+  "mashiko-tochigi": "mountainClouds",
+};
+
 export function getMunicipalityImage(municipality: Municipality): MunicipalityImage {
   if (
     municipality.imageUrl &&
@@ -103,7 +108,7 @@ export function getMunicipalityImage(municipality: Municipality): MunicipalityIm
     };
   }
 
-  return stockImages[pickFallbackImageKey(municipality)];
+  return stockImages[municipalityStockImages[municipality.id] || pickFallbackImageKey(municipality)];
 }
 
 function pickFallbackImageKey(municipality: Municipality): StockImageKey {

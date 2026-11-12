@@ -20,10 +20,13 @@ export default function ProgramCheckDate({ id, officialUrl, informationDate }: {
   }, []);
   const check = report?.checks[id];
   const matched = check?.sourceUrl === officialUrl ? check : undefined;
+  const checkedDate = matched?.checkedDate;
+  const validCheckedDate = checkedDate && /^\d{4}-\d{2}-\d{2}$/.test(checkedDate) &&
+    Number.isFinite(Date.parse(checkedDate)) && new Date(checkedDate).toISOString().slice(0, 10) === checkedDate;
   const stale = matched?.checkedDate && Date.now() - Date.parse(`${matched.checkedDate}T00:00:00+09:00`) > 48 * 3600000;
   return (
     <span className="block text-xs leading-6 text-gray-600">
-      <span className="block">公式ページ自動調査日: <span className="inline-block whitespace-nowrap">{matched?.checkedDate || "未実施"}</span></span>
+      {validCheckedDate && <span className="block">公式ページ自動調査日: <time className="inline-block whitespace-nowrap" dateTime={checkedDate}>{checkedDate}</time></span>}
       <span className="block">情報確認日: <time className="inline-block whitespace-nowrap" dateTime={informationDate}>{informationDate}</time></span>
       {(matched?.result === "failed" || matched?.changed || stale) && (
         <span className="block font-medium text-amber-800">{matched?.result === "failed" ? "直近の自動取得に失敗しました" : matched?.changed ? "公式ページに変更あり・内容確認中" : "自動調査の更新が遅れています"}</span>
