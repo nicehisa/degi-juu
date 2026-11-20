@@ -1,5 +1,5 @@
 {
-  "completedAt": "2026-11-19T03:53:30.316Z",
+  "completedAt": "2026-11-20T03:45:43.157Z",
   "queries": [
     "デジタル住民票",
     "デジタル村民",
@@ -10,13 +10,8 @@
     "地域ファン デジタル会員証"
   ],
   "days": 90,
-  "articles": 42,
+  "articles": 46,
   "candidates": 7,
   "firstSeenCandidates": 0,
-  "failures": [
-    {
-      "keyword": "自治体 NFT 住民",
-      "error": "HTTP 429"
-    }
-  ]
+  "failures": []
 }
