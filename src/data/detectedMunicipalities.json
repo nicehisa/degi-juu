@@ -1,5 +1,28 @@
 [
   {
+    "id": "楢葉-福島-デジタル住民票-2f9fa12261",
+    "slug": "楢葉-福島-デジタル住民票-2f9fa12261",
+    "prefecture": "福島県",
+    "municipality": "楢葉町",
+    "programName": "楢葉町ふるさと住民登録制度のご案内",
+    "type": "デジタル住民票",
+    "status": "要確認",
+    "officialUrl": "https://www.town.naraha.lg.jp/information/cat/011195.html",
+    "sourceUrl": "https://www.town.naraha.lg.jp/information/cat/011195.html",
+    "sourceTitle": "楢葉町ふるさと住民登録制度のご案内",
+    "sourceSnippet": "町外在住者を対象にふるさと住民を募集し、登録特典としてメールマガジンの配信やデジタル住民票のプレゼントなどを提供する制度。",
+    "detectedAt": "2026-11-24",
+    "lastChecked": "2026-11-24",
+    "confidence": "low",
+    "riskFlags": [
+      "住民登録"
+    ],
+    "reviewStatus": "保留（検証未完了）",
+    "reviewNotes": "HTTP 404",
+    "linkValid": false,
+    "linkCheckedAt": "2026-11-24T04:06:24.324Z"
+  },
+  {
     "id": "楢葉-福島-デジタル住民票-017a072788",
     "slug": "楢葉-福島-デジタル住民票-017a072788",
     "prefecture": "福島県",
@@ -20,7 +43,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:23.258Z"
+    "linkCheckedAt": "2026-11-24T04:06:24.973Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-b42847cf8b",
@@ -43,7 +66,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:23.776Z"
+    "linkCheckedAt": "2026-11-24T04:06:25.433Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-d2d083ad0b",
@@ -66,7 +89,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:24.156Z"
+    "linkCheckedAt": "2026-11-24T04:06:25.885Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-d6d638169c",
@@ -89,7 +112,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:24.533Z"
+    "linkCheckedAt": "2026-11-24T04:06:26.339Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-5bf46fb891",
@@ -112,7 +135,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:24.911Z"
+    "linkCheckedAt": "2026-11-24T04:06:26.795Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-1d5ceaba28",
@@ -135,7 +158,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:25.288Z"
+    "linkCheckedAt": "2026-11-24T04:06:27.246Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-43ed9af78e",
@@ -158,7 +181,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:25.664Z"
+    "linkCheckedAt": "2026-11-24T04:06:27.698Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-6c10bd4b49",
@@ -181,7 +204,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:26.041Z"
+    "linkCheckedAt": "2026-11-24T04:06:28.168Z"
   },
   {
     "id": "楢葉-福島-デジタル住民票-8c735d83e2",
@@ -204,7 +227,7 @@
     "reviewStatus": "保留（検証未完了）",
     "reviewNotes": "HTTP 404",
     "linkValid": false,
-    "linkCheckedAt": "2026-11-22T23:51:26.418Z"
+    "linkCheckedAt": "2026-11-24T04:06:28.618Z"
   },
   {
     "id": "和歌山那智勝浦-和歌山-デジタル住民nft-2026-11-11",
@@ -225,7 +248,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "originalSourceUrl": "https://www.town.nachikatsuura.wakayama.jp/div/kikaku/html/R6M2250611.html",
-    "linkCheckedAt": "2026-11-22T23:51:27.229Z",
+    "linkCheckedAt": "2026-11-24T04:06:29.521Z",
     "linkValid": true,
     "publishedSlug": "nachikatsuura-wakayama"
   },
@@ -248,7 +271,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "originalSourceUrl": "https://www.city.habikino.lg.jp/soshiki/toshimiryoku/miryoku/osirase/14440.html",
-    "linkCheckedAt": "2026-11-22T23:51:29.755Z",
+    "linkCheckedAt": "2026-11-24T04:06:31.575Z",
     "linkValid": true,
     "publishedSlug": "habikino-osaka"
   },
@@ -271,7 +294,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "originalSourceUrl": "https://www.town.nishikawa.yamagata.jp/soshiki/3/1933.html",
-    "linkCheckedAt": "2026-11-22T23:51:30.547Z",
+    "linkCheckedAt": "2026-11-24T04:06:32.306Z",
     "linkValid": true,
     "publishedSlug": "nishikawa-yamagata"
   },
@@ -294,7 +317,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "linkValid": true,
-    "linkCheckedAt": "2026-11-22T23:51:31.106Z",
+    "linkCheckedAt": "2026-11-24T04:06:33.008Z",
     "originalSourceUrl": "https://www.city.sosa.lg.jp/page/page004599.html",
     "publishedSlug": "sosa-chiba"
   },
@@ -317,7 +340,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "linkValid": true,
-    "linkCheckedAt": "2026-11-22T23:51:33.162Z",
+    "linkCheckedAt": "2026-11-24T04:06:34.240Z",
     "originalSourceUrl": "https://www.town.ibaraki-yachiyo.lg.jp/page/page006093.html",
     "publishedSlug": "yachiyo-ibaraki"
   },
@@ -340,7 +363,7 @@
     "reviewStatus": "掲載済み（重複）",
     "reviewNotes": "同じ自治体は掲載済みです。確認済みの公式URLへ統一しました。",
     "originalSourceUrl": "https://www.f-portal.pref.fukushima.lg.jp/services/digital-civic-card",
-    "linkCheckedAt": "2026-11-22T23:51:34.222Z",
+    "linkCheckedAt": "2026-11-24T04:06:34.767Z",
     "linkValid": true,
     "publishedSlug": "bandai-fukushima"
   }
