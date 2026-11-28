@@ -1,5 +1,5 @@
 {
-  "completedAt": "2026-11-27T04:36:43.138Z",
+  "completedAt": "2026-11-28T04:19:36.804Z",
   "queries": [
     "デジタル住民票",
     "デジタル村民",
@@ -10,8 +10,8 @@
     "地域ファン デジタル会員証"
   ],
   "days": 90,
-  "articles": 45,
+  "articles": 28,
   "candidates": 9,
-  "firstSeenCandidates": 1,
+  "firstSeenCandidates": 0,
   "failures": []
 }
